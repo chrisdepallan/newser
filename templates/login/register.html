@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- Font Awesome -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.min.css"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='logincss.css') }}"
+    />
+    <script>
+      $(document).ready(function () {
+        let pwd, cpwd;
+        $("#fullName").keyup(function () {
+          var uname = document.getElementById("fullName").value;
+          var c_uname = /^[A-z _]{3,20}$/;
+          r_uname = c_uname.test(uname);
+          if (r_uname == false) {
+            $("#submit").attr("disabled", true);
+            $(".reg-uname-err").text(
+              "Name Should be 3 letters long and should be alphabet"
+            );
+          } else {
+            $(".reg-uname-err").text("");
+            valid();
+          }
+          
+        });
+        $("#phone").keyup(function () {
+          var uname = document.getElementById("phone").value;
+          var c_uname = /^[789]\d{9}$/;
+          r_phone = c_uname.test(uname);
+          if (r_phone == false) {
+            $("#submit").attr("disabled", true);
+            $(".reg-phone-err").text("Enter a Number valid in India");
+          } else {
+            $(".reg-phone-err").text("");
+            valid();
+          }
+        });
+        $("#password").keyup(function () {
+          pwd = document.getElementById("password").value;
+          var c_pwd =
+            /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;
+          r_pwd = c_pwd.test(pwd);
+          if (!r_pwd) {
+            $("#submit").attr("disabled", true);
+            $(".pwd_error").text("Use Alphanumeric with special characters");
+          } else {
+            $(".pwd_error").text("");
+            valid();
+          }
+        });
+        $("#password").onblur(function () {
+          pwd = document.getElementById("password").value;
+          var c_pwd =
+            /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;
+          r_pwd = c_pwd.test(pwd);
+          if (!r_pwd) {
+            $("#submit").attr("disabled", true);
+            $(".pwd_error").text("Use Alphanumeric with special characters");
+          } else {
+            $(".pwd_error").text("");
+            valid();
+          }
+        });
+        $("#confirmpassword").keyup(function () {
+          pwd = document.getElementById("password").value;
+          cpwd = document.getElementById("confirmpassword").value;
+          var c_pwd =
+            /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;
+          cr_pwd = c_pwd.test(cpwd);
+
+          if (pwd != cpwd) {
+            $("#submit").attr("disabled", true);
+            $(".cp_error").text("Password does not match");
+          } else {
+            $(".cp_error").text("");
+            valid();
+          }
+        });
+        $("#confirmpassword").onkeypress(function () {
+          pwd = document.getElementById("password").value;
+          cpwd = document.getElementById("confirmpassword").value;
+          var c_pwd =
+            /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;
+          cr_pwd = c_pwd.test(cpwd);
+
+          if (pwd != cpwd) {
+            $("#submit").attr("disabled", false);
+            $(".cp_error").text("Password does not match");
+          } else {
+            $(".cp_error").text("");
+            valid();
+          }
+        });
+        function valid() {
+          if (r_pwd == true && r_phone == true) {
+            $("#submit").attr("disabled", false);
+          }
+        }
+      });
+    </script>
+    <style>
+      /* Custom CSS to position the image */
+      
+  </style>
+  </head>
+  <body>
+    <img src="{{ url_for('static', filename='newsers/img/logo.png') }}"  style="position:absolute"/>
+
+    <section class="vh-100">
+      <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-md-9 col-lg-6 col-xl-5">
+            <img
+              src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+              class="img-fluid"
+              alt="Sample image"
+            />
+          </div>
+          <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+            <form method="POST" action="/register">
+              <div
+                class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start"
+              >
+                <p class="lead fw-normal mb-0 me-3">Sign in with</p>
+                <button
+                  type="button"
+                  data-mdb-button-init
+                  data-mdb-ripple-init
+                  class="btn btn-primary btn-floating mx-1"
+                >
+                  <i class="fab fa-facebook-f"></i>
+                </button>
+
+                <button
+                  type="button"
+                  data-mdb-button-init
+                  data-mdb-ripple-init
+                  class="btn btn-primary btn-floating mx-1"
+                >
+                  <i class="fab fa-twitter"></i>
+                </button>
+
+                <button
+                  type="button"
+                  data-mdb-button-init
+                  data-mdb-ripple-init
+                  class="btn btn-primary btn-floating mx-1"
+                >
+                  <i class="fab fa-linkedin-in"></i>
+                </button>
+              </div>
+
+              <div class="divider d-flex align-items-center my-4">
+                <p class="text-center fw-bold mx-3 mb-0">Or</p>
+              </div>
+
+              <!-- Full Name input -->
+              <div data-mdb-input-init class="form-outline mb-4">
+                <input
+                  type="text"
+                  id="fullName"
+                  name="fullName"
+                  class="form-control active form-control-lg"
+                  placeholder="Enter your full name"
+                />
+                <label class="form-label" for="fullName">Full Name</label>
+                <p
+                  class="reg-uname-err text-danger"
+                  style="position: fixed"
+                ></p>
+              </div>
+
+              <!-- Username input -->
+              <div data-mdb-input-init class="form-outline mb-4">
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  class="form-control active form-control-lg"
+                  placeholder="Enter your username"
+                />
+                <label class="form-label" for="username">Username</label>
+                <p
+                  class="reg-username-err text-danger"
+                  style="position: fixed"
+                ></p>
+              </div>
+
+              <!-- Email input -->
+              <div data-mdb-input-init class="form-outline mb-4">
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="form-control active form-control-lg"
+                  placeholder="Enter a valid email address"
+                />
+                <label class="form-label" for="form3Example3"
+                  >Email address</label
+                >
+                <p
+                  class="reg-email-err text-danger"
+                  style="position: fixed"
+                ></p>
+              </div>
+
+              <!-- Phone Number input -->
+              <div data-mdb-input-init class="form-outline mb-4">
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phoneNumber"
+                  maxlength="10"
+                  class="form-control active form-control-lg"
+                  placeholder="Enter your phone number"
+                />
+                <label class="form-label" for="phoneNumber">Phone Number</label>
+                <p
+                  class="reg-phone-err text-danger"
+                  style="position: fixed"
+                ></p>
+              </div>
+
+              <!-- Address input -->
+              <div data-mdb-input-init class="form-outline mb-4">
+                <input
+                  type="text"
+                  id="address"
+                  name="address"
+                  class="form-control active form-control-lg"
+                  placeholder="Enter your address"
+                />
+                <label class="form-label" for="address">Address</label>
+              </div>
+
+              <!-- Date of Birth input -->
+              <div data-mdb-input-init class="form-outline mb-4">
+                <input
+                  type="date"
+                  id="dob"
+                  name="dob"
+                  class="form-control active form-control-lg"
+                />
+                <label class="form-label" for="dob">Date of Birth</label>
+              </div>
+
+              <!-- Password input -->
+              <div data-mdb-input-init class="form-outline mb-3">
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  class="form-control active form-control-lg"
+                  placeholder="Enter password"
+                />
+                <label class="form-label" for="password">Password</label>
+                <p class="pwd_error text-danger" style="position: fixed"></p>
+              </div>
+              <br /><br />
+              <!--  confirm Password input -->
+              <div data-mdb-input-init class="form-outline mb-3">
+                <input
+                  type="password"
+                  id="confirmpassword"
+                  name="confirmpassword"
+                  class="form-control active form-control-lg"
+                  placeholder="Enter password again"
+                />
+                <label class="form-label" for="confirmpassword"
+                  >Confirm Password</label
+                >
+                <p class="cp_error text-danger" style="position: fixed"></p>
+              </div>
+
+              <div class="d-flex justify-content-between align-items-center">
+                <!-- Checkbox -->
+                <div class="form-check mb-0">
+                  <input
+                    class="form-check-input me-2"
+                    type="checkbox"
+                    value=""
+                    id="form2Example3"
+                  />
+                  <label class="form-check-label" for="form2Example3">
+                    Remember me
+                  </label>
+                </div>
+                <a href="#!" class="text-body">Forgot password?</a>
+              </div>
+
+              <div class="text-center text-lg-start mt-4 pt-2">
+                <button
+                  type="submit"
+                  id="submit"
+                  data-mdb-button-init
+                  data-mdb-ripple-init
+                  class="btn btn-primary btn-lg"
+                  style="padding-left: 2.5rem; padding-right: 2.5rem"
+                >
+                  REGISTER
+                </button>
+                <p class="small fw-bold mt-2 pt-1 mb-0">
+                  Already have an account?
+                  <a href="/" class="link-danger">Login</a>
+                </p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div
+        class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary"
+      >
+        <!-- Copyright -->
+        <div class="text-white mb-3 mb-md-0">
+          Copyright © 2020. All rights reserved.
+        </div>
+        <!-- Copyright -->
+
+        <!-- Right -->
+        <div>
+          <a href="#!" class="text-white me-4">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#!" class="text-white me-4">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#!" class="text-white me-4">
+            <i class="fab fa-google"></i>
+          </a>
+          <a href="#!" class="text-white">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+        </div>
+        <!-- Right -->
+      </div>
+    </section>
+  </body>
+</html>

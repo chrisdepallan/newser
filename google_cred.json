@@ -1,0 +1,11 @@
+{
+  "web": {
+    "client_id": "563837791779-428mfra3k3klg8vk9f5ai1a5t2pmu6ea.apps.googleusercontent.com",
+    "project_id": "flask-newser",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_secret": "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",
+    "redirect_uris": ["http://127.0.0.1:5000/newser-signin-google"]
+  }
+}

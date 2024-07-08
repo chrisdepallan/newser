@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify,render_template,redirect,url_for,session
 from flask_session import Session
-from authlib.integrations.flask_client import OAuth
+from authlib.integrations.flask_client import OAuth,OAuthError
 import json
 from pymongo import MongoClient
 import os
@@ -50,7 +50,15 @@ def  google_login():
 
 @app.route("/newser-signin-google")
 def newser_signin_google():
-    token = oauth.myApp.authorize_access_token()
+    try:
+        token = oauth.myApp.authorize_access_token()
+    except OAuthError as error:
+        # Handle the error when user cancels the authentication
+        error_description = error.description if hasattr(error, 'description') else 'Unknown error'
+        return redirect(url_for("login")) 
+    if token is None:
+        return "Google authentication failed: no token received."
+
     session["user"]=token
     user_info = token.get("userinfo")
     user_email = user_info.get('email')

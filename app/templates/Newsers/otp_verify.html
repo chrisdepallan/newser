@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Verify OTP</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/sign in.png') }}">
+    <link href="https://fonts.googleapis.com/css?family=Karla:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/materialdesignicons.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <script>
+        function otp1() {
+            var n = document.getElementById("otp");
+            if (n.value == "") {
+                document.getElementById("text4").innerHTML = "<span class='error'>Enter a valid OTP</span>";
+                $('#submit').attr('disabled', 'disabled');
+            } else if (n.value.length !== 6) {
+                document.getElementById("text4").innerHTML = "<span class='error'>OTP must be 6 digits.</span>";
+                $('#submit').attr('disabled', 'disabled');
+            } else {
+                document.getElementById("text4").innerHTML = "<span class='error'></span>";
+                $('#submit').removeAttr('disabled');
+            }
+        }
+    </script>
+</head>
+<body>
+    <main class="d-flex align-items-center min-vh-100 py-3 py-md-0">
+        <div class="container">
+            <div class="card login-card" style="width:70%;margin-left:12%">
+                <div class="row no-gutters">
+                    <div class="col-md-5">
+                        <img src="{{ url_for('static', filename='images/key.jpg') }}" alt="login" class="login-card-img">
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card-body">
+                            <div class="brand-wrapper">
+                                <p style="font-family: Streetwear;font-size:20px">Rythmix</p>
+                            </div>
+                            <p class="login-card-description">Enter the OTP sent to your email.</p>
+                            <form method="post" action="{{ url_for('verify_otp') }}">
+                                <div class="form-group">
+                                    <label for="otp" class="sr-only">OTP</label>
+                                    <input type="text" name="otp" id="otp" class="form-control" placeholder="One Time Password" onkeyup="otp1()" required>
+                                    <span id="text4" style="position: fixed;margin-top: -15px;color: rgb(168, 9, 9);"></span>
+                                </div>
+                                <input name="submit" id="submit" class="btn btn-block login-btn mb-4" type="submit" value="Submit">
+                            </form>
+                            {% with messages = get_flashed_messages() %}
+                            {% if messages %}
+                                <ul>
+                                    {% for message in messages %}
+                                        <li>{{ message }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        {% endwith %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="{{ url_for('static', filename='assets/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/bootstrap.min.js') }}"></script>
+</body>
+</html>

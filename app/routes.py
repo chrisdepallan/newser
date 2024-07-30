@@ -95,7 +95,7 @@ def request_password_reset():
             return redirect(url_for('verify_otp'))
 
         flash('Email not found')
-    return render_template('joell/forgot_password.html')
+    return render_template('login/forgot_password.html')
 
 
 @app.route('/verify-otp', methods=['GET', 'POST'])
@@ -107,7 +107,7 @@ def verify_otp():
         if totp.verify(otp,valid_window=1):
             return redirect(url_for('reset_password'))
         flash('Invalid OTP')
-    return render_template('joell/otp_verify.html')
+    return render_template('login/otp_verify.html')
 
 
 @app.route('/reset-password', methods=['GET', 'POST'])
@@ -121,4 +121,4 @@ def reset_password():
             flash('Password reset successfully')
             return redirect(url_for('login'))
         flash('Session expired, please request a new OTP')
-    return render_template('joell/reset_password.html')
+    return render_template('login/reset_password.html')

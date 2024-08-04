@@ -9,8 +9,12 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
       rel="stylesheet"
     />
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
- 
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.2/mdb.min.css"
       rel="stylesheet"
@@ -31,39 +35,38 @@
       href="{{ url_for('static', filename='logincss.css') }}"
     />
     <script>
-       $("#password").keyup(function() {
-        pwd = document.getElementById("password").value
-        var c_pwd = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;
+      $("#password").keyup(function () {
+        pwd = document.getElementById("password").value;
+        var c_pwd =
+          /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;
         r_pwd = c_pwd.test(pwd);
         if (!r_pwd) {
-        $("#submit").attr('disabled', true);
-        $(".pwd_error").text("Use Alphanumeric with special characters");
+          $("#submit").attr("disabled", true);
+          $(".pwd_error").text("Use Alphanumeric with special characters");
         } else {
-        $(".pwd_error").text("");
-        valid();
-  
+          $(".pwd_error").text("");
+          valid();
         }
-      })
-      $("#email").keyup(function() {
+      });
+      $("#email").keyup(function () {
         let email = document.getElementById("email").value;
         let c_email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         r_email = c_email.test(email);
         if (!r_email) {
-            $("#submit").attr('disabled', true);
-            $(".email_error").text("Invalid email format");
-            alert("dsds")
+          $("#submit").attr("disabled", true);
+          $(".email_error").text("Invalid email format");
+          alert("dsds");
         } else {
-            $(".email_error").text("");
-            valid();
+          $(".email_error").text("");
+          valid();
         }
-    });
-     
+      });
+
       function valid() {
-        if (r_uname == true && r_pwd == true  ) {
-        $("#submit").attr('disabled', false);
+        if (r_uname == true && r_pwd == true) {
+          $("#submit").attr("disabled", false);
         }
       }
-    
     </script>
     <style>
       .gbutton {
@@ -87,61 +90,63 @@
         cursor: pointer;
         transition: all 0.6s ease;
       }
-      
+
       .button-content {
         display: flex;
         align-items: center;
         gap: 0.75rem;
       }
-      
+
       .button-content svg {
         height: 24px;
       }
-      
+
       .bouncing-balls {
         display: flex;
         align-items: flex-end;
       }
-      
+
       .ball {
         --size: 16px;
         width: var(--size);
         height: var(--size);
         border-radius: 50%;
         margin: 0 5px;
-      
+
         animation: 2s bounce ease infinite;
       }
-      
+
       .blue {
         background-color: #4285f5;
       }
-      
+
       .red {
         background-color: #ea4436;
         animation-delay: 0.25s;
       }
-      
+
       .yellow {
         background-color: #fbbd06;
         animation-delay: 0.5s;
       }
-      
+
       .green {
         background-color: #34a952;
         animation-delay: 0.75s;
       }
-      
+
       @keyframes bounce {
         50% {
           transform: translateY(-10px);
         }
       }
     </style>
- 
   </head>
   <body>
-    <img src="{{ url_for('static', filename='newsers/img/logo.png') }}"  style="position:absolute"/>
+    <img
+      src="{{ url_for('static', filename='newsers/img/logo.png') }}"
+      style="position: absolute"
+    />
 
     <section class="vh-100">
       <div class="container-fluid h-custom">
@@ -153,12 +158,50 @@
               alt="Sample image"
             />
           </div>
-         
+
           <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-            <form method="POST" action="/login">
-              <div
-                class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start"
+            <a href="/google_login" class="text-white me-4">
+              <button
+                class="gbutton"
+                onclick="{{ url_for('newser_signin_google') }}"
               >
+                <div class="button-content">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    preserveAspectRatio="xMidYMid"
+                    viewBox="0 0 256 262"
+                  >
+                    <path
+                      fill="#4285F4"
+                      d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027"
+                    ></path>
+                    <path
+                      fill="#34A853"
+                      d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1"
+                    ></path>
+                    <path
+                      fill="#FBBC05"
+                      d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82 0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782"
+                    ></path>
+                    <path
+                      fill="#EB4335"
+                      d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"
+                    ></path>
+                  </svg>
+                  <span style="margin-left: -140px">Continue with</span>
+                </div>
+                <div class="bouncing-balls">
+                  <div class="ball blue"></div>
+                  <div class="ball red"></div>
+                  <div class="ball yellow"></div>
+                  <div class="ball green"></div>
+                </div>
+              </button>
+            </a>
+            <form method="POST" action="/login">
+              <!--
+              <div
+                class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
                 <p class="lead fw-normal mb-0 me-3">Sign in with</p>
                 <button
                   type="button"
@@ -182,10 +225,11 @@
                   data-mdb-button-init
                   data-mdb-ripple-init
                   class="btn btn-primary btn-floating mx-1"
-                ><i class="fab fa-google"> <a href="/google_login" class="text-white me-4"></a></i>
-               
-                  
-              </button>
+                >
+                  <i class="fab fa-google">
+                    <a href="/google_login" class="text-white me-4"></a
+                  ></i>
+                </button>
                 <button
                   type="button"
                   data-mdb-button-init
@@ -195,40 +239,17 @@
                   <i class="fab fa-linkedin-in"></i>
                 </button>
               </div>
-
+            -->
               <div class="divider d-flex align-items-center my-4">
                 <p class="text-center fw-bold mx-3 mb-0">Or</p>
               </div>
-              <button class="gbutton" onclick="/google_login">
-                <div class="button-content">
-                  <svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid" viewBox="0 0 256 262">
-                    <path fill="#4285F4"
-                      d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027">
-                    </path>
-                    <path fill="#34A853"
-                      d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1">
-                    </path>
-                    <path fill="#FBBC05"
-                      d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82 0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782">
-                    </path>
-                    <path fill="#EB4335"
-                      d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251">
-                    </path>
-                  </svg>
-                     <span style="margin-left: -140px;">Continue  with</span>
-                   </div>
-                   <div class="bouncing-balls">
-                     <div class="ball blue"></div>
-                     <div class="ball red"></div>
-                     <div class="ball yellow"></div>
-                     <div class="ball green"></div>
-                   </div>
-                 </button>
+
               <!-- Email input -->
+
               <div data-mdb-input-init class="form-outline mb-4">
                 <input
                   type="email"
-                  name='email'
+                  name="email"
                   id="email"
                   class="form-control active form-control-lg"
                   mdbInput
@@ -236,20 +257,22 @@
                 />
                 <label class="form-label" for="form3Example3" placeholder=" "
                   >Email address</label
-                ><p class="email-err text-danger" style='position:fixed'></p>
+                >
+                <p class="email-err text-danger" style="position: fixed"></p>
               </div>
 
               <!-- Password input -->
               <div data-mdb-input-init class="form-outline mb-3">
                 <input
                   type="password"
-                  name='password'
+                  name="password"
                   id="password"
                   class="form-control active aform-control-lg"
                   placeholder="Enter password"
                 />
                 <label class="form-label" for="form3Example4">Password</label>
-                <p class="password-err text-danger" style='position:fixed'></p></div>
+                <p class="password-err text-danger" style="position: fixed"></p>
+              </div>
 
               <div class="d-flex justify-content-between align-items-center">
                 <!-- Checkbox -->
@@ -264,7 +287,9 @@
                     Remember me
                   </label>
                 </div>
-                <a href="/request-password-reset" class="text-body">Forgot password?</a>
+                <a href="/request-password-reset" class="text-body"
+                  >Forgot password?</a
+                >
               </div>
 
               <div class="text-center text-lg-start mt-4 pt-2">
@@ -302,12 +327,13 @@
             <i class="fab fa-facebook-f"></i>
           </a>
           <a href="#!" class="text-white me-4">
-            
             <i class="fab fa-twitter"></i>
           </a>
-          <a href="/google_login" class="text-white me-4">
-            <i class="fab fa-google"></i>
-          </a>
+          <a  class="text-white me-4">
+            <i class="fab fa-google">
+              
+            </i>
+            </a>
           <a href="#!" class="text-white">
             <i class="fab fa-linkedin-in"></i>
           </a>

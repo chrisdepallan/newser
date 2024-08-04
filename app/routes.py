@@ -73,10 +73,10 @@ def home():
 def home_test():
     return render_template('Newsers/index.html')
 
-@app.route('/logout')
-def logout():
-    session.clear()
-    return redirect(url_for('hello_world'))
+# @app.route('/logout')
+# def logout():
+#     session.clear()
+#     return redirect(url_for('hello_world'))
 
 @app.route('/request-password-reset', methods=['GET', 'POST'])
 def request_password_reset():

@@ -8,7 +8,7 @@ class NewsAPIClient:
     def get_current_key(self):
         return self.api_keys[self.current_key_index]
 
-    def switch_key(self):
+    def switch_key(self):   
         self.current_key_index = (self.current_key_index + 1) % len(self.api_keys)
 
     def make_request(self, endpoint, params):

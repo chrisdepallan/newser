@@ -43,9 +43,9 @@
 
         <!-- Navbar start -->
         <div class="container-fluid sticky-top px-0">
-            <img src="{{ url_for('static', filename='newsers/img/logo.png') }}"  style="position:absolute"/>
+          <img src="{{ url_for('static', filename='newsers/img/logo.png') }}" class="hide-on-mobile"  onclick="window.location.href='/'"" style="position:absolute"/>
 
-            <div class="container-fluid topbar bg-dark d-none d-lg-block">
+              <div class="container-fluid topbar bg-dark d-none d-lg-block">
                 <div class="container px-0">
                     <div class="topbar-top d-flex justify-content-between flex-lg-wrap">
                         <div class="top-info flex-grow-0">
@@ -125,17 +125,20 @@
                                 </div>
                                 <a href="contact.html" class="nav-item nav-link">Contact Us</a>
                             </div>
+                            {% if weather_data and weather_data.icon_url and weather_data.temperature and weather_data.city and weather_data.date %}
                             <div class="d-flex flex-nowrap border-top pt-3 pt-xl-0">
                                 <div class="d-flex">
-                                    <img src="img/weather-icon.png" class="img-fluid w-100 me-2" alt="">
+                                    <img src="{{ weather_data.icon_url }}" class="img-fluid w-100 me-2" alt="Weather icon">
                                     <div class="d-flex align-items-center">
-                                        <strong class="fs-4 text-secondary">31°C</strong>
+                                        <strong class="fs-4 text-secondary">{{ weather_data.temperature }}°C</strong>
                                         <div class="d-flex flex-column ms-2" style="width: 150px;">
-                                            <span class="text-body">NEW YORK,</span>
-                                            <small>Mon. 10 jun 2024</small>
+                                            <span class="text-body">{{ weather_data.city }},</span>
+                                            <small>{{ weather_data.date }}</small>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            {% endif %}
                                 <button class="btn-search btn border border-primary btn-md-square rounded-circle bg-white my-auto" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
                             </div>
                         </div>
@@ -181,7 +184,8 @@
                       <div class="card">
                         <div class="card-body">
                           <div class="d-flex flex-column align-items-center text-center">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                            <img src="{{session.avatar}}" alt="Admin" class="rounded-circle" width="150">
+                            <p>{{session.avatar}}</p>
                             <div class="mt-3">
                               <h4>{{session.username}} </h4>
                               <p class="text-secondary mb-1">Full Stack Developer</p>
@@ -229,15 +233,7 @@
                             </div>
                           </div>
                           <hr>
-                          <div class="row">
-                            <div class="col-sm-3">
-                              <h6 class="mb-0">Email</h6>
-                            </div>
-                            <div class="col-sm-9 text-secondary">
-                                {{session.email}}
-                            </div>
-                          </div>
-                          <hr>
+                          
                           <div class="row">
                             <div class="col-sm-3">
                               <h6 class="mb-0">Mobile</h6>
@@ -249,10 +245,10 @@
                           <hr>
                           <div class="row">
                             <div class="col-sm-3">
-                              <h6 class="mb-0">Mobile</h6>
+                              <h6 class="mb-0">Date of Birth</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                              (320) 380-4539
+                                {{session.dob}}
                             </div>
                           </div>
                           <hr>

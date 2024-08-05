@@ -1,4 +1,31 @@
-import requests
+import requests,random
+from datetime import datetime
+# from app import app
+def get_weather_data(api_key, city):
+    base_url = "http://api.openweathermap.org/data/2.5/weather"
+    params = {
+        "q": city,
+        "appid": api_key,
+        "units": "metric"  # For Celsius
+    }
+
+    try:
+        response = requests.get(base_url, params=params)
+        response.raise_for_status()  # Raise an exception for bad responses
+        data = response.json()
+
+        weather_data = {
+            "temperature": round(data["main"]["temp"]),
+            "icon_url": f"http://openweathermap.org/img/wn/{data['weather'][0]['icon']}@2x.png",
+            "city": data["name"],
+            "date": datetime.now().strftime("%b %d, %Y")
+        }
+
+        return weather_data
+
+    except requests.RequestException as e:
+        print(f"Error fetching weather data: {e}")
+        return None
 from flask import current_app
 class NewsAPIClient:
     def __init__(self, api_keys):
@@ -41,3 +68,27 @@ def get_search_results(query):
             'image': article['urlToImage']
         })
     return results
+
+
+def generate_avatar_url(style, seed=None, hair=None, flip=None):
+    base_url = f'https://api.dicebear.com/9.x/{style}/svg'
+    params = []
+    
+    if seed:
+        params.append(f'seed={seed}')
+    else:
+        # Generate a random seed if not provided
+        params.append(f'seed={random.randint(1, 1000000)}')
+    
+    if hair:
+        params.append(f'hair={",".join(hair)}')
+    
+    if flip is not None:
+        params.append(f'flip={str(flip).lower()}')
+    
+    return f'{base_url}?{"&".join(params)}'
+
+# Usage in your login route:
+# from app.utils import get_weather_data
+# weather_data = get_weather_data(YOUR_API_KEY, user_city)
+# Add weather_data to session or pass it to the template

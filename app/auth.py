@@ -1,6 +1,7 @@
 from flask import redirect, url_for, request, session, render_template, jsonify
 from app import app, bcrypt, oauth, collection_user_registration, collection_login_credentials
 from authlib.integrations.flask_client import OAuthError
+from app.routes import generate_avatar  # Import the generate_avatar function
 
 class LoginManager:
     def __init__(self, app, bcrypt, oauth, collection_user_registration, collection_login_credentials):
@@ -27,10 +28,37 @@ class LoginManager:
         user_email = user_info.get('email')
         user = self.collection_login_credentials.find_one({'email': user_email})
 
+        if not user:
+            # Generate random avatar URL
+            avatar_url = generate_avatar()
+
+            # Create new user registration
+            user_registration = {
+                "full_name": user_info.get('name'),
+                "phone_number": "",
+                "address": "",
+                "dob": "",
+                "avatar": avatar_url
+            }
+            result = self.collection_user_registration.insert_one(user_registration)
+            registration_id = result.inserted_id
+
+            # Create new login credentials
+            user_login_credentials = {
+                "username": user_info.get('name'),
+                "email": user_email,
+                "password": "",
+                "registration_id": registration_id
+            }
+            result = self.collection_login_credentials.insert_one(user_login_credentials)
+            user = user_login_credentials
+        else:
+            registration_id = user['registration_id']
+
         session['user_id'] = str(user['_id'])
         session['username'] = user['username']
         session['email'] = user['email']
-        user_details = self.collection_user_registration.find_one({'_id': user['registration_id']})
+        user_details = self.collection_user_registration.find_one({'_id': registration_id})
         if user_details:
             session['full_name'] = user_details['full_name']
             session['phone_number'] = user_details['phone_number']
@@ -44,18 +72,29 @@ class LoginManager:
             full_name = request.form.get('fullName')
             username = request.form.get('username')
             email = request.form.get('email')
+            
+            # Check if email already exists
+            existing_user = self.collection_login_credentials.find_one({'email': email})
+            if existing_user:
+                return jsonify({'error': 'Email already exists', 'field': 'email'}), 400
+
             phone_number = request.form.get('phoneNumber')
             address = request.form.get('address')
             dob = request.form.get('dob')
             password = request.form.get('password')
             hashed_password = self.bcrypt.generate_password_hash(password).decode('utf-8')
 
+            # Generate random avatar URL
+            avatar_url = generate_avatar()
+
             user_registration = {
                 "full_name": full_name,
                 "phone_number": phone_number,
                 "address": address,
-                "dob": dob
+                "dob": dob,
+                "avatar": avatar_url  # Add the avatar URL to the registration data
             }
+            print(user_registration)
             result = self.collection_user_registration.insert_one(user_registration)
             id = result.inserted_id
 
@@ -96,6 +135,13 @@ class LoginManager:
         session.clear()
         return redirect(url_for('hello_world'))    
 
+    def check_email(self):
+        email = request.args.get('email')
+        existing_user = self.collection_login_credentials.find_one({'email': email})
+        if existing_user:
+            return jsonify({'exists': True}), 200
+        return jsonify({'exists': False}), 200
+
 
 login_manager = LoginManager(app, bcrypt, oauth, collection_user_registration, collection_login_credentials)
 
@@ -117,3 +163,7 @@ def register():
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     return login_manager.login()
+
+@app.route('/check-email')
+def check_email():
+    return login_manager.check_email()

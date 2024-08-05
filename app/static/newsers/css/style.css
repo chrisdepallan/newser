@@ -123,7 +123,11 @@
     }
     
 }
-
+@media (max-width: 768px) {
+  .hide-on-mobile {
+    display: none;
+  }
+}
 .topbar .top-link a {
     font-size: medium;
     font-weight: 400;
@@ -181,7 +185,7 @@
 }
 
 @media (min-width: 1200px) {
-    .navbar .nav-item .dropdown-menu {
+    .navbar .nav-item .dropdown-menu .hide-on-mobile {
         display: block;
         visibility: hidden;
         top: 100%;
@@ -289,6 +293,7 @@
     color: var(--bs-white);
     border-radius: 10px;
 }
+
 /*** Latest News End ***/
 
 

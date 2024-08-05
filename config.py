@@ -19,4 +19,6 @@ class Config:
     MAIL_USERNAME = os.getenv('MAIL_USERNAME', 'modderhubmail@gmail.com')
     MAIL_PASSWORD = os.getenv('MAIL_PASSWORD', 'qbvb ijzi zzib nlln')
     MAIL_DEFAULT_SENDER = os.getenv('MAIL_DEFAULT_SENDER', 'modderhubmail@gmail.com')
+    PFP_STYLE = ['pixel-art', 'avataaars', 'bottts', 'gridy', 'identicon', 'jdenticon', 'micah', 'lorelei']
+
 

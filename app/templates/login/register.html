@@ -29,107 +29,21 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='logincss.css') }}"
     />
-    <script>
-      $(document).ready(function () {
-        let pwd, cpwd;
-        $("#fullName").keyup(function () {
-          var uname = document.getElementById("fullName").value;
-          var c_uname = /^[A-z _]{3,20}$/;
-          r_uname = c_uname.test(uname);
-          if (r_uname == false) {
-            $("#submit").attr("disabled", true);
-            $(".reg-uname-err").text(
-              "Name Should be 3 letters long and should be alphabet"
-            );
-          } else {
-            $(".reg-uname-err").text("");
-            valid();
-          }
-          
-        });
-        $("#phone").keyup(function () {
-          var uname = document.getElementById("phone").value;
-          var c_uname = /^[789]\d{9}$/;
-          r_phone = c_uname.test(uname);
-          if (r_phone == false) {
-            $("#submit").attr("disabled", true);
-            $(".reg-phone-err").text("Enter a Number valid in India");
-          } else {
-            $(".reg-phone-err").text("");
-            valid();
-          }
-        });
-        $("#password").kssseyup(function () {
-          pwd = document.getElementById("password").value;
-          var c_pwd =
-            /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;
-          r_pwd = c_pwd.test(pwd);
-          if (!r_pwd) {
-            $("#submit").attr("disabled", true);
-            $(".pwd_error").text("Use Alphanumeric with special characters");
-          } else {
-            $(".pwd_error").text("");
-            valid();
-          }
-        });
-        $("#password").onblur(function () {
-          pwd = document.getElementById("password").value;
-          var c_pwd =
-            /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;
-          r_pwd = c_pwd.test(pwd);
-          if (!r_pwd) {
-            $("#submit").attr("disabled", true);
-            $(".pwd_error").text("Use Alphanumeric with special characters");
-          } else {
-            $(".pwd_error").text("");
-            valid();
-          }
-        });
-        $("#confirmpassword").keyup(function () {
-          pwd = document.getElementById("password").value;
-          cpwd = document.getElementById("confirmpassword").value;
-          var c_pwd =
-            /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;
-          cr_pwd = c_pwd.test(cpwd);
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .error { color: red; }
+    </style>
 
-          if (pwd != cpwd) {
-            $("#submit").attr("disabled", true);
-            $(".cp_error").text("Password does not match");
-          } else {
-            $(".cp_error").text("");
-            valid();
-          }
-        });
-        $("#confirmpassword").onkeypress(function () {
-          pwd = document.getElementById("password").value;
-          cpwd = document.getElementById("confirmpassword").value;
-          var c_pwd =
-            /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;
-          cr_pwd = c_pwd.test(cpwd);
-
-          if (pwd != cpwd) {
-            $("#submit").attr("disabled", false);
-            $(".cp_error").text("Password does not match");
-          } else {
-            $(".cp_error").text("");
-            valid();
-          }
-        });
-        function valid() {
-          if (r_pwd == true && r_phone == true) {
-            $("#submit").attr("disabled", false);
-          }
-        }
-      });
-    </script>
+   
     <style>
       /* Custom CSS to position the image */
       
   </style>
   </head>
   <body>
-    <img src="{{ url_for('static', filename='newsers/img/logo.png') }}"  style="position:absolute"/>
+    <img src="{{ url_for('static', filename='newsers/img/logo.png') }}" class="hide-on-mobile"  onclick="window.location.href='/'"" style="position:absolute"/>
 
+          
     <section class="vh-100">
       <div class="container-fluid h-custom">
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -142,193 +56,192 @@
           </div>
           <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
             <form method="POST" action="/register">
-              <div
-                class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start"
-              >
-                <p class="lead fw-normal mb-0 me-3">Sign in with</p>
-                <button
-                  type="button"
-                  data-mdb-button-init
-                  data-mdb-ripple-init
-                  class="btn btn-primary btn-floating mx-1"
-                >
-                  <i class="fab fa-facebook-f"></i>
-                </button>
-
-                <button
-                  type="button"
-                  data-mdb-button-init
-                  data-mdb-ripple-init
-                  class="btn btn-primary btn-floating mx-1"
-                >
-                  <i class="fab fa-twitter"></i>
-                </button>
-
-                <button
-                  type="button"
-                  data-mdb-button-init
-                  data-mdb-ripple-init
-                  class="btn btn-primary btn-floating mx-1"
-                >
-                  <i class="fab fa-linkedin-in"></i>
-                </button>
-              </div>
-
-              <div class="divider d-flex align-items-center my-4">
-                <p class="text-center fw-bold mx-3 mb-0">Or</p>
-              </div>
-
+            
+          
               <!-- Full Name input -->
               <div data-mdb-input-init class="form-outline mb-4">
-                <input
-                  type="text"
-                  id="fullName"
-                  name="fullName"
-                  class="form-control active form-control-lg"
-                  placeholder="Enter your full name"
-                />
-                <label class="form-label" for="fullName">Full Name</label>
-                <p
-                  class="reg-uname-err text-danger"
-                  style="position: fixed"
-                ></p>
+                  <input type="text" id="fullName" name="fullName" class="form-control active form-control-lg" placeholder="Enter your full name" />
+                  <label class="form-label" for="fullName">Full Name</label>
+                  <p class="reg-uname-err text-danger"></p>
               </div>
-
+          
               <!-- Username input -->
               <div data-mdb-input-init class="form-outline mb-4">
-                <input
-                  type="text"
-                  id="username"
-                  name="username"
-                  class="form-control active form-control-lg"
-                  placeholder="Enter your username"
-                />
-                <label class="form-label" for="username">Username</label>
-                <p
-                  class="reg-username-err text-danger"
-                  style="position: fixed"
-                ></p>
+                  <input type="text" id="username" name="username" class="form-control active form-control-lg" placeholder="Enter your username" />
+                  <label class="form-label" for="username">Username</label>
+                  <p class="reg-username-err text-danger"></p>
               </div>
-
+          
               <!-- Email input -->
               <div data-mdb-input-init class="form-outline mb-4">
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  class="form-control active form-control-lg"
-                  placeholder="Enter a valid email address"
-                />
-                <label class="form-label" for="form3Example3"
-                  >Email address</label
-                >
-                <p
-                  class="reg-email-err text-danger"
-                  style="position: fixed"
-                ></p>
+                  <input type="email" id="email" name="email" class="form-control active form-control-lg" placeholder="Enter a valid email address" />
+                  <label class="form-label" for="email">Email address</label>
+                  <span id="emailError" class="error-message"></span>
+                  <p class="reg-email-err text-danger"></p>
               </div>
-
+          
               <!-- Phone Number input -->
               <div data-mdb-input-init class="form-outline mb-4">
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phoneNumber"
-                  maxlength="10"
-                  class="form-control active form-control-lg"
-                  placeholder="Enter your phone number"
-                />
-                <label class="form-label" for="phoneNumber">Phone Number</label>
-                <p
-                  class="reg-phone-err text-danger"
-                  style="position: fixed"
-                ></p>
+                  <input type="tel" id="phone" name="phoneNumber" maxlength="10" class="form-control active form-control-lg" placeholder="Enter your phone number" />
+                  <label class="form-label" for="phone">Phone Number</label>
+                  <p class="reg-phone-err text-danger"></p>
               </div>
-
+          
               <!-- Address input -->
               <div data-mdb-input-init class="form-outline mb-4">
-                <input
-                  type="text"
-                  id="address"
-                  name="address"
-                  class="form-control active form-control-lg"
-                  placeholder="Enter your address"
-                />
-                <label class="form-label" for="address">Address</label>
+                  <input type="text" id="address" name="address" class="form-control active form-control-lg" placeholder="Enter your address" />
+                  <label class="form-label" for="address">Address</label>
               </div>
-
+          
               <!-- Date of Birth input -->
               <div data-mdb-input-init class="form-outline mb-4">
-                <input
-                  type="date"
-                  id="dob"
-                  name="dob"
-                  class="form-control active form-control-lg"
-                />
-                <label class="form-label" for="dob">Date of Birth</label>
+                  <input type="date" id="dob" name="dob" class="form-control active form-control-lg" />
+                  <label class="form-label" for="dob">Date of Birth</label>
               </div>
-
+          
               <!-- Password input -->
               <div data-mdb-input-init class="form-outline mb-3">
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  class="form-control active form-control-lg"
-                  placeholder="Enter password"
-                />
-                <label class="form-label" for="password">Password</label>
-                <p class="pwd_error text-danger" style="position: fixed"></p>
+                  <input type="password" id="password" name="password" class="form-control active form-control-lg" placeholder="Enter password" />
+                  <label class="form-label" for="password">Password</label>
+                  <p class="pwd_error text-danger"></p>
               </div>
-              <br /><br />
-              <!--  confirm Password input -->
+          
+              <!-- Confirm Password input -->
               <div data-mdb-input-init class="form-outline mb-3">
-                <input
-                  type="password"
-                  id="confirmpassword"
-                  name="confirmpassword"
-                  class="form-control active form-control-lg"
-                  placeholder="Enter password again"
-                />
-                <label class="form-label" for="confirmpassword"
-                  >Confirm Password</label
-                >
-                <p class="cp_error text-danger" style="position: fixed"></p>
+                  <input type="password" id="confirmpassword" name="confirmpassword" class="form-control active form-control-lg" placeholder="Enter password again" />
+                  <label class="form-label" for="confirmpassword">Confirm Password</label>
+                  <p class="cp_error text-danger"></p>
               </div>
-
+          
               <div class="d-flex justify-content-between align-items-center">
-                <!-- Checkbox -->
-                <div class="form-check mb-0">
-                  <input
-                    class="form-check-input me-2"
-                    type="checkbox"
-                    value=""
-                    id="form2Example3"
-                  />
-                  <label class="form-check-label" for="form2Example3">
-                    Remember me
-                  </label>
-                </div>
-                <a href="#!" class="text-body">Forgot password?</a>
+                  <!-- Checkbox -->
+                  <!--<div class="form-check mb-0">
+                      <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
+                      <label class="form-check-label" for="form2Example3">Remember me</label>
+                  </div>-->
+                  <a href="/request-password-reset" class="text-body">Forgot password?</a>
               </div>
-
+          
               <div class="text-center text-lg-start mt-4 pt-2">
-                <button
-                  type="submit"
-                  id="submit"
-                  data-mdb-button-init
-                  data-mdb-ripple-init
-                  class="btn btn-primary btn-lg"
-                  style="padding-left: 2.5rem; padding-right: 2.5rem"
-                >
-                  REGISTER
-                </button>
-                <p class="small fw-bold mt-2 pt-1 mb-0">
-                  Already have an account?
-                  <a href="/" class="link-danger">Login</a>
-                </p>
+                  <button type="submit" id="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem">REGISTER</button>
+                  <p class="small fw-bold mt-2 pt-1 mb-0">
+                      Already have an account? <a href="/" class="link-danger">Login</a>
+                  </p>
               </div>
-            </form>
+          </form>
+          
+ 
+  <script>
+
+    $(document).ready(function() {
+      document.getElementById('email').addEventListener('blur', function() {
+        var email = this.value;
+        fetch('/check-email?email=' + encodeURIComponent(email))
+            .then(response => response.json())
+            .then(data => {
+                if (data.exists) {
+                    document.getElementById('emailError').textContent = 'Email already exists';
+                    document.getElementById('submitBtn').disabled = true;
+                } else {
+                    document.getElementById('emailError').textContent = '';
+                    document.getElementById('submitBtn').disabled = false;
+                }
+            });
+    });
+        function validateFullName() {
+            const fullName = $("#fullName").val();
+            const regex = /^[a-zA-Z ]{2,30}$/;
+            if (!regex.test(fullName)) {
+                $(".reg-uname-err").text("Full name must be 2-30 characters long and contain only letters and spaces.");
+                return false;
+            } else {
+                $(".reg-uname-err").text("");
+                return true;
+            }
+        }
+    
+        function validateUsername() {
+            const username = $("#username").val();
+            const regex = /^[a-zA-Z0-9_]{3,15}$/;
+            if (!regex.test(username)) {
+                $(".reg-username-err").text("Username must be 3-15 characters long and contain only letters, numbers, and underscores.");
+                return false;
+            } else {
+                $(".reg-username-err").text("");
+                return true;
+            }
+        }
+    
+        function validateEmail() {
+            const email = $("#email").val();
+            const regex = /^[^\s@]+@gmail\.com$/;
+            if (!regex.test(email)) {
+                $(".reg-email-err").text("Enter a valid email address.");
+                return false;
+            } else {
+                $(".reg-email-err").text("");
+                return true;
+            }
+        }
+    
+        function validatePhoneNumber() {
+            const phoneNumber = $("#phone").val();
+            const regex = /^\d{10}$/;
+            if (!regex.test(phoneNumber)) {
+                $(".reg-phone-err").text("Phone number must be 10 digits long.");
+                return false;
+            } else {
+                $(".reg-phone-err").text("");
+                return true;
+            }
+        }
+    
+        function validatePassword() {
+            const password = $("#password").val();
+            const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+            if (!regex.test(password)) {
+                $(".pwd_error").text("Password must be at least 8 characters long and contain at least one letter and one number.");
+                return false;
+            } else {
+                $(".pwd_error").text("");
+                return true;
+            }
+        }
+    
+        function validateConfirmPassword() {
+            const password = $("#password").val();
+            const confirmPassword = $("#confirmpassword").val();
+            if (password !== confirmPassword) {
+                $(".cp_error").text("Passwords do not match.");
+                return false;
+            } else {
+                $(".cp_error").text("");
+                return true;
+            }
+        }
+    
+        // Example of a password that satisfies the condition:
+        // const validPassword = "Password123";
+        function validateForm() {
+            return validateFullName() && validateUsername() && validateEmail() && validatePhoneNumber() && validatePassword() && validateConfirmPassword();
+        }
+    
+        $("input").on("keyup blur", function() {
+            validateForm();
+            $("#submit").prop("disabled", !validateForm());
+        });
+    
+        $("form").on("submit", function(event) {
+            if (!validateForm()) {
+                event.preventDefault();
+            }
+        });
+    
+        // Initial disable submit button
+        $("#submit").prop("disabled", true);
+    });
+    </script>
+    
           </div>
         </div>
       </div>

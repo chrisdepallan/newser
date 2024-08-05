@@ -116,7 +116,7 @@
 
         <!-- Navbar start -->
         <div class="container-fluid sticky-top px-0">
-            <img src="{{ url_for('static', filename='newsers/img/logo.png') }}"  style="position:absolute"/>
+            <img src="{{ url_for('static', filename='newsers/img/logo.png') }}" class="hide-on-mobile"  onclick="window.location.href='/'"" style="position:absolute"/>
 
             <div class="container-fluid topbar bg-dark d-none d-lg-block">
                 <div class="container px-0">
@@ -152,9 +152,48 @@
                 <img src="{{ url_for('static', filename='newsers/img/acc_icons1_bgX.png') }}" alt="Image" style="width: 40px; height: 40px;">
             </a>
         {% else %}
-            <p> </a><a href="login" class="">
+            <!--<p> </a><a href="login" class="">
                 <img src="{{ url_for('static', filename='newsers/img/login.png') }}" alt="Image" style="width: 40px; height: 40px;">
-            </a></p>
+            </a></p>-->
+            <style>
+                .logs {
+                  cursor: pointer;
+                  border: 0;
+                  
+                  border-radius: 4px;
+                  font-weight: 600;
+                  margin: 0 10px;
+                  width: 100px;
+                  padding: 10px 0;
+                  box-shadow: 0 0 20px rgba(104, 85, 224, 0.2);
+                  transition: 0.4s;
+                }
+                
+                .reg {
+                  color: white;
+                  background-color: rgba(104, 85, 224, 1);
+                }
+                
+                .log {
+                  color: rgb(104, 85, 224);
+                  background-color: rgba(255, 255, 255, 1);
+                  border: 1px solid rgba(104, 85, 224, 1);
+                }
+                
+                button:hover {
+                  color: white;
+                  width:;
+                  box-shadow: 0 0 20px rgba(104, 85, 224, 0.6);
+                  background-color: rgba(104, 85, 224, 1);
+                }
+                
+                </style>
+           
+                <div styles=''>
+                  <a href="/login"><button class="log logs">Login</button></a>
+                  <a href="/register"><button class="reg logs" >Sign up</button></a>
+                    </div>
+            
         {% endif %}
                         <div class="top-link flex-lg-wrap">
                             <i class="fas fa-calendar-alt text-white border-end border-secondary pe-2 me-2"> <span class="text-body">Tuesday, Sep 12, 2024</span></i>

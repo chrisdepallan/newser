@@ -1,13 +1,31 @@
 from flask import render_template, redirect, url_for, session, request, current_app, flash
 from app import app, collection_user_registration, collection_login_credentials,news_api_client
-from app.utils import get_search_results
+from app.utils import get_search_results, get_weather_data, generate_avatar_url
 import pyotp
 from app import app, mail,bcrypt
+import random
 from flask_mail import Message
 SECRET = 'base32secret3232'
+
+@app.route('/generate-avatar')
+def generate_avatar():
+    # Get options from query string
+    style = request.args.get('style', random.choice(current_app.config['PFP_STYLE']))
+    seed = request.args.get('seed')
+    hair = request.args.getlist('hair')
+    flip = request.args.get('flip')
+    
+    if flip is not None:
+        flip = flip.lower() == 'true'
+    
+    avatar_url = generate_avatar_url(style, seed, hair, flip)
+   
+    return avatar_url
+
+
 @app.route("/")
 def hello_world():
-    return render_template("login/index.html")
+    return render_template("Newsers/index.html")
 @app.route('/news')
 def news():
     # query = request.args.get('query', 'latest')
@@ -50,13 +68,48 @@ def profile():
     user = session.get("user_id")
     if not user:
         return redirect(url_for("login")) 
-    return render_template("Newsers/profile.html")
+    weather_data = session.get('weather_data', {})
+    return render_template("Newsers/profile.html", weather_data=weather_data)
 
-@app.route("/edit_profile")
+@app.route("/edit_profile", methods=['GET', 'POST'])
 def edit_profile():
     user = session.get("user_id")
     if not user:
         return redirect(url_for("login"))
+    
+    if request.method == 'POST':
+        # Get form data
+        full_name = request.form.get('full_name')
+        phone_number = request.form.get('phone_number')
+        dob = request.form.get('dob')
+        address = request.form.get('address')
+        new_avatar_url = request.form.get('new_avatar_url')
+        
+        # Update user data in the database
+        update_data = {
+            'full_name': full_name,
+            'phone_number': phone_number,
+            'dob': dob,
+            'address': address
+        }
+        if new_avatar_url:
+            update_data['avatar_url'] = new_avatar_url
+        
+        collection_user_registration.update_one(
+            {'_id': user},
+            {'$set': update_data}
+        )
+        
+        # Update session data
+        session['full_name'] = full_name
+        session['phone_number'] = phone_number
+        session['dob'] = dob
+        session['address'] = address
+        if new_avatar_url:
+            session['avatar_url'] = new_avatar_url
+        
+        flash('Profile updated successfully', 'success')
+        return redirect(url_for('profile'))
     return render_template("Newsers/edit_profile.html")
 
 @app.route("/newser")
@@ -88,7 +141,10 @@ def request_password_reset():
             otp = totp.now()
 
             msg = Message('Password Reset OTP', recipients=[email])
-            msg.body = f'Your OTP for password reset is: {otp}'
+            msg.html = render_template('login/otp_design.html', 
+                                       fname=user.get('username', ''),
+                                       lname='',
+                                       otp_code=otp)
             mail.send(msg)
 
             session['reset_email'] = email
@@ -96,7 +152,6 @@ def request_password_reset():
 
         flash('Email not found')
     return render_template('login/forgot_password.html')
-
 
 @app.route('/verify-otp', methods=['GET', 'POST'])
 def verify_otp():
@@ -122,3 +177,7 @@ def reset_password():
             return redirect(url_for('login'))
         flash('Session expired, please request a new OTP')
     return render_template('login/reset_password.html')
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('Newsers/404.html'), 404

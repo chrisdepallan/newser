@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <!-- Font Awesome -->
-    <link
+    <linklogin
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
       rel="stylesheet"
     />
@@ -143,10 +143,9 @@
     </style>
   </head>
   <body>
-    <img
-      src="{{ url_for('static', filename='newsers/img/logo.png') }}"
-      style="position: absolute"
-    />
+    <img src="{{ url_for('static', filename='newsers/img/logo.png') }}" class="hide-on-mobile"  onclick="window.location.href='/'"" style="position:absolute"/>
+
+          
 
     <section class="vh-100">
       <div class="container-fluid h-custom">
@@ -188,7 +187,7 @@
                       d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"
                     ></path>
                   </svg>
-                  <span style="margin-left: -140px">Continue with</span>
+                  <span style="margin-left: -140px">Continue with &nbsp;</span>
                 </div>
                 <div class="bouncing-balls">
                   <div class="ball blue"></div>
@@ -276,17 +275,7 @@
 
               <div class="d-flex justify-content-between align-items-center">
                 <!-- Checkbox -->
-                <div class="form-check mb-0">
-                  <input
-                    class="form-check-input me-2"
-                    type="checkbox"
-                    value=""
-                    id="form2Example3"
-                  />
-                  <label class="form-check-label" for="form2Example3">
-                    Remember me
-                  </label>
-                </div>
+               
                 <a href="/request-password-reset" class="text-body"
                   >Forgot password?</a
                 >

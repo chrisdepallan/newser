@@ -67,6 +67,20 @@
     
     </script>
     <style>
+      .logo {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        max-width: 150px;
+        height: auto;
+        z-index: 1000;
+      }
+    
+      @media (max-width: 768px) {
+        .logo {
+          display: none;
+        }
+      }
       .gbutton {
         margin-top: 1rem;
         max-width: 388px;
@@ -142,8 +156,7 @@
  
   </head>
   <body>
-    <img src="{{ url_for('static', filename='newsers/img/logo.png') }}" class="hide-on-mobile"  onclick="window.location.href='/'"" style="position:absolute"/>
-
+    <img src="{{ url_for('static', filename='newsers/img/logo.png') }}" class="logo hide-on-mobile" onclick="window.location.href='/'" style="position:absolute"/>
           
     <section class="vh-100">
       <div class="container-fluid h-custom">

@@ -6,6 +6,39 @@
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
 <head>
     <style>
+        .logs {
+          cursor: pointer;
+          border: 0;
+          
+          border-radius: 4px;
+          font-weight: 600;
+          margin: 0 10px;
+          width: 100px;
+          padding: 10px 0;
+          box-shadow: 0 0 20px rgba(104, 85, 224, 0.2);
+          transition: 0.4s;
+        }
+        
+        .reg {
+          color: white;
+          background-color: rgba(104, 85, 224, 1);
+        }
+        
+        .log {
+          color: rgb(104, 85, 224);
+          background-color: rgba(255, 255, 255, 1);
+          border: 1px solid rgba(104, 85, 224, 1);
+        }
+        
+        button:hover {
+          color: white;
+          width:;
+          box-shadow: 0 0 20px rgba(104, 85, 224, 0.6);
+          background-color: rgba(104, 85, 224, 1);
+        }
+        
+        </style>
+    <style>
         .gbutton {
             margin-top: 1rem;
             max-width: 388px;
@@ -112,11 +145,9 @@
             <div class="spinner-grow text-primary" role="status"></div>
         </div>
         <!-- Spinner End -->
-
-
         <!-- Navbar start -->
         <div class="container-fluid sticky-top px-0">
-            <img src="{{ url_for('static', filename='newsers/img/logo.png') }}" class="hide-on-mobile"  onclick="window.location.href='/'"" style="position:absolute"/>
+            <img src="{{ url_for('static', filename='newsers/img/logo.png') }}" class="hide-on-mobile" onclick="window.location.href='/'" style="position:absolute"/>
 
             <div class="container-fluid topbar bg-dark d-none d-lg-block">
                 <div class="container px-0">
@@ -130,71 +161,29 @@
                             </div>
                             <div class="overflow-hidden" style="width: 735px;">
                                 <div id="note" class="ps-2">
-                                    <img src="img/features-fashion.jpg" class="img-fluid rounded-circle border border-3 border-primary me-2" style="width: 30px; height: 30px;" alt="">
+                                    <img src="{{ url_for('static', filename='newsers/img/features-fashion.jpg') }}" class="img-fluid rounded-circle border border-3 border-primary me-2" style="width: 30px; height: 30px;" alt="">
                                     <a href="#"><p class="text-white mb-0 link-hover">Newsan unknown printer took a galley of type andscrambled Newsan.</p></a>
                                 </div>
                             </div>
                         </div>
                         {% if session %}
-            <a href="/profile" class="btn btn-primary" >
-                <img src="{{ url_for('static', filename='newsers/img/acc_icons1_bgX.png') }}" alt="Image" style="width: 40px; height: 40px;">
-            </a>
-            <a href="/logout" class="btn btn-danger">
-                <img src="{{ url_for('static', filename='newsers/img/acc_icons1_bgX.png') }}" alt="Image" style="width: 40px; height: 40px;">
-            </a>
-            <a href="#" class="btn btn-success">
-                <img src="{{ url_for('static', filename='newsers/img/dollarsign_bgX.png') }}" alt="Image" style="width: 40px; height: 40px;">
-            </a><a href="#" class="btn btn-primary">
-                <img src="{{ url_for('static', filename='newsers/img/acc_icons1_bgX.png') }}" alt="Image" style="width: 40px; height: 40px;">
-            </a><a href="#" class="btn btn-primary">
-                <img src="{{ url_for('static', filename='newsers/img/acc_icons1_bgX.png') }}" alt="Image" style="width: 40px; height: 40px;">
-            </a><a href="#" class="btn btn-primary">
-                <img src="{{ url_for('static', filename='newsers/img/acc_icons1_bgX.png') }}" alt="Image" style="width: 40px; height: 40px;">
-            </a>
-        {% else %}
-            <!--<p> </a><a href="login" class="">
-                <img src="{{ url_for('static', filename='newsers/img/login.png') }}" alt="Image" style="width: 40px; height: 40px;">
-            </a></p>-->
-            <style>
-                .logs {
-                  cursor: pointer;
-                  border: 0;
-                  
-                  border-radius: 4px;
-                  font-weight: 600;
-                  margin: 0 10px;
-                  width: 100px;
-                  padding: 10px 0;
-                  box-shadow: 0 0 20px rgba(104, 85, 224, 0.2);
-                  transition: 0.4s;
-                }
-                
-                .reg {
-                  color: white;
-                  background-color: rgba(104, 85, 224, 1);
-                }
-                
-                .log {
-                  color: rgb(104, 85, 224);
-                  background-color: rgba(255, 255, 255, 1);
-                  border: 1px solid rgba(104, 85, 224, 1);
-                }
-                
-                button:hover {
-                  color: white;
-                  width:;
-                  box-shadow: 0 0 20px rgba(104, 85, 224, 0.6);
-                  background-color: rgba(104, 85, 224, 1);
-                }
-                
-                </style>
-           
-                <div styles=''>
-                  <a href="/login"><button class="log logs">Login</button></a>
-                  <a href="/register"><button class="reg logs" >Sign up</button></a>
-                    </div>
-            
-        {% endif %}
+                            <div class="d-flex">
+                                <a href="/profile" class="btn btn-primary me-2">
+                                    <img src="{{ url_for('static', filename='newsers/img/acc_icons1_bgX.png') }}" alt="Profile" style="width: 40px; height: 40px;">
+                                </a>
+                                <a href="/logout" class="btn btn-danger me-2">
+                                    <img src="{{ url_for('static', filename='newsers/img/acc_icons1_bgX.png') }}" alt="Logout" style="width: 40px; height: 40px;">
+                                </a>
+                                <a href="#" class="btn btn-success">
+                                    <img src="{{ url_for('static', filename='newsers/img/dollarsign_bgX.png') }}" alt="Dollar" style="width: 40px; height: 40px;">
+                                </a>
+                            </div>
+                        {% else %}
+                            <div>
+                                <a href="/login"><button class="log logs me-2">Login</button></a>
+                                <a href="/register"><button class="reg logs">Sign up</button></a>
+                            </div>
+                        {% endif %}
                         <div class="top-link flex-lg-wrap">
                             <i class="fas fa-calendar-alt text-white border-end border-secondary pe-2 me-2"> <span class="text-body">Tuesday, Sep 12, 2024</span></i>
                             <div class="d-flex icon">
@@ -211,21 +200,21 @@
                     </div>
                 </div>
             </div>
-              <div class="container-fluid bg-light">
+            <div class="container-fluid bg-light">
                 <div class="container px-0">
                     <nav class="navbar navbar-light navbar-expand-xl">
-                        <a href="index-2.html" class="navbar-brand mt-3">
+                        <a href="/" class="navbar-brand mt-3">
                             <p class="text-primary display-6 mb-2" style="line-height: 0;">Newsers</p>
                             <small class="text-body fw-normal" style="letter-spacing: 12px;">Newspaper</small>
                         </a>
-                        <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                        <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="fa fa-bars text-primary"></span>
                         </button>
                         <div class="collapse navbar-collapse bg-light py-3" id="navbarCollapse">
                             <div class="navbar-nav mx-auto border-top">
-                                <a href="index-2.html" class="nav-item nav-link active">Home</a>
-                                <a href="detail-page.html" class="nav-item nav-link">Detail  Page</a>
-                                <a href="404.html" class="nav-item nav-link">404 Page</a>
+                                <a href="/" class="nav-item nav-link active">Home</a>
+                                <a href="/detail-page" class="nav-item nav-link">Detail Page</a>
+                                <a href="/404" class="nav-item nav-link">404 Page</a>
                                 <div class="nav-item dropdown">
                                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Dropdown</a>
                                     <div class="dropdown-menu m-0 bg-secondary rounded-0">
@@ -235,11 +224,16 @@
                                         <a href="#" class="dropdown-item">Dropdown 4</a>
                                     </div>
                                 </div>
-                                <a href="contact.html" class="nav-item nav-link">Contact Us</a>
+                                <a href="/contact" class="nav-item nav-link">Contact Us</a>
+                            </div>
+                            <!-- Add login and signup buttons here, visible only on mobile -->
+                            <div class="d-xl-none mt-3">
+                                <a href="/login"><button class="log logs me-2">Login</button></a>
+                                <a href="/register"><button class="reg logs">Sign up</button></a>
                             </div>
                             <div class="d-flex flex-nowrap border-top pt-3 pt-xl-0">
                                 <div class="d-flex">
-                                    <img src="img/weather-icon.png" class="img-fluid w-100 me-2" alt="">
+                                    <img src="{{ url_for('static', filename='newsers/img/weather-icon.png') }}" class="img-fluid w-100 me-2" alt="">
                                     <div class="d-flex align-items-center">
                                         <strong class="fs-4 text-secondary">31°C</strong>
                                         <div class="d-flex flex-column ms-2" style="width: 150px;">
@@ -287,7 +281,7 @@
                             <div class="col-4">
                                 <div class="rounded-circle position-relative">
                                     <div class="overflow-hidden rounded-circle">
-                                        <img src="img/features-sports-1.jpg" class="img-zoomin img-fluid rounded-circle w-100" alt="">
+                                        <img src="{{ url_for('static', filename='newsers/img/features-sports-1.jpg') }}" class="img-zoomin img-fluid rounded-circle w-100" alt="">
                                     </div>
                                     <span class="rounded-circle border border-2 border-white bg-primary btn-sm-square text-white position-absolute" style="top: 10%; right: -10px;">3</span>
                                 </div>
@@ -308,7 +302,7 @@
                             <div class="col-4">
                                 <div class="rounded-circle position-relative">
                                     <div class="overflow-hidden rounded-circle">
-                                        <img src="img/features-technology.jpg" class="img-zoomin img-fluid rounded-circle w-100" alt="">
+                                        <img src="{{ url_for('static', filename='newsers/img/features-technology.jpg') }}" class="img-zoomin img-fluid rounded-circle w-100" alt="">
                                     </div>
                                     <span class="rounded-circle border border-2 border-white bg-primary btn-sm-square text-white position-absolute" style="top: 10%; right: -10px;">3</span>
                                 </div>
@@ -329,7 +323,7 @@
                             <div class="col-4">
                                 <div class="rounded-circle position-relative">
                                     <div class="overflow-hidden rounded-circle">
-                                        <img src="img/features-fashion.jpg" class="img-zoomin img-fluid rounded-circle w-100" alt="">
+                                        <img src="{{ url_for('static', filename='newsers/img/features-fashion.jpg') }}" class="img-zoomin img-fluid rounded-circle w-100" alt="">
                                     </div>
                                     <span class="rounded-circle border border-2 border-white bg-primary btn-sm-square text-white position-absolute" style="top: 10%; right: -10px;">3</span>
                                 </div>
@@ -350,7 +344,7 @@
                             <div class="col-4">
                                 <div class="rounded-circle position-relative">
                                     <div class="overflow-hidden rounded-circle">
-                                        <img src="img/features-life-style.jpg" class="img-zoomin img-fluid rounded-circle w-100" alt="">
+                                        <img src="{{ url_for('static', filename='newsers/img/features-life-style.jpg') }}" class="img-zoomin img-fluid rounded-circle w-100" alt="">
                                     </div>
                                     <span class="rounded-circle border border-2 border-white bg-primary btn-sm-square text-white position-absolute" style="top: 10%; right: -10px;">3</span>
                                 </div>
@@ -378,7 +372,7 @@
                 <div class="row g-4">
                     <div class="col-lg-7 col-xl-8 mt-0">
                         <div class="position-relative overflow-hidden rounded">
-                            <img src="img/news-1.jpg" class="img-fluid rounded img-zoomin w-100" alt="">
+                            <img src="{{ url_for('static', filename='newsers/img/news-1.jpg') }}" class="img-fluid rounded img-zoomin w-100" alt="">
                             <div class="d-flex justify-content-center px-4 position-absolute flex-wrap" style="bottom: 10px; left: 0;">
                                 <a href="#" class="text-white me-3 link-hover"><i class="fa fa-clock"></i> 06 minute read</a>
                                 <a href="#" class="text-white me-3 link-hover"><i class="fa fa-eye"></i> 3.5k Views</a>
@@ -398,7 +392,7 @@
                             <div class="row g-4 align-items-center">
                                 <div class="col-md-6">
                                     <div class="rounded overflow-hidden">
-                                        <img src="img/news-2.jpg" class="img-fluid rounded img-zoomin w-100" alt="">
+                                        <img src="{{ url_for('static', filename='newsers/img/news-2.jpg') }}" class="img-fluid rounded img-zoomin w-100" alt="">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -416,7 +410,7 @@
                             <div class="row g-4">
                                 <div class="col-12">
                                     <div class="rounded overflow-hidden">
-                                        <img src="img/news-3.jpg" class="img-fluid rounded img-zoomin w-100" alt="">
+                                        <img src="{{ url_for('static', filename='newsers/img/news-3.jpg') }}" class="img-fluid rounded img-zoomin w-100" alt="">
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -430,7 +424,7 @@
                                     <div class="row g-4 align-items-center">
                                         <div class="col-5">
                                             <div class="overflow-hidden rounded">
-                                                <img src="img/news-3.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                <img src="{{ url_for('static', filename='newsers/img/news-3.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                             </div>
                                         </div>
                                         <div class="col-7">
@@ -446,7 +440,7 @@
                                     <div class="row g-4 align-items-center">
                                         <div class="col-5">
                                             <div class="overflow-hidden rounded">
-                                                <img src="img/news-4.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                <img src="{{ url_for('static', filename='newsers/img/news-4.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                             </div>
                                         </div>
                                         <div class="col-7">
@@ -462,7 +456,7 @@
                                     <div class="row g-4 align-items-center">
                                         <div class="col-5">
                                             <div class="overflow-hidden rounded">
-                                                <img src="img/news-5.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                <img src="{{ url_for('static', filename='newsers/img/news-5.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                             </div>
                                         </div>
                                         <div class="col-7">
@@ -478,7 +472,7 @@
                                     <div class="row g-4 align-items-center">
                                         <div class="col-5">
                                             <div class="overflow-hidden rounded">
-                                                <img src="img/news-6.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                <img src="{{ url_for('static', filename='newsers/img/news-6.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                             </div>
                                         </div>
                                         <div class="col-7">
@@ -494,7 +488,7 @@
                                     <div class="row g-4 align-items-center">
                                         <div class="col-5">
                                             <div class="overflow-hidden rounded">
-                                                <img src="img/news-7.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                <img src="{{ url_for('static', filename='newsers/img/news-7.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                             </div>
                                         </div>
                                         <div class="col-7">
@@ -510,7 +504,7 @@
                                     <div class="row g-4 align-items-center">
                                         <div class="col-5">
                                             <div class="overflow-hidden rounded">
-                                                <img src="img/news-7.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                <img src="{{ url_for('static', filename='newsers/img/news-7.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                             </div>
                                         </div>
                                         <div class="col-7">
@@ -547,7 +541,7 @@
                     </div>
                     <div class="col-lg-5">
                         <div class="rounded">
-                            <img src="img/banner-img.jpg" class="img-fluid rounded w-100 rounded" alt="">
+                            <img src="{{ url_for('static', filename='newsers/img/banner-img.jpg') }}" class="img-fluid rounded w-100 rounded" alt="">
                         </div>
                     </div>
                 </div>
@@ -564,7 +558,7 @@
                     <div class="latest-news-item">
                         <div class="bg-light rounded">
                             <div class="rounded-top overflow-hidden">
-                                <img src="img/news-7.jpg" class="img-zoomin img-fluid rounded-top w-100" alt="">
+                                <img src="{{ url_for('static', filename='newsers/img/news-7.jpg') }}" class="img-zoomin img-fluid rounded-top w-100" alt="">
                             </div>
                             <div class="d-flex flex-column p-4">
                                 <a href="#" class="h4">Lorem Ipsum is simply dummy text of...</a>
@@ -578,7 +572,7 @@
                     <div class="latest-news-item">
                         <div class="bg-light rounded">
                             <div class="rounded-top overflow-hidden">
-                                <img src="img/news-6.jpg" class="img-zoomin img-fluid rounded-top w-100" alt="">
+                                <img src="{{ url_for('static', filename='newsers/img/news-6.jpg') }}" class="img-zoomin img-fluid rounded-top w-100" alt="">
                             </div>
                             <div class="d-flex flex-column p-4">
                                 <a href="#" class="h4">Lorem Ipsum is simply dummy text of...</a>
@@ -592,7 +586,7 @@
                     <div class="latest-news-item">
                         <div class="bg-light rounded">
                             <div class="rounded-top overflow-hidden">
-                                <img src="img/news-3.jpg" class="img-zoomin img-fluid rounded-top w-100" alt="">
+                                <img src="{{ url_for('static', filename='newsers/img/news-3.jpg') }}" class="img-zoomin img-fluid rounded-top w-100" alt="">
                             </div>
                             <div class="d-flex flex-column p-4">
                                 <a href="#" class="h4">Lorem Ipsum is simply dummy text of...</a>
@@ -606,7 +600,7 @@
                     <div class="latest-news-item">
                         <div class="bg-light rounded">
                             <div class="rounded-top overflow-hidden">
-                                <img src="img/news-4.jpg" class="img-zoomin img-fluid rounded-top w-100" alt="">
+                                <img src="{{ url_for('static', filename='newsers/img/news-4.jpg') }}" class="img-zoomin img-fluid rounded-top w-100" alt="">
                             </div>
                             <div class="d-flex flex-column p-4">
                                 <a href="#" class="h4">Lorem Ipsum is simply dummy text of...</a>
@@ -620,7 +614,7 @@
                     <div class="latest-news-item">
                         <div class="bg-light rounded">
                             <div class="rounded-top overflow-hidden">
-                                <img src="img/news-5.jpg" class="img-zoomin img-fluid rounded-top w-100" alt="">
+                                <img src="{{ url_for('static', filename='newsers/img/news-5.jpg') }}" class="img-zoomin img-fluid rounded-top w-100" alt="">
                             </div>
                             <div class="d-flex flex-column p-4">
                                 <a href="#" class="h4 ">Lorem Ipsum is simply dummy text of...</a>
@@ -644,7 +638,7 @@
                     <div class="row g-4">
                         <div class="col-lg-8 col-xl-9">
                             <div class="d-flex flex-column flex-md-row justify-content-md-between border-bottom mb-4">
-                                <h1 class="mb-4">What’s New</h1>
+                                <h1 class="mb-4">What's New</h1>
                                 <ul class="nav nav-pills d-inline-flex text-center">
                                     <li class="nav-item mb-3">
                                         <a class="d-flex py-2 bg-light rounded-pill active me-2" data-bs-toggle="pill" href="#tab-1">
@@ -678,7 +672,7 @@
                                     <div class="row g-4">
                                         <div class="col-lg-8">
                                             <div class="position-relative rounded overflow-hidden">
-                                                <img src="img/news-1.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                <img src="{{ url_for('static', filename='newsers/img/news-1.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                                 <div class="position-absolute text-white px-4 py-2 bg-primary rounded" style="top: 20px; right: 20px;">                                              
                                                     Sports
                                                 </div>
@@ -701,7 +695,7 @@
                                                     <div class="row g-4 align-items-center">
                                                         <div class="col-5">
                                                             <div class="overflow-hidden rounded">
-                                                                <img src="img/news-3.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                <img src="{{ url_for('static', filename='newsers/img/news-3.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                                             </div>
                                                         </div>
                                                         <div class="col-7">
@@ -717,7 +711,7 @@
                                                     <div class="row g-4 align-items-center">
                                                         <div class="col-5">
                                                             <div class="overflow-hidden rounded">
-                                                                <img src="img/news-4.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                <img src="{{ url_for('static', filename='newsers/img/news-4.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                                             </div>
                                                         </div>
                                                         <div class="col-7">
@@ -733,7 +727,7 @@
                                                     <div class="row g-4 align-items-center">
                                                         <div class="col-5">
                                                             <div class="overflow-hidden rounded">
-                                                                <img src="img/news-5.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                <img src="{{ url_for('static', filename='newsers/img/news-5.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                                             </div>
                                                         </div>
                                                         <div class="col-7">
@@ -749,7 +743,7 @@
                                                     <div class="row g-4 align-items-center">
                                                         <div class="col-5">
                                                             <div class="overflow-hidden rounded">
-                                                                <img src="img/news-6.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                <img src="{{ url_for('static', filename='newsers/img/news-6.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                                             </div>
                                                         </div>
                                                         <div class="col-7">
@@ -765,7 +759,7 @@
                                                     <div class="row g-4 align-items-center">
                                                         <div class="col-5">
                                                             <div class="overflow-hidden rounded">
-                                                                <img src="img/news-7.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                <img src="{{ url_for('static', filename='newsers/img/news-7.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                                             </div>
                                                         </div>
                                                         <div class="col-7">
@@ -785,7 +779,7 @@
                                     <div class="row g-4">
                                         <div class="col-lg-8">
                                             <div class="position-relative rounded overflow-hidden">
-                                                <img src="img/news-1.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                <img src="{{ url_for('static', filename='newsers/img/news-1.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                                 <div class="position-absolute text-white px-4 py-2 bg-primary rounded" style="top: 20px; right: 20px;">                                              
                                                     Magazine
                                                 </div>
@@ -808,7 +802,7 @@
                                                     <div class="row g-4 align-items-center">
                                                         <div class="col-5">
                                                             <div class="overflow-hidden rounded">
-                                                                <img src="img/news-3.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                <img src="{{ url_for('static', filename='newsers/img/news-3.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                                             </div>
                                                         </div>
                                                         <div class="col-7">
@@ -824,7 +818,7 @@
                                                     <div class="row g-4 align-items-center">
                                                         <div class="col-5">
                                                             <div class="overflow-hidden rounded">
-                                                                <img src="img/news-4.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                <img src="{{ url_for('static', filename='newsers/img/news-4.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                                             </div>
                                                         </div>
                                                         <div class="col-7">
@@ -840,7 +834,7 @@
                                                     <div class="row g-4 align-items-center">
                                                         <div class="col-5">
                                                             <div class="overflow-hidden rounded">
-                                                                <img src="img/news-5.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                <img src="{{ url_for('static', filename='newsers/img/news-5.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                                             </div>
                                                         </div>
                                                         <div class="col-7">
@@ -856,7 +850,7 @@
                                                     <div class="row g-4 align-items-center">
                                                         <div class="col-5">
                                                             <div class="overflow-hidden rounded">
-                                                                <img src="img/news-6.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                <img src="{{ url_for('static', filename='newsers/img/news-6.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                                             </div>
                                                         </div>
                                                         <div class="col-7">
@@ -872,7 +866,7 @@
                                                     <div class="row g-4 align-items-center">
                                                         <div class="col-5">
                                                             <div class="overflow-hidden rounded">
-                                                                <img src="img/news-7.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                <img src="{{ url_for('static', filename='newsers/img/news-7.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                                             </div>
                                                         </div>
                                                         <div class="col-7">
@@ -892,7 +886,7 @@
                                     <div class="row g-4">
                                         <div class="col-lg-8">
                                             <div class="position-relative rounded overflow-hidden">
-                                                <img src="img/news-1.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                <img src="{{ url_for('static', filename='newsers/img/news-1.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                                 <div class="position-absolute text-white px-4 py-2 bg-primary rounded" style="top: 20px; right: 20px;">                                              
                                                     Politics
                                                 </div>
@@ -915,7 +909,7 @@
                                                     <div class="row g-4 align-items-center">
                                                         <div class="col-5">
                                                             <div class="overflow-hidden rounded">
-                                                                <img src="img/news-3.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                <img src="{{ url_for('static', filename='newsers/img/news-3.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                                             </div>
                                                         </div>
                                                         <div class="col-7">
@@ -931,7 +925,7 @@
                                                     <div class="row g-4 align-items-center">
                                                         <div class="col-5">
                                                             <div class="overflow-hidden rounded">
-                                                                <img src="img/news-4.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                <img src="{{ url_for('static', filename='newsers/img/news-4.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                                             </div>
                                                         </div>
                                                         <div class="col-7">
@@ -947,7 +941,7 @@
                                                     <div class="row g-4 align-items-center">
                                                         <div class="col-5">
                                                             <div class="overflow-hidden rounded">
-                                                                <img src="img/news-5.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                <img src="{{ url_for('static', filename='newsers/img/news-5.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                                             </div>
                                                         </div>
                                                         <div class="col-7">
@@ -963,7 +957,7 @@
                                                     <div class="row g-4 align-items-center">
                                                         <div class="col-5">
                                                             <div class="overflow-hidden rounded">
-                                                                <img src="img/news-6.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                <img src="{{ url_for('static', filename='newsers/img/news-6.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                                             </div>
                                                         </div>
                                                         <div class="col-7">
@@ -979,7 +973,7 @@
                                                     <div class="row g-4 align-items-center">
                                                         <div class="col-5">
                                                             <div class="overflow-hidden rounded">
-                                                                <img src="img/news-7.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                <img src="{{ url_for('static', filename='newsers/img/news-7.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                                             </div>
                                                         </div>
                                                         <div class="col-7">
@@ -999,7 +993,7 @@
                                     <div class="row g-4">
                                         <div class="col-lg-8">
                                             <div class="position-relative rounded overflow-hidden">
-                                                <img src="img/news-1.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                <img src="{{ url_for('static', filename='newsers/img/news-1.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                                 <div class="position-absolute text-white px-4 py-2 bg-primary rounded" style="top: 20px; right: 20px;">                                              
                                                     Technology
                                                 </div>
@@ -1022,7 +1016,7 @@
                                                     <div class="row g-4 align-items-center">
                                                         <div class="col-5">
                                                             <div class="overflow-hidden rounded">
-                                                                <img src="img/news-3.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                <img src="{{ url_for('static', filename='newsers/img/news-3.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                                             </div>
                                                         </div>
                                                         <div class="col-7">
@@ -1038,7 +1032,7 @@
                                                     <div class="row g-4 align-items-center">
                                                         <div class="col-5">
                                                             <div class="overflow-hidden rounded">
-                                                                <img src="img/news-4.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                <img src="{{ url_for('static', filename='newsers/img/news-4.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                                             </div>
                                                         </div>
                                                         <div class="col-7">
@@ -1054,7 +1048,7 @@
                                                     <div class="row g-4 align-items-center">
                                                         <div class="col-5">
                                                             <div class="overflow-hidden rounded">
-                                                                <img src="img/news-5.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                <img src="{{ url_for('static', filename='newsers/img/news-5.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                                             </div>
                                                         </div>
                                                         <div class="col-7">
@@ -1070,7 +1064,7 @@
                                                     <div class="row g-4 align-items-center">
                                                         <div class="col-5">
                                                             <div class="overflow-hidden rounded">
-                                                                <img src="img/news-6.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                <img src="{{ url_for('static', filename='newsers/img/news-6.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                                             </div>
                                                         </div>
                                                         <div class="col-7">
@@ -1086,7 +1080,7 @@
                                                     <div class="row g-4 align-items-center">
                                                         <div class="col-5">
                                                             <div class="overflow-hidden rounded">
-                                                                <img src="img/news-7.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                <img src="{{ url_for('static', filename='newsers/img/news-7.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                                             </div>
                                                         </div>
                                                         <div class="col-7">
@@ -1106,7 +1100,7 @@
                                     <div class="row g-4">
                                         <div class="col-lg-8">
                                             <div class="position-relative rounded overflow-hidden">
-                                                <img src="img/news-1.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                <img src="{{ url_for('static', filename='newsers/img/news-1.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                                 <div class="position-absolute text-white px-4 py-2 bg-primary rounded" style="top: 20px; right: 20px;">                                              
                                                     Fashion
                                                 </div>
@@ -1129,7 +1123,7 @@
                                                     <div class="row g-4 align-items-center">
                                                         <div class="col-5">
                                                             <div class="overflow-hidden rounded">
-                                                                <img src="img/news-3.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                <img src="{{ url_for('static', filename='newsers/img/news-3.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                                             </div>
                                                         </div>
                                                         <div class="col-7">
@@ -1145,7 +1139,7 @@
                                                     <div class="row g-4 align-items-center">
                                                         <div class="col-5">
                                                             <div class="overflow-hidden rounded">
-                                                                <img src="img/news-4.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                <img src="{{ url_for('static', filename='newsers/img/news-4.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                                             </div>
                                                         </div>
                                                         <div class="col-7">
@@ -1161,7 +1155,7 @@
                                                     <div class="row g-4 align-items-center">
                                                         <div class="col-5">
                                                             <div class="overflow-hidden rounded">
-                                                                <img src="img/news-5.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                <img src="{{ url_for('static', filename='newsers/img/news-5.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                                             </div>
                                                         </div>
                                                         <div class="col-7">
@@ -1177,7 +1171,7 @@
                                                     <div class="row g-4 align-items-center">
                                                         <div class="col-5">
                                                             <div class="overflow-hidden rounded">
-                                                                <img src="img/news-6.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                <img src="{{ url_for('static', filename='newsers/img/news-6.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                                             </div>
                                                         </div>
                                                         <div class="col-7">
@@ -1193,7 +1187,7 @@
                                                     <div class="row g-4 align-items-center">
                                                         <div class="col-5">
                                                             <div class="overflow-hidden rounded">
-                                                                <img src="img/news-7.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                <img src="{{ url_for('static', filename='newsers/img/news-7.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                                             </div>
                                                         </div>
                                                         <div class="col-7">
@@ -1217,7 +1211,7 @@
                                 <div class="latest-news-item">
                                     <div class="bg-light rounded">
                                         <div class="rounded-top overflow-hidden">
-                                            <img src="img/news-7.jpg" class="img-zoomin img-fluid rounded-top w-100" alt="">
+                                            <img src="{{ url_for('static', filename='newsers/img/news-7.jpg') }}" class="img-zoomin img-fluid rounded-top w-100" alt="">
                                         </div>
                                         <div class="d-flex flex-column p-4">
                                             <a href="#" class="h4">There are many variations of passages of Lorem Ipsum available,</a>
@@ -1231,7 +1225,7 @@
                                 <div class="whats-item">
                                     <div class="bg-light rounded">
                                         <div class="rounded-top overflow-hidden">
-                                            <img src="img/news-6.jpg" class="img-zoomin img-fluid rounded-top w-100" alt="">
+                                            <img src="{{ url_for('static', filename='newsers/img/news-6.jpg') }}" class="img-zoomin img-fluid rounded-top w-100" alt="">
                                         </div>
                                         <div class="d-flex flex-column p-4">
                                             <a href="#" class="h4">There are many variations of passages of Lorem Ipsum available,</a>
@@ -1245,7 +1239,7 @@
                                 <div class="whats-item">
                                     <div class="bg-light rounded">
                                         <div class="rounded-top overflow-hidden">
-                                            <img src="img/news-3.jpg" class="img-zoomin img-fluid rounded-top w-100" alt="">
+                                            <img src="{{ url_for('static', filename='newsers/img/news-3.jpg') }}" class="img-zoomin img-fluid rounded-top w-100" alt="">
                                         </div>
                                         <div class="d-flex flex-column p-4">
                                             <a href="#" class="h4">There are many variations of passages of Lorem Ipsum available,</a>
@@ -1259,7 +1253,7 @@
                                 <div class="whats-item">
                                     <div class="bg-light rounded">
                                         <div class="rounded-top overflow-hidden">
-                                            <img src="img/news-4.jpg" class="img-zoomin img-fluid rounded-top w-100" alt="">
+                                            <img src="{{ url_for('static', filename='newsers/img/news-4.jpg') }}" class="img-zoomin img-fluid rounded-top w-100" alt="">
                                         </div>
                                         <div class="d-flex flex-column p-4">
                                             <a href="#" class="h4">There are many variations of passages of Lorem Ipsum available,</a>
@@ -1273,7 +1267,7 @@
                                 <div class="whats-item">
                                     <div class="bg-light rounded">
                                         <div class="rounded-top overflow-hidden">
-                                            <img src="img/news-5.jpg" class="img-zoomin img-fluid rounded-top w-100" alt="">
+                                            <img src="{{ url_for('static', filename='newsers/img/news-5.jpg') }}" class="img-zoomin img-fluid rounded-top w-100" alt="">
                                         </div>
                                         <div class="d-flex flex-column p-4">
                                             <a href="#" class="h4">There are many variations of passages of Lorem Ipsum available,</a>
@@ -1292,7 +1286,7 @@
                                 <div class="row g-4">
                                     <div class="col-lg-6">
                                         <div class="lifestyle-item rounded">
-                                            <img src="img/lifestyle-1.jpg" class="img-fluid w-100 rounded" alt="">
+                                            <img src="{{ url_for('static', filename='newsers/img/lifestyle-1.jpg') }}" class="img-fluid w-100 rounded" alt="">
                                             <div class="lifestyle-content">
                                                <div class="mt-auto">
                                                     <a href="#" class="h4 text-white link-hover">There are many variations of passages of Lorem Ipsum available,</a>
@@ -1306,7 +1300,7 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="lifestyle-item rounded">
-                                            <img src="img/lifestyle-2.jpg" class="img-fluid w-100 rounded" alt="">
+                                            <img src="{{ url_for('static', filename='newsers/img/lifestyle-2.jpg') }}" class="img-fluid w-100 rounded" alt="">
                                             <div class="lifestyle-content">
                                                <div class="mt-auto">
                                                     <a href="#" class="h4 text-white link-hover">There are many variations of passages of Lorem Ipsum available,</a>
@@ -1361,7 +1355,7 @@
                                                     <div class="col-4">
                                                         <div class="rounded-circle position-relative">
                                                             <div class="overflow-hidden rounded-circle">
-                                                                <img src="img/features-sports-1.jpg" class="img-zoomin img-fluid rounded-circle w-100" alt="">
+                                                                <img src="{{ url_for('static', filename='newsers/img/features-sports-1.jpg') }}" class="img-zoomin img-fluid rounded-circle w-100" alt="">
                                                             </div>
                                                             <span class="rounded-circle border border-2 border-white bg-primary btn-sm-square text-white position-absolute" style="top: 10%; right: -10px;">3</span>
                                                         </div>
@@ -1382,7 +1376,7 @@
                                                     <div class="col-4">
                                                         <div class="rounded-circle position-relative">
                                                             <div class="overflow-hidden rounded-circle">
-                                                                <img src="img/features-technology.jpg" class="img-zoomin img-fluid rounded-circle w-100" alt="">
+                                                                <img src="{{ url_for('static', filename='newsers/img/features-technology.jpg') }}" class="img-zoomin img-fluid rounded-circle w-100" alt="">
                                                             </div>
                                                             <span class="rounded-circle border border-2 border-white bg-primary btn-sm-square text-white position-absolute" style="top: 10%; right: -10px;">3</span>
                                                         </div>
@@ -1403,7 +1397,7 @@
                                                     <div class="col-4">
                                                         <div class="rounded-circle position-relative">
                                                             <div class="overflow-hidden rounded-circle">
-                                                                <img src="img/features-fashion.jpg" class="img-zoomin img-fluid rounded-circle w-100" alt="">
+                                                                <img src="{{ url_for('static', filename='newsers/img/features-fashion.jpg') }}" class="img-zoomin img-fluid rounded-circle w-100" alt="">
                                                             </div>
                                                             <span class="rounded-circle border border-2 border-white bg-primary btn-sm-square text-white position-absolute" style="top: 10%; right: -10px;">3</span>
                                                         </div>
@@ -1424,7 +1418,7 @@
                                                     <div class="col-4">
                                                         <div class="rounded-circle position-relative">
                                                             <div class="overflow-hidden rounded-circle">
-                                                                <img src="img/features-life-style.jpg" class="img-zoomin img-fluid rounded-circle w-100" alt="">
+                                                                <img src="{{ url_for('static', filename='newsers/img/features-life-style.jpg') }}" class="img-zoomin img-fluid rounded-circle w-100" alt="">
                                                             </div>
                                                             <span class="rounded-circle border border-2 border-white bg-primary btn-sm-square text-white position-absolute" style="top: 10%; right: -10px;">3</span>
                                                         </div>
@@ -1492,7 +1486,7 @@
                                             </div>
                                             <div class="col-lg-12">
                                                 <div class="position-relative banner-2">
-                                                    <img src="img/banner-2.jpg" class="img-fluid w-100 rounded" alt="">
+                                                    <img src="{{ url_for('static', filename='newsers/img/banner-2.jpg') }}" class="img-fluid w-100 rounded" alt="">
                                                     <div class="text-center banner-content-2">
                                                         <h6 class="mb-2">The Most Populer</h6>
                                                         <p class="text-white mb-2">News & Magazine WP Theme</p>
@@ -1553,7 +1547,7 @@
                                 <a href="#">
                                     <div class="d-flex align-items-center">
                                         <div class="rounded-circle border border-2 border-primary overflow-hidden">
-                                            <img src="img/footer-1.jpg" class="img-zoomin img-fluid rounded-circle w-100" alt="">
+                                            <img src="{{ url_for('static', filename='newsers/img/footer-1.jpg') }}" class="img-zoomin img-fluid rounded-circle w-100" alt="">
                                         </div>
                                         <div class="d-flex flex-column ps-4">
                                             <p class="text-uppercase text-white mb-3">Life Style</p>
@@ -1569,7 +1563,7 @@
                                 <a href="#">
                                     <div class="d-flex align-items-center">
                                         <div class="rounded-circle border border-2 border-primary overflow-hidden">
-                                            <img src="img/footer-2.jpg" class="img-zoominimg-fluid rounded-circle w-100" alt="">
+                                            <img src="{{ url_for('static', filename='newsers/img/footer-2.jpg') }}" class="img-zoominimg-fluid rounded-circle w-100" alt="">
                                         </div>
                                         <div class="d-flex flex-column ps-4">
                                             <p class="text-uppercase text-white mb-3">Sports</p>
@@ -1600,32 +1594,32 @@
                             <div class="row g-2">
                                 <div class="col-4">
                                     <div class="rounded overflow-hidden">
-                                        <img src="img/footer-1.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                        <img src="{{ url_for('static', filename='newsers/img/footer-1.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                     </div>
                                </div>
                                <div class="col-4">
                                     <div class="rounded overflow-hidden">
-                                        <img src="img/footer-2.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                        <img src="{{ url_for('static', filename='newsers/img/footer-2.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                     </div>
                                </div>
                                 <div class="col-4">
                                     <div class="rounded overflow-hidden">
-                                        <img src="img/footer-3.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                        <img src="{{ url_for('static', filename='newsers/img/footer-3.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                     </div>
                                </div>
                                 <div class="col-4">
                                     <div class="rounded overflow-hidden">
-                                        <img src="img/footer-4.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                        <img src="{{ url_for('static', filename='newsers/img/footer-4.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                     </div>
                                </div>
                                 <div class="col-4">
                                     <div class="rounded overflow-hidden">
-                                        <img src="img/footer-5.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                        <img src="{{ url_for('static', filename='newsers/img/footer-5.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                     </div>
                                </div>
                                <div class="col-4">
                                 <div class="rounded overflow-hidden">
-                                    <img src="img/footer-6.jpg" class="img-zoomin img-fluid rounded w-100" alt="">
+                                    <img src="{{ url_for('static', filename='newsers/img/footer-6.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
                                 </div>
                            </div>
                             </div>
@@ -1673,5 +1667,8 @@
         <script src="{{ url_for('static', filename='newsers/js/main.js') }}"></script>
       </body>
    
-<!-- Mirrored from themewagon.github.io/Newsers/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 02 Jul 2024 15:54:55 GMT -->
+<!-- 
+    change all img src into  structure similar to src="{{ url_for('static', filename='newsers/img/logo.png') }}" for all img tags 
+    Mirrored from themewagon.github.io/Newsers/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 02 Jul 2024 15:54:55 GMT -->
 </html>
+

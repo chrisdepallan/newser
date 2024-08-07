@@ -208,6 +208,9 @@ def sample():
     return render_template('joell/sample.html')
 
 
+@app.route('/upload_img')
+def upload_img():
+    return render_template('joell/sample.html')
 
 @app.route('/upload_image', methods=['POST'])
 def upload_image_route():

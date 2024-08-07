@@ -1,0 +1,96 @@
+<form id="uploadForm" action="{{ url_for('upload_image_route') }}" method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label for="imageUpload" class="form-label">Choose an image to upload</label>
+        <input type="file" class="form-control" id="imageUpload" name="image" accept="image/*" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Upload Image</button>
+</form>
+
+<div id="uploadResult"></div>
+<div id="imagePreview"></div>
+<div id="skeletonLoader" class="skeleton" style="display: none;"></div>
+
+<style>
+    .skeleton {
+        width: 800px;
+        height: 800px;
+        background-color: #e2e2e2;
+        position: relative;
+        overflow: hidden;
+    }
+    .skeleton::after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50%;
+        height: 100%;
+        animation: sweep 2s infinite;
+        background-image: linear-gradient(
+            to right,
+            transparent,
+            rgba(255, 255, 255, 0.4),
+            transparent
+        );
+    }
+    @keyframes sweep {
+        0% {
+            transform: translateX(-100%);
+        }
+        50% {
+            transform: translateX(150%);
+        }
+        100% {
+            transform: translateX(-100%);
+        }
+    }
+</style>
+
+<script>
+document.getElementById('uploadForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var formData = new FormData(this);
+
+    // Show skeleton loader
+    document.getElementById('skeletonLoader').style.display = 'block';
+    document.getElementById('imagePreview').innerHTML = '';
+    document.getElementById('uploadResult').innerHTML = 'Uploading...';
+
+    fetch('{{ url_for('upload_image_route') }}', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById('uploadResult').innerHTML = 'Upload successful! Public ID: ' + data.public_id;
+            
+            // Use the URL returned from the server, which now includes the transformation
+            var imageUrl = data.url;
+            
+            // Create a new image element
+            var imgElement = new Image();
+            imgElement.onload = function() {
+                // Hide skeleton loader and show the image when it's fully loaded
+                document.getElementById('skeletonLoader').style.display = 'none';
+                var imagePreview = document.getElementById('imagePreview');
+                imagePreview.innerHTML = '';
+                imagePreview.appendChild(imgElement);
+            };
+            imgElement.src = imageUrl;
+            imgElement.alt = 'Uploaded Image';
+            imgElement.style.width = '800px';
+            imgElement.style.height = '800px';
+        } else {
+            document.getElementById('uploadResult').innerHTML = 'Upload failed: ' + data.error;
+            document.getElementById('skeletonLoader').style.display = 'none';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('uploadResult').innerHTML = 'An error occurred during upload.';
+        document.getElementById('skeletonLoader').style.display = 'none';
+    });
+});
+</script>

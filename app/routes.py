@@ -1,10 +1,15 @@
-from flask import render_template, redirect, url_for, session, request, current_app, flash
-from app import app, collection_user_registration, collection_login_credentials,news_api_client
-from app.utils import get_search_results, get_weather_data, generate_avatar_url
+from flask import render_template, redirect, url_for, session, request, current_app, flash, jsonify
+from app import app, collection_user_registration, collection_login_credentials, news_api_client
+from app.utils import *
 import pyotp
-from app import app, mail,bcrypt
+from werkzeug.utils import secure_filename
+from app import app, mail, bcrypt
 import random
 from flask_mail import Message
+from flask import request, jsonify, current_app
+from werkzeug.utils import secure_filename
+from . import app
+from .utils import upload_image, setup_cloudinary, get_image_url
 SECRET = 'base32secret3232'
 
 @app.route('/generate-avatar')
@@ -111,7 +116,28 @@ def edit_profile():
         flash('Profile updated successfully', 'success')
         return redirect(url_for('profile'))
     return render_template("Newsers/edit_profile.html")
+@app.route("/update-avatar", methods=['POST'])
+def update_avatar():
+    user = session.get("user_id")
+    if not user:
+        return jsonify({"success": False, "message": "User not logged in"}), 401
 
+    data = request.json
+    new_avatar_url = data.get('new_avatar_url')
+
+    if not new_avatar_url:
+        return jsonify({"success": False, "message": "No avatar URL provided"}), 400
+
+    try:
+        print(new_avatar_url)
+        collection_user_registration.update_one(
+            {'_id': user},
+            {'$set': {'avatar': new_avatar_url}}
+        )
+        session['avatar'] = new_avatar_url
+        return jsonify({"success": True, "message": "Avatar updated successfully"})
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
 @app.route("/newser")
 def newser():
     return render_template("Newsers/index.html")
@@ -177,6 +203,34 @@ def reset_password():
             return redirect(url_for('login'))
         flash('Session expired, please request a new OTP')
     return render_template('login/reset_password.html')
+@app.route('/sample')
+def sample():
+    return render_template('joell/sample.html')
+
+
+
+@app.route('/upload_image', methods=['POST'])
+def upload_image_route():
+    if 'image' not in request.files:
+        return jsonify({'error': 'No image file provided'}), 400
+    
+    file = request.files['image']
+    
+    if file.filename == '':
+        return jsonify({'error': 'No selected file'}), 400
+    
+    if file:
+        filename = secure_filename(file.filename)
+        try:
+            # Ensure Cloudinary is set up
+            setup_cloudinary()
+            # Upload to Cloudinary
+            public_id = upload_image(file)
+            # Get the URL of the uploaded image
+            image_url = get_image_url(public_id)
+            return jsonify({'success': True, 'public_id': public_id, 'url': image_url}), 200
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
 
 @app.errorhandler(404)
 def page_not_found(e):

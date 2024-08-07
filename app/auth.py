@@ -127,6 +127,9 @@ class LoginManager:
                     session['phone_number'] = user_details['phone_number']
                     session['address'] = user_details['address']
                     session['dob'] = user_details['dob']
+                    if user_details['avatar'] is not None:
+                        session['avatar'] = user_details['avatar']
+                    
                 return redirect(url_for('newser'))
             else:
                 return jsonify({'error': 'Invalid email or password'}), 401

@@ -20,5 +20,6 @@ class Config:
     MAIL_PASSWORD = os.getenv('MAIL_PASSWORD', 'qbvb ijzi zzib nlln')
     MAIL_DEFAULT_SENDER = os.getenv('MAIL_DEFAULT_SENDER', 'modderhubmail@gmail.com')
     PFP_STYLE = ['pixel-art', 'avataaars', 'bottts', 'gridy', 'identicon', 'jdenticon', 'micah', 'lorelei']
-
-
+    CLOUDINARY_CLOUD_NAME = os.getenv('CLOUDINARY_CLOUD_NAME', 'dbco4nje5')
+    CLOUDINARY_API_KEY = os.getenv('CLOUDINARY_API_KEY', '864987881763555')
+    CLOUDINARY_API_SECRET = os.getenv('CLOUDINARY_API_SECRET', 'UQA7JNdHcdpDMQvka0guWEtYhwQ')

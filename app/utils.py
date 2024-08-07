@@ -1,5 +1,10 @@
-import requests,random
+import requests, random
 from datetime import datetime
+import cloudinary
+import cloudinary.uploader
+from cloudinary.utils import cloudinary_url
+from flask import current_app
+
 # from app import app
 def get_weather_data(api_key, city):
     base_url = "http://api.openweathermap.org/data/2.5/weather"
@@ -26,7 +31,21 @@ def get_weather_data(api_key, city):
     except requests.RequestException as e:
         print(f"Error fetching weather data: {e}")
         return None
-from flask import current_app
+
+def setup_cloudinary():
+    cloudinary.config(
+        cloud_name=current_app.config['CLOUDINARY_CLOUD_NAME'],
+        api_key=current_app.config['CLOUDINARY_API_KEY'],
+        api_secret=current_app.config['CLOUDINARY_API_SECRET']
+    )
+
+def upload_image(image_file):
+    result = cloudinary.uploader.upload(image_file)
+    return result['public_id']
+
+def get_image_url(public_id):
+    return cloudinary_url(public_id, width=800, height=800, crop="fill")[0]
+
 class NewsAPIClient:
     def __init__(self, api_keys):
         self.api_keys = api_keys
@@ -48,6 +67,7 @@ class NewsAPIClient:
             response = requests.get(f"https://newsapi.org/v2/{endpoint}", params=params)
         
         return response.json()
+
 def get_search_results(query):
     client = NewsAPIClient(current_app.config['NEWSAPI_KEYS'])
     params = {
@@ -87,6 +107,7 @@ def generate_avatar_url(style, seed=None, hair=None, flip=None):
         params.append(f'flip={str(flip).lower()}')
     
     return f'{base_url}?{"&".join(params)}'
+
 
 # Usage in your login route:
 # from app.utils import get_weather_data

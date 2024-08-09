@@ -3,8 +3,9 @@ from flask_session import Session
 from flask_bcrypt import Bcrypt
 from pymongo import MongoClient
 from authlib.integrations.flask_client import OAuth
-from app.utils import NewsAPIClient
+from app.utils import NewsAPIClient, datetime_filter
 from flask_mail import Mail
+# from app.recommendation_engine import recommendation_bp
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -35,6 +36,10 @@ collection_login_credentials = db.newser_login_credentials
 with app.app_context():
     news_api_client = NewsAPIClient(app.config['NEWSAPI_KEYS'])
 
+# Register custom filter
+app.jinja_env.filters['datetime'] = datetime_filter
+
 # Import routes
 from app import routes, auth,utils,dashboard
-    
+# Register recommendation_engine blueprint
+# app.register_blueprint(recommendation_bp)

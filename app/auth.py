@@ -1,7 +1,7 @@
 from flask import redirect, url_for, request, session, render_template, jsonify
 from app import app, bcrypt, oauth, collection_user_registration, collection_login_credentials
 from authlib.integrations.flask_client import OAuthError
-from app.routes import generate_avatar  # Import the generate_avatar function
+from app.routes import generate_avatar # Import the generate_avatar function
 
 class LoginManager:
     def __init__(self, app, bcrypt, oauth, collection_user_registration, collection_login_credentials):
@@ -65,7 +65,7 @@ class LoginManager:
             session['address'] = user_details['address']
             session['dob'] = user_details['dob']
 
-        return redirect(url_for("newser"))
+        return redirect(url_for("hello_world"))
 
     def register(self):
         if request.method == 'POST':
@@ -109,6 +109,8 @@ class LoginManager:
         return render_template("login/register.html")
 
     def login(self):
+        # Run get_and_decode_user_password for debugging purposes
+        
         if request.method == 'POST':
             email = request.form.get('email')
             password = request.form.get('password')
@@ -147,6 +149,9 @@ class LoginManager:
 
 
 login_manager = LoginManager(app, bcrypt, oauth, collection_user_registration, collection_login_credentials)
+
+
+
 
 @app.route("/google_login")
 def google_login():

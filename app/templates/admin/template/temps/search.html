@@ -1439,12 +1439,10 @@
                                               {% for result in search_results %}
                                               <div class="info-block">
                                                   <a href="{{ result.url }}">{{ result.url }}</a>
-
                                                   <h6>{{ result.title }}</h6>
                                                   <p>{{ result.description }}</p>
                                                   <div class="star-ratings">
                                                       <ul class="search-info">
-                                                        <img src="{{ result.image }}" alt="{{ result.title }}">
                                                           <li>{{ result.stars }} stars</li>
                                                           <li>{{ result.votes }} votes</li>
                                                           <li>{{ result.type }}</li>

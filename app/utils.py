@@ -6,12 +6,13 @@ from cloudinary.utils import cloudinary_url
 from flask import current_app
 
 # from app import app
-def get_weather_data(api_key, city):
-    base_url = "http://api.openweathermap.org/data/2.5/weather"
+def get_weather_data(city):
+    api_key = current_app.config['WEATHERAPI_KEY']
+    base_url = "http://api.weatherapi.com/v1/current.json"
     params = {
+        "key": api_key,
         "q": city,
-        "appid": api_key,
-        "units": "metric"  # For Celsius
+        "aqi": "no"
     }
 
     try:
@@ -20,9 +21,9 @@ def get_weather_data(api_key, city):
         data = response.json()
 
         weather_data = {
-            "temperature": round(data["main"]["temp"]),
-            "icon_url": f"http://openweathermap.org/img/wn/{data['weather'][0]['icon']}@2x.png",
-            "city": data["name"],
+            "temperature": round(data["current"]["temp_c"]),
+            "icon_url": f"https:{data['current']['condition']['icon']}",
+            "city": data["location"]["name"],
             "date": datetime.now().strftime("%b %d, %Y")
         }
 
@@ -107,6 +108,12 @@ def generate_avatar_url(style, seed=None, hair=None, flip=None):
         params.append(f'flip={str(flip).lower()}')
     
     return f'{base_url}?{"&".join(params)}'
+
+def datetime_filter(value, format="%B %d, %Y"):
+    return datetime.strptime(value, "%Y-%m-%dT%H:%M:%SZ").strftime(format)
+# from app import bcrypt, collection_login_credentials
+
+
 
 
 # Usage in your login route:

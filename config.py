@@ -9,7 +9,8 @@ class Config:
     OAUTH2_META_URL = "https://accounts.google.com/.well-known/openid-configuration"
     NEWSAPI_KEYS = [
         "83e536c598ae4d45882122a4eeb377c6",
-        "4dbc17e007ab436fb66416009dfb59a8"
+        "4dbc17e007ab436fb66416009dfb59a8",
+        "e0365bedc3b9406f9b278e204b53befd"
     ]
     MAIL_SERVER = 'smtp.gmail.com'
     MAIL_PORT = 587
@@ -23,3 +24,4 @@ class Config:
     CLOUDINARY_CLOUD_NAME = os.getenv('CLOUDINARY_CLOUD_NAME', 'dbco4nje5')
     CLOUDINARY_API_KEY = os.getenv('CLOUDINARY_API_KEY', '864987881763555')
     CLOUDINARY_API_SECRET = os.getenv('CLOUDINARY_API_SECRET', 'UQA7JNdHcdpDMQvka0guWEtYhwQ')
+    WEATHERAPI_KEY = 'd288547b5e1e498abbc175853240808'

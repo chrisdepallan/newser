@@ -162,8 +162,8 @@
                             <div class="overflow-hidden" style="width: 735px;">
                                 <div id="note" class="ps-2">
                                     <img src="{{ url_for('static', filename='newsers/img/features-fashion.jpg') }}" class="img-fluid rounded-circle border border-3 border-primary me-2" style="width: 30px; height: 30px;" alt="">
-                                    <a href="#"><p class="text-white mb-0 link-hover">Newsan unknown printer took a galley of type andscrambled Newsan.</p></a>
-                                </div>
+                                    <a href="{{ trending_news[0].url }}"><p class="text-white mb-0 link-hover">{{ trending_news[0].title }}</p></a>
+                                </div>  
                             </div>
                         </div>
                         {% if session %}
@@ -171,9 +171,9 @@
                                 <a href="/profile" class="btn btn-primary me-2">
                                     <img src="{{ url_for('static', filename='newsers/img/acc_icons1_bgX.png') }}" alt="Profile" style="width: 40px; height: 40px;">
                                 </a>
-                                <a href="/logout" class="btn btn-danger me-2">
+                                <!--<a href="/logout" class="btn btn-danger me-2">
                                     <img src="{{ url_for('static', filename='newsers/img/acc_icons1_bgX.png') }}" alt="Logout" style="width: 40px; height: 40px;">
-                                </a>
+                                </a>-->
                                 <a href="#" class="btn btn-success">
                                     <img src="{{ url_for('static', filename='newsers/img/dollarsign_bgX.png') }}" alt="Dollar" style="width: 40px; height: 40px;">
                                 </a>
@@ -214,7 +214,7 @@
                             <div class="navbar-nav mx-auto border-top">
                                 <a href="/" class="nav-item nav-link active">Home</a>
                                 <a href="/detail-page" class="nav-item nav-link">Detail Page</a>
-                                <a href="/404" class="nav-item nav-link">404 Page</a>
+                                <a href="/dashboard" class="nav-item nav-link">Dashboard</a>
                                 <div class="nav-item dropdown">
                                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Dropdown</a>
                                     <div class="dropdown-menu m-0 bg-secondary rounded-0">
@@ -233,14 +233,15 @@
                             </div>
                             <div class="d-flex flex-nowrap border-top pt-3 pt-xl-0">
                                 <div class="d-flex">
-                                    <img src="{{ url_for('static', filename='newsers/img/weather-icon.png') }}" class="img-fluid w-100 me-2" alt="">
+                                    <img src="{{ weather_data.icon_url }}" class="img-fluid w-100 me-2" alt="{{ weather_data.description }}">
                                     <div class="d-flex align-items-center">
-                                        <strong class="fs-4 text-secondary">31°C</strong>
+                                        <strong class="fs-4 text-secondary">{{ weather_data.temperature }}°C</strong>
                                         <div class="d-flex flex-column ms-2" style="width: 150px;">
-                                            <span class="text-body">NEW YORK,</span>
-                                            <small>Mon. 10 jun 2024</small>
+                                            <span class="text-body">{{ weather_data.city }},</span>
+                                            <small>{{ weather_data.date }}</small>
                                         </div>
                                     </div>
+                                    
                                 </div>
                                 <button class="btn-search btn border border-primary btn-md-square rounded-circle bg-white my-auto" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
                             </div>
@@ -271,105 +272,45 @@
         </div>
         <!-- Modal Search End -->
 
-
-        <!-- Features Start -->
-        <div class="container-fluid features mb-5">
-            <div class="container py-5">
-                <div class="row g-4">
-                    <div class="col-md-6 col-lg-6 col-xl-3">
-                        <div class="row g-4 align-items-center features-item">
-                            <div class="col-4">
-                                <div class="rounded-circle position-relative">
-                                    <div class="overflow-hidden rounded-circle">
-                                        <img src="{{ url_for('static', filename='newsers/img/features-sports-1.jpg') }}" class="img-zoomin img-fluid rounded-circle w-100" alt="">
-                                    </div>
-                                    <span class="rounded-circle border border-2 border-white bg-primary btn-sm-square text-white position-absolute" style="top: 10%; right: -10px;">3</span>
+<!-- Features Start -->
+<div class="container-fluid features mb-5">
+    <div class="container py-5">
+        <div class="row g-4">
+            {% for article in popular_news[:4] %}
+                {% if article.source != '[Removed]' %}
+                <div class="col-md-6 col-lg-6 col-xl-3">
+                    <div class="row g-4 align-items-center features-item">
+                        <div class="col-4">
+                            <div class="rounded-circle position-relative">
+                                <div class="overflow-hidden rounded-circle">
+                                   <!-- <img src="{{ article.image }}" class="img-zoomin img-fluid rounded-circle w-100" alt="{{ article.source }}">-->
                                 </div>
-                            </div>
-                            <div class="col-8">
-                                <div class="features-content d-flex flex-column">
-                                    <p class="text-uppercase mb-2">Sports</p>
-                                    <a href="#" class="h6">
-                                        Get the best speak market, news.
-                                    </a>
-                                    <small class="text-body d-block"><i class="fas fa-calendar-alt me-1"></i> December 9, 2024</small>
-                                </div>
+                                <span class="rounded-circle border border-2 border-white bg-primary btn-sm-square text-white position-absolute" style="top: 10%; right: -10px;">{{ loop.index }}</span>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 col-lg-6 col-xl-3">
-                        <div class="row g-4 align-items-center features-item">
-                            <div class="col-4">
-                                <div class="rounded-circle position-relative">
-                                    <div class="overflow-hidden rounded-circle">
-                                        <img src="{{ url_for('static', filename='newsers/img/features-technology.jpg') }}" class="img-zoomin img-fluid rounded-circle w-100" alt="">
-                                    </div>
-                                    <span class="rounded-circle border border-2 border-white bg-primary btn-sm-square text-white position-absolute" style="top: 10%; right: -10px;">3</span>
-                                </div>
-                            </div>
-                            <div class="col-8">
-                                <div class="features-content d-flex flex-column">
-                                    <p class="text-uppercase mb-2">Technology</p>
-                                    <a href="#" class="h6">
-                                        Get the best speak market, news.
-                                    </a>
-                                    <small class="text-body d-block"><i class="fas fa-calendar-alt me-1"></i> December 9, 2024</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-6 col-xl-3">
-                        <div class="row g-4 align-items-center features-item">
-                            <div class="col-4">
-                                <div class="rounded-circle position-relative">
-                                    <div class="overflow-hidden rounded-circle">
-                                        <img src="{{ url_for('static', filename='newsers/img/features-fashion.jpg') }}" class="img-zoomin img-fluid rounded-circle w-100" alt="">
-                                    </div>
-                                    <span class="rounded-circle border border-2 border-white bg-primary btn-sm-square text-white position-absolute" style="top: 10%; right: -10px;">3</span>
-                                </div>
-                            </div>
-                            <div class="col-8">
-                                <div class="features-content d-flex flex-column">
-                                    <p class="text-uppercase mb-2">Fashion</p>
-                                    <a href="#" class="h6">
-                                        Get the best speak market, news.
-                                    </a>
-                                    <small class="text-body d-block"><i class="fas fa-calendar-alt me-1"></i> December 9, 2024</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-6 col-xl-3">
-                        <div class="row g-4 align-items-center features-item">
-                            <div class="col-4">
-                                <div class="rounded-circle position-relative">
-                                    <div class="overflow-hidden rounded-circle">
-                                        <img src="{{ url_for('static', filename='newsers/img/features-life-style.jpg') }}" class="img-zoomin img-fluid rounded-circle w-100" alt="">
-                                    </div>
-                                    <span class="rounded-circle border border-2 border-white bg-primary btn-sm-square text-white position-absolute" style="top: 10%; right: -10px;">3</span>
-                                </div>
-                            </div>
-                            <div class="col-8">
-                                <div class="features-content d-flex flex-column">
-                                    <p class="text-uppercase mb-2">Life Style</p>
-                                    <a href="#" class="h6">
-                                        Get the best speak market, news.
-                                    </a>
-                                    <small class="text-body d-block"><i class="fas fa-calendar-alt me-1"></i> December 9, 2024</small>
-                                </div>
+                        <div class="col-8">
+                            <div class="features-content d-flex flex-column">
+                                <p class="text-uppercase mb-2">{{ article.source }}</p>
+                                <a href="{{ article.url }}" class="h6">
+                                    {{ article.title[:50] }}...
+                                </a>
+                                <small class="text-body d-block"><i class="fas fa-calendar-alt me-1"></i> {{ article.publishedAt|datetime }}</small>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                {% endif %}
+            {% endfor %}
         </div>
-        <!-- Features End -->
-
+    </div>
+</div>
+<!-- Features End -->
 
         <!-- Main Post Section Start -->
         <div class="container-fluid py-5">
             <div class="container py-5">
                 <div class="row g-4">
+                    <!-- Main News Heading -->
                     <div class="col-lg-7 col-xl-8 mt-0">
                         <div class="position-relative overflow-hidden rounded">
                             <img src="{{ url_for('static', filename='newsers/img/news-1.jpg') }}" class="img-fluid rounded img-zoomin w-100" alt="">
@@ -385,6 +326,7 @@
                         </div>
                         <p class="mt-3 mb-4">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley standard dummy text ever since the 1500s, when an unknown printer took a galley...
                         </p>
+                        <!-- Top Story -->
                         <div class="bg-light p-4 rounded">
                             <div class="news-2">
                                 <h3 class="mb-4">Top Story</h3>
@@ -392,138 +334,53 @@
                             <div class="row g-4 align-items-center">
                                 <div class="col-md-6">
                                     <div class="rounded overflow-hidden">
-                                        <img src="{{ url_for('static', filename='newsers/img/news-2.jpg') }}" class="img-fluid rounded img-zoomin w-100" alt="">
+                                        <img src="{{ story.image }}" class="img-fluid rounded img-zoomin w-100" alt="{{ story.title }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="d-flex flex-column">
-                                        <a href="#" class="h3">Stoneman Clandestine Ukrainian claims successes against Russian.</a>
-                                        <p class="mb-0 fs-5"><i class="fa fa-clock"> 06 minute read</i> </p>
-                                        <p class="mb-0 fs-5"><i class="fa fa-eye"> 3.5k Views</i></p>
+                                        <a href="{{ story.url }}" class="h3">{{ story.title }}</a>
+                                        <p class="mb-2">{{ story.description }}</p>
+                                        <p class="mb-0 fs-5"><i class="fa fa-newspaper"></i> {{ story.source }}</p>
+                                        <p class="mb-0 fs-5"><i class="fa fa-calendar"></i> {{ story.publishedAt|datetime }}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-5 col-xl-4">
-                       <div class="bg-light rounded p-4 pt-0">
-                            <div class="row g-4">
-                                <div class="col-12">
-                                    <div class="rounded overflow-hidden">
-                                        <img src="{{ url_for('static', filename='newsers/img/news-3.jpg') }}" class="img-fluid rounded img-zoomin w-100" alt="">
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="d-flex flex-column">
-                                        <a href="#" class="h4 mb-2">Get the best speak market, news.</a>
-                                        <p class="fs-5 mb-0"><i class="fa fa-clock"> 06 minute read</i> </p>
-                                        <p class="fs-5 mb-0"><i class="fa fa-eye"> 3.5k Views</i></p>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="row g-4 align-items-center">
-                                        <div class="col-5">
-                                            <div class="overflow-hidden rounded">
-                                                <img src="{{ url_for('static', filename='newsers/img/news-3.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="col-7">
-                                            <div class="features-content d-flex flex-column">
-                                                <a href="#" class="h6">Get the best speak market, news.</a>
-                                                <small><i class="fa fa-clock"> 06 minute read</i> </small>
-                                                <small><i class="fa fa-eye"> 3.5k Views</i></small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="row g-4 align-items-center">
-                                        <div class="col-5">
-                                            <div class="overflow-hidden rounded">
-                                                <img src="{{ url_for('static', filename='newsers/img/news-4.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="col-7">
-                                            <div class="features-content d-flex flex-column">
-                                                <a href="#" class="h6">Get the best speak market, news.</a>
-                                                <small><i class="fa fa-clock"> 06 minute read</i> </small>
-                                                <small><i class="fa fa-eye"> 3.5k Views</i></small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="row g-4 align-items-center">
-                                        <div class="col-5">
-                                            <div class="overflow-hidden rounded">
-                                                <img src="{{ url_for('static', filename='newsers/img/news-5.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="col-7">
-                                            <div class="features-content d-flex flex-column">
-                                                <a href="#" class="h6">Get the best speak market, news.</a>
-                                                <small><i class="fa fa-clock"> 06 minute read</i> </small>
-                                                <small><i class="fa fa-eye"> 3.5k Views</i></small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="row g-4 align-items-center">
-                                        <div class="col-5">
-                                            <div class="overflow-hidden rounded">
-                                                <img src="{{ url_for('static', filename='newsers/img/news-6.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="col-7">
-                                            <div class="features-content d-flex flex-column">
-                                                <a href="#" class="h6">Get the best speak market, news.</a>
-                                                <small><i class="fa fa-clock"> 06 minute read</i> </small>
-                                                <small><i class="fa fa-eye"> 3.5k Views</i></small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="row g-4 align-items-center">
-                                        <div class="col-5">
-                                            <div class="overflow-hidden rounded">
-                                                <img src="{{ url_for('static', filename='newsers/img/news-7.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="col-7">
-                                            <div class="features-content d-flex flex-column">
-                                                <a href="#" class="h6">Get the best speak market, news.</a>
-                                                <small><i class="fa fa-clock"> 06 minute read</i> </small>
-                                                <small><i class="fa fa-eye"> 3.5k Views</i></small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="row g-4 align-items-center">
-                                        <div class="col-5">
-                                            <div class="overflow-hidden rounded">
-                                                <img src="{{ url_for('static', filename='newsers/img/news-7.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="col-7">
-                                            <div class="features-content d-flex flex-column">
-                                                <a href="#" class="h6">Get the best speak market, news.</a>
-                                                <small><i class="fa fa-clock"> 06 minute read</i> </small>
-                                                <small><i class="fa fa-eye"> 3.5k Views</i></small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                       </div>
-                    </div>
+                  <!-- News Trending Sideview -->
+<div class="col-lg-5 col-xl-4">
+    <div class="bg-light rounded p-4 pt-0">
+         <div class="row g-4">
+             <div class="col-12">
+                 <h4 class="mb-4">Trending News</h4>
+             </div>
+             {% for article in trending_news %}
+             <div class="col-12">
+                 <div class="row g-4 align-items-center">
+                     <div class="col-5">
+                         <div class="overflow-hidden rounded">
+                             <img src="{{ article.image }}" class="img-zoomin img-fluid rounded w-100" alt="{{ article.source }}">
+                         </div>
+                     </div>
+                     <div class="col-7">
+                         <div class="features-content d-flex flex-column">
+                             <a href="{{ article.url }}" class="h6">{{ article.title }}</a>
+
+                             <small><i class="fas fa-newspaper"></i> {{ article.source }}</small>
+                             <small><i class="fas fa-calendar-alt"></i> {{ article.publishedAt|datetime }}</small>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             {% endfor %}
+         </div>
+    </div>
+ </div>
                 </div>
             </div>
         </div>
         <!-- Main Post Section End -->
-
 
         <!-- Banner Start -->
         <div class="container-fluid py-5 my-5" style="background: linear-gradient(rgba(202, 203, 185, 1), rgba(202, 203, 185, 1));">
@@ -551,7 +408,7 @@
 
 
         <!-- Latest News Start -->
-        <div class="container-fluid latest-news py-5">
+        <!--<div class="container-fluid latest-news py-5">
             <div class="container py-5">
                 <h2 class="mb-4">Latest News</h2>
                 <div class="latest-news-carousel owl-carousel">
@@ -627,11 +484,12 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
         <!-- Latest News End -->
 
 
         <!-- Most Populer News Start -->
+        <!--
         <div class="container-fluid populer-news py-5">
             <div class="container py-5">
                 <div class="tab-class mb-4">
@@ -1350,149 +1208,31 @@
                                         </div>
                                         <h4 class="my-4">Popular News</h4>
                                         <div class="row g-4">
+                                            {% for article in popular_news %}
                                             <div class="col-12">
                                                 <div class="row g-4 align-items-center features-item">
                                                     <div class="col-4">
                                                         <div class="rounded-circle position-relative">
                                                             <div class="overflow-hidden rounded-circle">
-                                                                <img src="{{ url_for('static', filename='newsers/img/features-sports-1.jpg') }}" class="img-zoomin img-fluid rounded-circle w-100" alt="">
+                                                                <img src="{{ article.image }}" class="img-zoomin img-fluid rounded-circle w-100" alt="{{ article.title }}">
                                                             </div>
-                                                            <span class="rounded-circle border border-2 border-white bg-primary btn-sm-square text-white position-absolute" style="top: 10%; right: -10px;">3</span>
+                                                            <span class="rounded-circle border border-2 border-white bg-primary btn-sm-square text-white position-absolute" style="top: 10%; right: -10px;">{{ loop.index }}</span>
                                                         </div>
                                                     </div>
                                                     <div class="col-8">
                                                         <div class="features-content d-flex flex-column">
-                                                            <p class="text-uppercase mb-2">Sports</p>
-                                                            <a href="#" class="h6">
-                                                                Get the best speak market, news.
+                                                            <p class="text-uppercase mb-2">{{ article.source }}</p>
+                                                            <a href="{{ article.url }}" class="h6">
+                                                                {{ article.title }}
                                                             </a>
-                                                            <small class="text-body d-block"><i class="fas fa-calendar-alt me-1"></i> December 9, 2024</small>
+                                                            <small class="text-body d-block"><i class="fas fa-calendar-alt me-1"></i> {{ article.publishedAt|datetime }}</small>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-12">
-                                                <div class="row g-4 align-items-center features-item">
-                                                    <div class="col-4">
-                                                        <div class="rounded-circle position-relative">
-                                                            <div class="overflow-hidden rounded-circle">
-                                                                <img src="{{ url_for('static', filename='newsers/img/features-technology.jpg') }}" class="img-zoomin img-fluid rounded-circle w-100" alt="">
-                                                            </div>
-                                                            <span class="rounded-circle border border-2 border-white bg-primary btn-sm-square text-white position-absolute" style="top: 10%; right: -10px;">3</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-8">
-                                                        <div class="features-content d-flex flex-column">
-                                                            <p class="text-uppercase mb-2">Technology</p>
-                                                            <a href="#" class="h6">
-                                                                Get the best speak market, news.
-                                                            </a>
-                                                            <small class="text-body d-block"><i class="fas fa-calendar-alt me-1"></i> December 9, 2024</small>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="row g-4 align-items-center features-item">
-                                                    <div class="col-4">
-                                                        <div class="rounded-circle position-relative">
-                                                            <div class="overflow-hidden rounded-circle">
-                                                                <img src="{{ url_for('static', filename='newsers/img/features-fashion.jpg') }}" class="img-zoomin img-fluid rounded-circle w-100" alt="">
-                                                            </div>
-                                                            <span class="rounded-circle border border-2 border-white bg-primary btn-sm-square text-white position-absolute" style="top: 10%; right: -10px;">3</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-8">
-                                                        <div class="features-content d-flex flex-column">
-                                                            <p class="text-uppercase mb-2">Fashion</p>
-                                                            <a href="#" class="h6">
-                                                                Get the best speak market, news.
-                                                            </a>
-                                                            <small class="text-body d-block"><i class="fas fa-calendar-alt me-1"></i> December 9, 2024</small>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="row g-4 align-items-center features-item">
-                                                    <div class="col-4">
-                                                        <div class="rounded-circle position-relative">
-                                                            <div class="overflow-hidden rounded-circle">
-                                                                <img src="{{ url_for('static', filename='newsers/img/features-life-style.jpg') }}" class="img-zoomin img-fluid rounded-circle w-100" alt="">
-                                                            </div>
-                                                            <span class="rounded-circle border border-2 border-white bg-primary btn-sm-square text-white position-absolute" style="top: 10%; right: -10px;">3</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-8">
-                                                        <div class="features-content d-flex flex-column">
-                                                            <p class="text-uppercase mb-2">Life Style</p>
-                                                            <a href="#" class="h6">
-                                                                Get the best speak market, news.
-                                                            </a>
-                                                            <small class="text-body d-block"><i class="fas fa-calendar-alt me-1"></i> December 9, 2024</small>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            {% endfor %}
                                             <div class="col-lg-12">
                                                 <a href="#" class="link-hover btn border border-primary rounded-pill text-dark w-100 py-3 mb-4">View More</a>
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <div class="border-bottom my-3 pb-3">
-                                                    <h4 class="mb-0">Trending Tags</h4>
-                                                </div>
-                                                <ul class="nav nav-pills d-inline-flex text-center mb-4">
-                                                    <li class="nav-item mb-3">
-                                                        <a class="d-flex py-2 bg-light rounded-pill me-2" href="#">
-                                                            <span class="text-dark link-hover" style="width: 90px;">Lifestyle</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="nav-item mb-3">
-                                                        <a class="d-flex py-2 bg-light rounded-pill me-2" href="#">
-                                                            <span class="text-dark link-hover" style="width: 90px;">Sports</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="nav-item mb-3">
-                                                        <a class="d-flex py-2 bg-light rounded-pill me-2" href="#">
-                                                            <span class="text-dark link-hover" style="width: 90px;">Politics</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="nav-item mb-3">
-                                                        <a class="d-flex py-2 bg-light rounded-pill me-2" href="#">
-                                                            <span class="text-dark link-hover" style="width: 90px;">Magazine</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="nav-item mb-3">
-                                                        <a class="d-flex py-2 bg-light rounded-pill me-2" href="#">
-                                                            <span class="text-dark link-hover" style="width: 90px;">Game</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="nav-item mb-3">
-                                                        <a class="d-flex py-2 bg-light rounded-pill me-2" href="#">
-                                                            <span class="text-dark link-hover" style="width: 90px;">Movie</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="nav-item mb-3">
-                                                        <a class="d-flex py-2 bg-light rounded-pill me-2" href="#">
-                                                            <span class="text-dark link-hover" style="width: 90px;">Travel</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="nav-item mb-3">
-                                                        <a class="d-flex py-2 bg-light rounded-pill me-2" href="#">
-                                                            <span class="text-dark link-hover" style="width: 90px;">World</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <div class="position-relative banner-2">
-                                                    <img src="{{ url_for('static', filename='newsers/img/banner-2.jpg') }}" class="img-fluid w-100 rounded" alt="">
-                                                    <div class="text-center banner-content-2">
-                                                        <h6 class="mb-2">The Most Populer</h6>
-                                                        <p class="text-white mb-2">News & Magazine WP Theme</p>
-                                                        <a href="#" class="btn btn-primary text-white px-4">Shop Now</a>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1502,10 +1242,206 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->  
         <!-- Most Populer News End -->
 
-
+  <!-- Page sidebar end-->
+  <div class="page-body">
+    <div class="container-fluid">
+      <div class="row page-title">
+        <div class="col-sm-6">
+          <h3>Pricing</h3>
+        </div>
+        <div class="col-sm-6">
+          <nav>
+            <ol class="breadcrumb justify-content-sm-end align-items-center">
+              <li class="breadcrumb-item"> <a href="index.html">
+                  <svg class="svg-color">
+                    <use href="../assets/svg/iconly-sprite.svg#Home"></use>
+                  </svg></a></li>
+              <li class="breadcrumb-item">ECommerce</li>
+              <li class="breadcrumb-item active">Pricing</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <!-- Container-fluid starts-->
+    <div class="container-fluid range-slider">
+      <div class="row">
+        <div class="col-sm-12"> 
+          <div class="card">
+            <div class="card-header pb-0">
+              <h4>Choose Your Plan</h4>
+              <p class="desc mb-0 mt-1">Select the best plan for your news analysis needs</p>
+            </div>
+            <div class="card-body row pricing-block">
+              <div class="col-lg-3 col-md-6">
+                <div class="pricingtable">
+                  <div class="pricingtable-header">
+                    <h4 class="title">Free</h4>
+                  </div>
+                  <div class="price-value"><span class="currency">$</span><span class="amount">0</span><span class="duration">/mo</span></div>
+                  <ul class="pricing-content">
+                    <li>Basic news aggregation</li>
+                    <li>Limited news sources</li>
+                    <li>Basic search</li>
+                    <li>Ad-supported</li>
+                  </ul>
+                  <div class="pricingtable-signup">
+                    <a href="{{ url_for('pricing', plan='free') }}" class="btn btn-primary">Select Plan</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                <div class="pricingtable">
+                  <div class="pricingtable-header">
+                    <h4 class="title">Standard</h4>
+                  </div>
+                  <div class="price-value"><span class="currency">$</span><span class="amount">10</span><span class="duration">/mo</span></div>
+                  <ul class="pricing-content">
+                    <li>Ad-free experience</li>
+                    <li>More news sources</li>
+                    <li>Basic personalization</li>
+                    <li>Limited saved articles</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                <div class="pricingtable">
+                  <div class="pricingtable-header">
+                    <h4 class="title">Premium</h4>
+                  </div>
+                  <div class="price-value"><span class="currency">$</span><span class="amount">20</span><span class="duration">/mo</span></div>
+                  <ul class="pricing-content">
+                    <li>Advanced personalization</li>
+                    <li>Unlimited saved articles</li>
+                    <li>Basic analytics</li>
+                    <li>Email digests</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                <div class="pricingtable">
+                  <div class="pricingtable-header">
+                    <h4 class="title">Professional</h4>
+                  </div>
+                  <div class="price-value"><span class="currency">$</span><span class="amount">35</span><span class="duration">/mo</span></div>
+                  <ul class="pricing-content">
+                    <li>Advanced analytics</li>
+                    <li>API access</li>
+                    <li>Team collaboration</li>
+                    <li>Priority support</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Container-fluid ends-->
+  </div>
+  <style>
+    .pricingtable {
+      background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(13, 110, 253, 0.2);
+      transition: transform 0.3s ease;
+      margin-bottom: 20px;
+    }
+    .pricingtable:hover {
+      transform: translateY(-10px);
+    }
+    .pricingtable-header {
+      background: #fff;
+      border-radius: 15px 15px 0 0;
+      padding: 20px;
+      text-align: center;
+    }
+    .price-value {
+      font-size: 2.5rem;
+      color: #fff;
+      text-align: center;
+      padding: 20px 0;
+    }
+    .pricing-content {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      text-align: center;
+    }
+    .pricing-content li {
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+    .pricingtable-signup {
+      text-align: center;
+      padding: 20px;
+    }
+    .pricingtable-signup a {
+      background: #fff;
+      color: #0d6efd;
+      border-radius: 50px;
+      padding: 10px 30px;
+      transition: background 0.3s ease;
+    }
+    .pricingtable-signup a:hover {
+      background: #0d6efd;
+      color: #fff;
+    }
+    .pricing-simple {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(13, 110, 253, 0.1);
+      transition: transform 0.3s ease;
+    }
+    .pricing-simple:hover {
+      transform: translateY(-10px);
+    }
+    .pricing-simple h3 {
+      color: #0d6efd;
+    }
+    .pricing-simple h2 {
+      color: #333;
+    }
+    .pricing-simple a {
+      background: #0d6efd;
+      color: #fff;
+      border-radius: 50px;
+      padding: 10px 30px;
+      transition: background 0.3s ease;
+    }
+    .pricing-simple a:hover {
+      background: #0a58ca;
+    }
+    .card {
+      border: none;
+      box-shadow: 0 4px 8px rgba(13, 110, 253, 0.1);
+      margin-bottom: 30px;
+    }
+    .card-header {
+      background-color: #f8f9fa;
+      border-bottom: 1px solid #e9ecef;
+    }
+    .card-body {
+      padding: 2rem;
+    }
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const pricingTables = document.querySelectorAll('.pricingtable, .pricing-simple');
+      pricingTables.forEach(table => {
+        table.addEventListener('mouseover', function() {
+          this.style.transform = 'translateY(-10px)';
+        });
+        table.addEventListener('mouseout', function() {
+          this.style.transform = 'translateY(0)';
+        });
+      });
+    });
+  </script>
         <!-- Footer Start -->
         <div class="container-fluid bg-dark footer py-5">
             <div class="container py-5">

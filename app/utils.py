@@ -5,8 +5,25 @@ import cloudinary.uploader
 from cloudinary.utils import cloudinary_url
 from flask import current_app
 
-# from app import app
-def get_weather_data(city):
+def get_ip():
+    response = requests.get('https://api64.ipify.org?format=json').json()
+    return response["ip"]
+
+def get_location():
+    ip_address = get_ip()
+    response = requests.get(f'https://ipapi.co/{ip_address}/json/').json()
+    location_data = {
+        "ip": ip_address,
+        "city": response.get("city"),
+        "region": response.get("region"),
+        "country": response.get("country_name")
+    }
+    return location_data
+
+def get_weather_data():
+    location = get_location()
+    city = location.get("city")
+    
     api_key = current_app.config['WEATHERAPI_KEY']
     base_url = "http://api.weatherapi.com/v1/current.json"
     params = {
@@ -20,11 +37,13 @@ def get_weather_data(city):
         response.raise_for_status()  # Raise an exception for bad responses
         data = response.json()
 
+        current_date = datetime.now()
         weather_data = {
             "temperature": round(data["current"]["temp_c"]),
             "icon_url": f"https:{data['current']['condition']['icon']}",
             "city": data["location"]["name"],
-            "date": datetime.now().strftime("%b %d, %Y")
+            "date": current_date.strftime("%b %d, %Y"),
+            "weekday": current_date.strftime("%A")
         }
 
         return weather_data

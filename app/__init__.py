@@ -5,7 +5,8 @@ from pymongo import MongoClient
 from authlib.integrations.flask_client import OAuth
 from app.utils import NewsAPIClient, datetime_filter
 from flask_mail import Mail
-# from app.recommendation_engine import recommendation_bp
+
+from flask_cors import CORS
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -13,9 +14,11 @@ app.config.from_object('config.Config')
 
 # Initialize extensions
 Session(app)
+
 bcrypt = Bcrypt(app)
 oauth = OAuth(app)
 mail = Mail(app)
+CORS(app)
 
 # Register OAuth client
 oauth.register(
@@ -31,6 +34,7 @@ client = MongoClient(app.config["MONGO_URI"])
 db = client.newser
 collection_user_registration = db.newser_user_registration
 collection_login_credentials = db.newser_login_credentials
+collection_subscriptions=db.newser_subscriptions
 
 # Initialize NewsAPI client within the application context
 with app.app_context():

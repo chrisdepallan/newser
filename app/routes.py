@@ -1,5 +1,5 @@
 from flask import render_template, redirect, url_for, session, request, current_app, flash, jsonify
-from app import app, collection_user_registration, collection_login_credentials, news_api_client
+from app import app, collection_user_registration, collection_login_credentials, news_api_client, collection_subscriptions
 from app.utils import *
 import pyotp
 from werkzeug.utils import secure_filename
@@ -9,14 +9,13 @@ from flask_mail import Message
 from flask import request, jsonify, current_app
 from werkzeug.utils import secure_filename
 from . import app
-# from .auth import get_and_decode_user_password  
 from .recommendation_engine import get_top_story, get_trending_news, get_popular_news
 from .utils import upload_image, setup_cloudinary, get_image_url
 SECRET = 'base32secret3232'
 import stripe
 
 # Set your secret key. Remember to switch to your live secret key in production!
-stripe.api_key = 'your_stripe_secret_key'
+stripe.api_key = 'sk_test_51MiftOSIxs4ZUV5mMRwCJZPY6Sa5xxQjwNW7j3NZ7Z0uAMdOZpfkJ8z5PXEvGURVzOkilzvmrTPVpn8vkZT7embw00HJuQCUXf'
 
 @app.route('/generate-avatar')
 def generate_avatar():
@@ -35,54 +34,25 @@ def generate_avatar():
 
 @app.route("/")
 def hello_world():
-    # print(get_and_decode_user_password('chrisdepallan1@gmail.com'))
-    weather_data = get_weather_data('thrissur')
-    # print(weather_data)
+    weather_data = get_weather_data()
     story = get_top_story()
     trending_news = get_trending_news()
     popular_news = get_popular_news()
-    # print(popular_news)
     
-    return render_template("Newsers/index.html", story=story, trending_news=trending_news, popular_news=popular_news
-                           , weather_data=weather_data
-                           )
+    return render_template("Newsers/index.html", story=story, trending_news=trending_news, popular_news=popular_news, weather_data=weather_data)
+
 @app.route('/news')
 def news():
-    # query = request.args.get('query', 'latest')
-    # news_data = news_api_client.make_request('everything', {'q': query})
-    # # return render_template('Newsers/news.html', news=news_data)
     return render_template('admin/template/search.html')
+
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     if request.method == 'POST':
         query = request.form.get('query')
-        # Fetch search results using the query
         search_results = get_search_results(query)
         return render_template('admin/template/search.html', query=query, search_results=search_results)
     return redirect(url_for('news'))
 
-# def get_search_results(query):
-    # Mock search results or fetch from your source
-    # This is a placeholder. Replace with actual logic to fetch search results.
-    # results = [
-    #     {
-    #         'title': 'PixelStrap - Portfolio | ThemeForest',
-    #         'url': 'https://themeforest.net/user/pixelstrap/portfolio/',
-    #         'description': "2024's Best Selling Creative WP Template. The #1 Source of Premium WP Template! ThemeForest 45,000+ WP Template & Website Templates From $2. Check it Out!",
-    #         'stars': 3,
-    #         'votes': 590,
-    #         'type': 'Template'
-    #     },
-    #     {
-    #         'title': 'PixelStrap - Portfolio | ThemeForest',
-    #         'url': 'https://themeforest.net/user/pixelstrap/portfolio/',
-    #         'description': 'The #1 marketplace for premium website templates, including Template for WordPress, Magento, Drupal, Joomla, and more. Create a website, fast.',
-    #         'stars': 3,
-    #         'votes': 590,
-    #         'type': 'Theme'
-    #     }
-    # ]
-    # return results
 from functools import wraps
 from flask import session, redirect, url_for
 from app.auth import login_manager
@@ -91,7 +61,6 @@ def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if 'user_id' not in session:
-            
             return redirect(url_for('login'))
         return f(*args, **kwargs)
     return decorated_function
@@ -254,57 +223,121 @@ def upload_image_route():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('Newsers/404.html'), 404
-@app.route('/pricing')
-def pricing():
-    plans = {
-        'free': {'name': 'Free', 'price': 0},
-        'standard': {'name': 'Standard', 'price': 10},
-        'premium': {'name': 'Premium', 'price': 20},
-        'professional': {'name': 'Professional', 'price': 35}
-    }
-    return render_template('Newsers/index.html', plans=plans)
+
+@app.route('/temp')
+@login_required
+def temp():
+    return render_template('Newsers/temp.html')
+
 
 @app.route('/create-checkout-session', methods=['POST'])
 def create_checkout_session():
-    plan = request.form.get('plan')
-    
-    # Define your product IDs in Stripe
-    price_ids = {
-        'free': 'price_free_id',
-        'standard': 'price_standard_id',
-        'premium': 'price_premium_id',
-        'professional': 'price_professional_id'
-    }
-    
-    if plan not in price_ids:
-        return jsonify(error="Invalid plan selected"), 400
-    
+    data = request.json
+    amount = int(data.get('amount', 1000))  # Amount in cents
+    user_id = session.get("user_id")  # Assuming you're using Flask-Login
+
     try:
         checkout_session = stripe.checkout.Session.create(
             payment_method_types=['card'],
             line_items=[
                 {
-                    'price': price_ids[plan],
+                    'price_data': {
+                        'currency': 'usd',
+                        'unit_amount': amount,
+                        'product_data': {
+                            'name': 'Custom Payment',
+                        },
+                    },
                     'quantity': 1,
                 },
             ],
-            mode='subscription',
-            success_url=url_for('success', _external=True) + '?session_id={CHECKOUT_SESSION_ID}',
-            cancel_url=url_for('pricing', _external=True),
+            mode='payment',
+            success_url=url_for('payment_success', _external=True) + '?session_id={CHECKOUT_SESSION_ID}',
+            cancel_url=url_for('payment_cancel', _external=True),
         )
-        return redirect(checkout_session.url, code=303)
+        
+        # Insert payment details into collection_subscriptions
+        collection_subscriptions.insert_one({
+            'user_id': user_id,
+            'amount': amount / 100,  # Convert cents to dollars
+            'date': datetime.utcnow(),
+            'session_id': checkout_session.id
+        })
+        
+        return jsonify({'id': checkout_session.id})
     except Exception as e:
         return jsonify(error=str(e)), 403
 
-@app.route('/success')
-def success():
+@app.route('/payment/success')
+def payment_success():
     session_id = request.args.get('session_id')
     if session_id:
-        # Retrieve the session to get more info (optional)
-        checkout_session = stripe.checkout.Session.retrieve(session_id)
-        # Here you can update user's subscription status in your database
-        # For example: update_user_subscription(checkout_session.customer, checkout_session.subscription)
-        flash('Payment successful! Your subscription is now active.', 'success')
-    else:
-        flash('No session ID provided.', 'warning')
-    return redirect(url_for('profile'))
+        # Update the subscription status in the database
+        collection_subscriptions.update_one(
+            {'session_id': session_id},
+            {'$set': {'status': 'completed'}}
+        )
+    return render_template('Newsers/success.html')
+
+@app.route('/payment/cancel')
+def payment_cancel():
+    return render_template('Newsers/cancel.html')
+
+
+@app.route('/payment')
+def payment():
+    # amount = request.args.get('amount')  # Default to 1000 (10.00) if no amount is provided
+    return render_template('Newsers/payment.html')
+# @app.route('/create-checkout-session', methods=['POST'])
+# @login_required
+# def create_checkout_session():
+#     data = request.json
+#     amount = int(data.get('amount', 1000))  # Amount in cents
+#     user_id = session.get("user_id")  # Assuming you're using Flask-Login
+
+#     try:
+#         checkout_session = stripe.checkout.Session.create(
+#             payment_method_types=['card'],
+#             line_items=[
+#                 {
+#                     'price_data': {
+#                         'currency': 'usd',
+#                         'unit_amount': amount,
+#                         'product_data': {
+#                             'name': 'Custom Payment',
+#                         },
+#                     },
+#                     'quantity': 1,
+#                 },
+#             ],
+#             mode='payment',
+#             success_url=url_for('payment_success', _external=True) + '?session_id={CHECKOUT_SESSION_ID}',
+#             cancel_url=url_for('payment_cancel', _external=True),
+#         )
+        
+#         # Insert payment details into newser_subscriptions
+#         newser_subscriptions.insert_one({
+#             'user_id': user_id,
+#             'amount': amount / 100,  # Convert cents to dollars
+#             'date': datetime.utcnow(),
+#             'session_id': checkout_session.id
+#         })
+        
+#         return jsonify({'id': checkout_session.id})
+#     except Exception as e:
+#         return jsonify(error=str(e)), 403
+
+# @app.route('/payment/success')
+# def payment_success():
+#     session_id = request.args.get('session_id')
+#     if session_id:
+#         # Update the subscription status in the database
+#         newser_subscriptions.update_one(
+#             {'session_id': session_id},
+#             {'$set': {'status': 'completed'}}
+#         )
+#     return render_template('Newsers/success.html')
+
+# @app.route('/payment/cancel')
+# def payment_cancel():
+#     return render_template('Newsers/cancel.html')

@@ -5,6 +5,8 @@
 <!-- Mirrored from themewagon.github.io/Newsers/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 02 Jul 2024 15:54:16 GMT -->
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
 <head>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="{{ url_for('static', filename='stripe.js') }}"></script>
     <style>
         .logs {
           cursor: pointer;
@@ -185,7 +187,7 @@
                             </div>
                         {% endif %}
                         <div class="top-link flex-lg-wrap">
-                            <i class="fas fa-calendar-alt text-white border-end border-secondary pe-2 me-2"> <span class="text-body">Tuesday, Sep 12, 2024</span></i>
+                            <i class="fas fa-calendar-alt text-white border-end border-secondary pe-2 me-2"> <span class="text-body">{{weather_data.date}},{{weather_data.weekday}}</span></i>
                             <div class="d-flex icon">
                                 <p class="mb-0 text-white me-2">Follow Us:</p>
                                 <a href="#" class="me-2"><i class="fab fa-facebook-f text-body link-hover"></i></a>
@@ -215,6 +217,7 @@
                                 <a href="/" class="nav-item nav-link active">Home</a>
                                 <a href="/detail-page" class="nav-item nav-link">Detail Page</a>
                                 <a href="/dashboard" class="nav-item nav-link">Dashboard</a>
+                                <a href="/payment" class="nav-item nav-link">pricing</a>
                                 <div class="nav-item dropdown">
                                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Dropdown</a>
                                     <div class="dropdown-menu m-0 bg-secondary rounded-0">
@@ -1245,125 +1248,44 @@
         </div>-->  
         <!-- Most Populer News End -->
 
-  <!-- Page sidebar end-->
-  <div class="page-body">
-    <div class="container-fluid">
-      <div class="row page-title">
-        <div class="col-sm-6">
-          <h3>Pricing</h3>
-        </div>
-        <div class="col-sm-6">
-          <nav>
-            <ol class="breadcrumb justify-content-sm-end align-items-center">
-              <li class="breadcrumb-item"> <a href="index.html">
-                  <svg class="svg-color">
-                    <use href="../assets/svg/iconly-sprite.svg#Home"></use>
-                  </svg></a></li>
-              <li class="breadcrumb-item">ECommerce</li>
-              <li class="breadcrumb-item active">Pricing</li>
-            </ol>
-          </nav>
-        </div>
-      </div>
-    </div>
-    <!-- Container-fluid starts-->
-    <div class="container-fluid range-slider">
-      <div class="row">
-        <div class="col-sm-12"> 
-          <div class="card">
-            <div class="card-header pb-0">
-              <h4>Choose Your Plan</h4>
-              <p class="desc mb-0 mt-1">Select the best plan for your news analysis needs</p>
-            </div>
-            <div class="card-body row pricing-block">
-              <div class="col-lg-3 col-md-6">
-                <div class="pricingtable">
-                  <div class="pricingtable-header">
-                    <h4 class="title">Free</h4>
-                  </div>
-                  <div class="price-value"><span class="currency">$</span><span class="amount">0</span><span class="duration">/mo</span></div>
-                  <ul class="pricing-content">
-                    <li>Basic news aggregation</li>
-                    <li>Limited news sources</li>
-                    <li>Basic search</li>
-                    <li>Ad-supported</li>
-                  </ul>
-                  <div class="pricingtable-signup">
-                    <a href="{{ url_for('pricing', plan='free') }}" class="btn btn-primary">Select Plan</a>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-6">
-                <div class="pricingtable">
-                  <div class="pricingtable-header">
-                    <h4 class="title">Standard</h4>
-                  </div>
-                  <div class="price-value"><span class="currency">$</span><span class="amount">10</span><span class="duration">/mo</span></div>
-                  <ul class="pricing-content">
-                    <li>Ad-free experience</li>
-                    <li>More news sources</li>
-                    <li>Basic personalization</li>
-                    <li>Limited saved articles</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-6">
-                <div class="pricingtable">
-                  <div class="pricingtable-header">
-                    <h4 class="title">Premium</h4>
-                  </div>
-                  <div class="price-value"><span class="currency">$</span><span class="amount">20</span><span class="duration">/mo</span></div>
-                  <ul class="pricing-content">
-                    <li>Advanced personalization</li>
-                    <li>Unlimited saved articles</li>
-                    <li>Basic analytics</li>
-                    <li>Email digests</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-6">
-                <div class="pricingtable">
-                  <div class="pricingtable-header">
-                    <h4 class="title">Professional</h4>
-                  </div>
-                  <div class="price-value"><span class="currency">$</span><span class="amount">35</span><span class="duration">/mo</span></div>
-                  <ul class="pricing-content">
-                    <li>Advanced analytics</li>
-                    <li>API access</li>
-                    <li>Team collaboration</li>
-                    <li>Priority support</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Container-fluid ends-->
-  </div>
+
+  <script>
+    // Initialize Stripe.js with your publishable key
+    
+     </script>
+  <!-- Pricing Section End -->
   <style>
     .pricingtable {
       background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
       border-radius: 15px;
-      box-shadow: 0 4px 8px rgba(13, 110, 253, 0.2);
-      transition: transform 0.3s ease;
+      box-shadow: 0 10px 30px rgba(13, 110, 253, 0.3);
+      transition: all 0.3s ease;
       margin-bottom: 20px;
+      overflow: hidden;
     }
     .pricingtable:hover {
-      transform: translateY(-10px);
+      transform: translateY(-15px);
+      box-shadow: 0 15px 40px rgba(13, 110, 253, 0.4);
     }
     .pricingtable-header {
       background: #fff;
       border-radius: 15px 15px 0 0;
-      padding: 20px;
+      padding: 30px;
       text-align: center;
     }
+    .pricingtable-header h4 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #0d6efd;
+      margin-bottom: 0;
+    }
     .price-value {
-      font-size: 2.5rem;
+      font-size: 3rem;
+      font-weight: 700;
       color: #fff;
       text-align: center;
-      padding: 20px 0;
+      padding: 30px 0;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
     }
     .pricing-content {
       list-style: none;
@@ -1372,76 +1294,79 @@
       text-align: center;
     }
     .pricing-content li {
-      padding: 10px 0;
+      padding: 15px 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.2);
       color: #fff;
+      font-size: 16px;
     }
-    .pricingtable-signup {
-      text-align: center;
-      padding: 20px;
+    .pricing-content li:last-child {
+      border-bottom: none;
     }
-    .pricingtable-signup a {
-      background: #fff;
-      color: #0d6efd;
-      border-radius: 50px;
-      padding: 10px 30px;
-      transition: background 0.3s ease;
+    .pulse-button {
+      animation: pulse 1.5s infinite;
     }
-    .pricingtable-signup a:hover {
-      background: #0d6efd;
-      color: #fff;
-    }
-    .pricing-simple {
-      background: #fff;
-      border-radius: 15px;
-      box-shadow: 0 4px 8px rgba(13, 110, 253, 0.1);
-      transition: transform 0.3s ease;
-    }
-    .pricing-simple:hover {
-      transform: translateY(-10px);
-    }
-    .pricing-simple h3 {
-      color: #0d6efd;
-    }
-    .pricing-simple h2 {
-      color: #333;
-    }
-    .pricing-simple a {
-      background: #0d6efd;
-      color: #fff;
-      border-radius: 50px;
-      padding: 10px 30px;
-      transition: background 0.3s ease;
-    }
-    .pricing-simple a:hover {
-      background: #0a58ca;
-    }
-    .card {
-      border: none;
-      box-shadow: 0 4px 8px rgba(13, 110, 253, 0.1);
-      margin-bottom: 30px;
-    }
-    .card-header {
-      background-color: #f8f9fa;
-      border-bottom: 1px solid #e9ecef;
-    }
-    .card-body {
-      padding: 2rem;
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(13, 110, 253, 0.7);
+      }
+      70% {
+        box-shadow: 0 0 0 10px rgba(13, 110, 253, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(13, 110, 253, 0);
+      }
     }
   </style>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const pricingTables = document.querySelectorAll('.pricingtable, .pricing-simple');
+      const pricingTables = document.querySelectorAll('.pricingtable');
       pricingTables.forEach(table => {
         table.addEventListener('mouseover', function() {
-          this.style.transform = 'translateY(-10px)';
+          this.style.transform = 'translateY(-15px)';
+          this.style.boxShadow = '0 15px 40px rgba(13, 110, 253, 0.4)';
         });
         table.addEventListener('mouseout', function() {
           this.style.transform = 'translateY(0)';
+          this.style.boxShadow = '0 10px 30px rgba(13, 110, 253, 0.3)';
         });
       });
+
+      // Add hover effect to pricing content items
+      const pricingItems = document.querySelectorAll('.pricing-content li');
+      pricingItems.forEach(item => {
+        item.addEventListener('mouseover', function() {
+          this.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+          this.style.transform = 'scale(1.05)';
+          this.style.transition = 'all 0.3s ease';
+        });
+        item.addEventListener('mouseout', function() {
+          this.style.backgroundColor = 'transparent';
+          this.style.transform = 'scale(1)';
+        });
+      });
+
+      // Add animated number counting
+      const priceValues = document.querySelectorAll('.price-value .amount');
+      priceValues.forEach(value => {
+        const finalValue = parseInt(value.textContent);
+        let currentValue = 0;
+        const duration = 1000; // 1 second
+        const interval = 50; // Update every 50ms
+        const steps = duration / interval;
+        const increment = finalValue / steps;
+
+        const counter = setInterval(() => {
+          currentValue += increment;
+          if (currentValue >= finalValue) {
+            clearInterval(counter);
+            currentValue = finalValue;
+          }
+          value.textContent = Math.round(currentValue);
+        }, interval);
+      });
     });
-  </script>
+    
+  </script> 
         <!-- Footer Start -->
         <div class="container-fluid bg-dark footer py-5">
             <div class="container py-5">

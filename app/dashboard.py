@@ -76,10 +76,10 @@ def get_users():
 def users_view():
     return render_template('admin/template/users.html')
 
-@app.route('/temp')
-@login_required
-def temp_view():
-    return render_template('admin/template/temp.html')
+# @app.route('/temp')
+# @login_required
+# def temp_view():
+#     return render_template('admin/template/temp.html')
 
 from bson import ObjectId
 from flask import jsonify
@@ -115,6 +115,11 @@ def unban_user(user_id):
             return jsonify({'error': 'User not found or already active'}), 404
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
+
+
+
 
 @app.route('/add_post', methods=['GET', 'POST'])
 @login_required

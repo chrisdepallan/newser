@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Your Plan</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .pricing-header {
+            background: linear-gradient(45deg, #007bff, #6610f2);
+            color: white;
+            padding: 80px 0;
+            border-radius: 0 0 50% 50% / 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        .pricing-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 10%, transparent 40%);
+            animation: ripple 20s infinite linear;
+        }
+        @keyframes ripple {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+        .service-item {
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+        .service-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #f6f8fa 0%, #f1f3f5 100%);
+            z-index: -1;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+        .service-item:hover::before {
+            opacity: 1;
+        }
+        .service-text {
+            padding: 30px !important;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        .feature-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+            fill: #28a745;
+            transition: transform 0.3s ease;
+        }
+        .service-item:hover .feature-icon {
+            transform: scale(1.2);
+        }
+        .plan-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #ffc107;
+            color: #000;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            transform: rotate(45deg) translate(22%, -50%) scale(0);
+            width: 150px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .service-item:hover .plan-badge {
+            transform: rotate(45deg) translate(22%, -50%) scale(1);
+        }
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-shapes">
+        <svg class="shape" style="top: 10%; left: 5%;" width="50" height="50" viewBox="0 0 200 200">
+            <circle cx="100" cy="100" r="80" fill="#007bff" />
+        </svg>
+        <svg class="shape" style="top: 60%; right: 10%;" width="70" height="70" viewBox="0 0 200 200">
+            <rect width="150" height="150" x="25" y="25" fill="#6610f2" />
+        </svg>
+    </div>
+
+    <!-- Pricing Header -->
+    <div class="pricing-header text-center">
+        <h1 class="display-4 fw-bold">Choose Your Plan</h1>
+        <p class="fs-5 text-white-50">Select the best plan for your news analysis needs</p>
+    </div>
+
+    <!-- Pricing Section -->
+    <div class="container py-5">
+        <div class="row g-4 justify-content-center">
+            <!-- Free Plan -->
+            <div class="col-lg-3 col-md-6">
+                <div class="service-item bg-white h-100">
+                    <div class="service-text position-relative text-center h-100 p-4">
+                        <h5 class="mb-3">Free</h5>
+                        <h1 class="mb-3">$0<small class="fs-5 fw-normal">/mo</small></h1>
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-2"><svg class="feature-icon" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>Basic news aggregation</li>
+                            <li class="mb-2"><svg class="feature-icon" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>Limited news sources</li>
+                            <li class="mb-2"><svg class="feature-icon" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>Basic search</li>
+                            <li class="mb-2"><svg class="feature-icon" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>Ad-supported</li>
+                        </ul>
+                        <button class="btn btn-outline-primary w-100" disabled>Current Plan</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Standard Plan -->
+            <div class="col-lg-3 col-md-6">
+                <div class="service-item bg-white h-100">
+                    <div class="service-text position-relative text-center h-100 p-4">
+                        <h5 class="mb-3">Standard</h5>
+                        <h1 class="mb-3">$10<small class="fs-5 fw-normal">/mo</small></h1>
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-2"><svg class="feature-icon" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>Ad-free experience</li>
+                            <li class="mb-2"><svg class="feature-icon" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>More news sources</li>
+                            <li class="mb-2"><svg class="feature-icon" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>Basic personalization</li>
+                            <li class="mb-2"><svg class="feature-icon" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>Limited saved articles</li>
+                        </ul>
+                        <button class="btn btn-primary w-100 pay-button" data-amount="1000">Select Plan</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Premium Plan -->
+            <div class="col-lg-3 col-md-6">
+                <div class="service-item bg-white h-100">
+                    <div class="service-text position-relative text-center h-100 p-4">
+                        <div class="plan-badge">Most Popular</div>
+                        <h5 class="mb-3">Premium</h5>
+                        <h1 class="mb-3">$20<small class="fs-5 fw-normal">/mo</small></h1>
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-2"><svg class="feature-icon" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>Advanced personalization</li>
+                            <li class="mb-2"><svg class="feature-icon" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>Unlimited saved articles</li>
+                            <li class="mb-2"><svg class="feature-icon" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>Basic analytics</li>
+                            <li class="mb-2"><svg class="feature-icon" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>Email digests</li>
+                        </ul>
+                        <button class="btn btn-primary w-100 pay-button" data-amount="2000">Select Plan</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Professional Plan -->
+            <div class="col-lg-3 col-md-6">
+                <div class="service-item bg-white h-100">
+                    <div class="service-text position-relative text-center h-100 p-4">
+                        <h5 class="mb-3">Professional</h5>
+                        <h1 class="mb-3">$35<small class="fs-5 fw-normal">/mo</small></h1>
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-2"><svg class="feature-icon" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>Advanced analytics</li>
+                            <li class="mb-2"><svg class="feature-icon" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>API access</li>
+                            <li class="mb-2"><svg class="feature-icon" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>Team collaboration</li>
+                            <li class="mb-2"><svg class="feature-icon" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>Priority support</li>
+                        </ul>
+                        <button class="btn btn-primary w-100 pay-button" data-amount="3500">Select Plan</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Stripe.js with your publishable key
+        var stripe = Stripe('pk_test_51MiftOSIxs4ZUV5mGY682okBEOestzsBy3szXWnqNdROwoL6id38RCfiYaUcSsspTDjn78brHkgFcZ6qGAhRwd8Y00ImtcmHeK');
+
+        function handlePayment(event) {
+            var button = event.target;
+            var amount = button.getAttribute('data-amount');
+            
+            // Disable button and show loading state
+            button.disabled = true;
+            button.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...';
+
+            fetch('/create-checkout-session', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({amount: amount})
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(session) {
+                return stripe.redirectToCheckout({ sessionId: session.id });
+            })
+            .then(function(result) {
+                if (result.error) {
+                    throw new Error(result.error.message);
+                }
+            })
+            .catch(function(error) {
+                console.error('Error:', error);
+                alert('An error occurred: ' + error.message);
+                // Reset button state
+                button.disabled = false;
+                button.innerHTML = 'Select Plan';
+            });
+        }
+
+        document.querySelectorAll('.pay-button').forEach(function(button) {
+            button.addEventListener('click', handlePayment);
+        });
+
+        // Enhanced animations
+        gsap.from('.service-item', {
+            duration: 1,
+            y: 50,
+            opacity: 0,
+            stagger: 0.2,
+            ease: 'power3.out'
+        });
+
+        gsap.from('.pricing-header h1, .pricing-header p', {
+            duration: 1,
+            y: -50,
+            opacity: 0,
+            stagger: 0.3,
+            ease: 'power3.out'
+        });
+
+        // Floating shapes animation
+        gsap.to('.shape', {
+            duration: 10,
+            x: 'random(-100, 100)',
+            y: 'random(-100, 100)',
+            rotation: 'random(-180, 180)',
+            repeat: -1,
+            yoyo: true,
+            ease: 'none',
+            stagger: {
+                each: 0.5,
+                from: 'random'
+            }
+        });
+
+        // Interactive hover effects
+        document.querySelectorAll('.service-item').forEach(function(item) {
+            item.addEventListener('mouseenter', function() {
+                gsap.to(this, {duration: 0.3, y: -10, boxShadow: '0 15px 30px rgba(0,0,0,0.2)'});
+                gsap.to(this.querySelectorAll('.feature-icon'), {duration: 0.3, scale: 1.2, stagger: 0.1});
+            });
+            item.addEventListener('mouseleave', function() {
+                gsap.to(this, {duration: 0.3, y: 0, boxShadow: '0 5px 15px rgba(0,0,0,0.1)'});
+                gsap.to(this.querySelectorAll('.feature-icon'), {duration: 0.3, scale: 1});
+            });
+        });
+    </script>
+</body>
+</html>

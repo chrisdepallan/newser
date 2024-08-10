@@ -11,9 +11,11 @@ class LoginManager:
         self.collection_user_registration = collection_user_registration
         self.collection_login_credentials = collection_login_credentials
 
+ 
     def google_login(self):
         return self.oauth.myApp.authorize_redirect(redirect_uri=url_for("newser_signin_google", _external=True))
 
+ 
     def newser_signin_google(self):
         try:
             token = self.oauth.myApp.authorize_access_token()
@@ -67,6 +69,7 @@ class LoginManager:
 
         return redirect(url_for("hello_world"))
 
+ 
     def register(self):
         if request.method == 'POST':
             full_name = request.form.get('fullName')
@@ -108,6 +111,7 @@ class LoginManager:
             return redirect(url_for('hello_world'))
         return render_template("login/register.html")
 
+ 
     def login(self):
         # Run get_and_decode_user_password for debugging purposes
         
@@ -132,14 +136,17 @@ class LoginManager:
                     if user_details['avatar'] is not None:
                         session['avatar'] = user_details['avatar']
                     
-                return redirect(url_for('newser'))
+                return redirect(url_for('hello_world'))
             else:
                 return jsonify({'error': 'Invalid email or password'}), 401
         return render_template("login/index.html")
+    
+ 
     def logout(self):
         session.clear()
         return redirect(url_for('hello_world'))    
 
+ 
     def check_email(self):
         email = request.args.get('email')
         existing_user = self.collection_login_credentials.find_one({'email': email})
@@ -154,24 +161,30 @@ login_manager = LoginManager(app, bcrypt, oauth, collection_user_registration, c
 
 
 @app.route("/google_login")
+
 def google_login():
     return login_manager.google_login()
 
 @app.route("/newser-signin-google")
+
 def newser_signin_google():
     return login_manager.newser_signin_google()
 @app.route('/logout')
+
 def logout():
     return login_manager.logout()
 
 @app.route('/register', methods=['GET', 'POST'])
+
 def register():
     return login_manager.register()
 
 @app.route('/login', methods=['POST', 'GET'])
+
 def login():
     return login_manager.login()
 
 @app.route('/check-email')
+
 def check_email():
     return login_manager.check_email()

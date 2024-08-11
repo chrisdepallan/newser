@@ -9,7 +9,7 @@ from flask_mail import Mail
 from flask_cors import CORS
 
 # Initialize Flask app
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates')
 app.config.from_object('config.Config')
 
 # Initialize extensions

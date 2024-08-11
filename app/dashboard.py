@@ -139,33 +139,6 @@ def add_role():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@app.route('/add_post', methods=['GET', 'POST'])
-@login_required
-def add_post():
-    if request.method == 'POST':
-        # Handle the POST request to save the new post
-        title = request.form.get('title')
-        content = request.form.get('content')
-        category = request.form.getlist('category')  # Assuming multiple categories can be selected
-        post_type = request.form.get('post_type')
-        
-        # Here you would typically save this data to your database
-        # For example:
-        # new_post = {
-        #     'title': title,
-        #     'content': content,
-        #     'category': category,
-        #     'type': post_type,
-        #     'author_id': session['user_id'],
-        #     'created_at': datetime.now()
-        # }
-        # collection_posts.insert_one(new_post)
-        
-        # After saving, redirect to a success page or back to the post list
-        return redirect(url_for('dashboard_view'))
-    
-    # If it's a GET request, just render the add_post template
-    return render_template('admin/template/add_post.html')
 
 @app.route('/remove_role', methods=['POST'])
 @login_required

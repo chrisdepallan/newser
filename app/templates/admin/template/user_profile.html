@@ -1,26 +1,25 @@
-
-  <!DOCTYPE html>
-  <html lang="en">
-    {% include 'admin/template/head.html' %}
-  <body>
-      <!-- tap to top-->
-      <div class="tap-top">
-        <svg class="feather">
-          <use href="{{ url_for('static', filename='admin/assets/svg/feather-icons/dist/feather-sprite.svg') }}#arrow-up"></use>
-        </svg>
-      </div>
-      <!-- loader-->
-      <div class="loader-wrapper">
-        <div class="loader"></div>
-      </div>
-      <main class="page-wrapper compact-wrapper" id="pageWrapper">
-        <!-- Page header start -->
-        {% include 'admin/template/header.html' %}
-        <!-- Page header end-->
-        <div class="page-body-wrapper">
-          <!-- Page sidebar start-->
-          <div class="overlay"></div>
-          {% include 'admin/template/aside.html' %}
+<!DOCTYPE html>
+<html lang="en">
+  {% include 'admin/template/head.html' %}
+<body>
+    <!-- tap to top-->
+    <div class="tap-top">
+      <svg class="feather">
+        <use href="{{ url_for('static', filename='admin/assets/svg/feather-icons/dist/feather-sprite.svg') }}#arrow-up"></use>
+      </svg>
+    </div>
+    <!-- loader-->
+    <div class="loader-wrapper">
+      <div class="loader"></div>
+    </div>
+    <main class="page-wrapper compact-wrapper" id="pageWrapper">
+      <!-- Page header start -->
+      {% include 'admin/template/header.html' %}
+      <!-- Page header end-->
+      <div class="page-body-wrapper">
+        <!-- Page sidebar start-->
+        <div class="overlay"></div>
+        {% include 'admin/template/aside.html' %}
        <!-- Page sidebar end-->
        <div class="page-body">
         <div class="container-fluid">
@@ -98,7 +97,8 @@
             </div>
           </div>
         </div>
-      </div>             <div class="social-media">
+      </div>            
+      <div class="social-media">
                     <ul class="list-inline">
                       <li class="list-inline-item"><a href="https://www.facebook.com/" target="_blank"><i class="fa-brands fa-facebook-f"></i></a></li>
                       <li class="list-inline-item"><a href="https://accounts.google.com/" target="_blank"><i class="fa-brands fa-google-plus-g"></i></a></li>
@@ -120,155 +120,45 @@
                 </div>
               </div>
             </div>
+        
+          </div>
+        </div>
+        
+        <!-- User Posts here-->
+        <div class="container-fluid">
+          <div class="row">
             <div class="col-sm-12">
               <div class="card">
-                <div class="profile-img-style">
-                  <div class="row">
-                    <div class="col-sm-8">
-                      <div class="d-flex"><img class="img-thumbnail rounded-circle me-3" src="../assets/images/user/1.jpg" alt="Generic placeholder image">
-                        <div class="flex-grow-1 align-self-center">
-                          <h5 class="mt-0 user-name">JOHAN DIO</h5>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-sm-4 align-self-center">
-                      <div class="float-sm-end"><small class="font-light">10 Hours ago</small></div>
-                    </div>
-                  </div>
-                  <hr>
-                  <p>Success isn't about the end result, it's about what you learn along the way. Confidence. If you have it, you can make anything look good. Grunge is a hippied romantic version of punk. I'm an accomplice to helping women get what they want. Clothes can transform your mood and confidence. </p>
-                  <div class="img-container">
-                    <div class="my-gallery" id="aniimated-thumbnials" itemscope="">
-                      <figure itemprop="associatedMedia" itemscope=""><a href="../assets/images/other-images/profile-style-img3.png" data-pswp-width="1875" data-pswp-height="2500" target="_blank"><img class="img-fluid rounded" src="../assets/images/other-images/profile-style-img3.png" itemprop="thumbnail" alt="gallery"></a>
-                        <figcaption itemprop="caption description">Image caption  1</figcaption>
-                      </figure>
-                    </div>
-                  </div>
-                  <div class="like-comment">
-                    <ul class="list-inline">
-                      <li class="list-inline-item border-right pe-3">
-                        <label class="m-0"><a href="#"><i class="fa fa-heart"></i></a>  Like</label><span class="ms-2 counter" id="count2">2659</span>
-                      </li>
-                      <li class="list-inline-item ms-2">
-                        <label class="m-0"><a href="#"><i class="fa fa-comment"></i></a>  Comment</label><span class="ms-2 counter" id="count3">569</span>
-                      </li>
-                    </ul>
-                  </div>
+                <div class="card-header">
+                  <h5>User Posts</h5>
                 </div>
-              </div>
-            </div>
-            <div class="col-sm-12">
-              <div class="card">
-                <div class="profile-img-style">
-                  <div class="row">
-                    <div class="col-sm-8">
-                      <div class="d-flex"><img class="img-thumbnail rounded-circle me-3" src="../assets/images/avatar/3.jpg" alt="Generic placeholder image">
-                        <div class="flex-grow-1 align-self-center">
-                          <h5 class="mt-0 user-name">JOHAN DIO</h5>
+                <div class="card-body">
+                  {% if posts %}
+                    <div class="row">
+                      {% for post in posts %}
+                        <div class="col-md-6 col-lg-4 mb-4">
+                          <div class="card h-100">
+                            {% if post.image_url %}
+                              <img src="{{ post.image_url }}" class="card-img-top" alt="{{ post.title }}">
+                            {% endif %}
+                            <div class="card-body">
+                              <h5 class="card-title">{{ post.title }}</h5>
+                              <p class="card-text">{{ post.content[:100] | safe }}...</p>
+                              <p class="card-text"><small class="text-muted">{{ post.created_at | safe }}</small></p>
+                              <a href="{{ url_for('view_article', article_id=post._id) }}" class="btn btn-primary">Read More</a>
+                            </div>
+                          </div>
                         </div>
-                      </div>
+                      {% endfor %}
                     </div>
-                    <div class="col-sm-4 align-self-center">
-                      <div class="float-sm-end"><small class="font-light">10 Hours ago</small></div>
-                    </div>
-                  </div>
-                  <hr>
-                  <p>Dressing is a way of life. My customers are successful working women. I want people to be afraid of the women I dress. Age is something only in your head or a stereotype. Age means nothing when you are passionate about something.</p>
-                  <div class="row mt-4 pictures my-gallery img-2" id="aniimated-thumbnials-2" itemscope="">
-                    <figure class="col-sm-6" itemprop="associatedMedia" itemscope=""><a href="../assets/images/other-images/profile-style-img.png" data-pswp-width="1875" data-pswp-height="2500" target="_blank"><img class="img-fluid rounded" src="../assets/images/other-images/profile-style-img.png" itemprop="thumbnail" alt="gallery"></a>
-                      <figcaption itemprop="caption description">Image caption  1</figcaption>
-                    </figure>
-                    <figure class="col-sm-6" itemprop="associatedMedia" itemscope=""><a href="../assets/images/other-images/profile-style-img.png" data-pswp-width="1875" data-pswp-height="2500" target="_blank"><img class="img-fluid rounded" src="../assets/images/other-images/profile-style-img.png" itemprop="thumbnail" alt="gallery"></a>
-                      <figcaption itemprop="caption description">Image caption  2</figcaption>
-                    </figure>
-                  </div>
-                  <div class="like-comment">
-                    <ul class="list-inline">
-                      <li class="list-inline-item border-right pe-3">
-                        <label class="m-0"><a href="#"><i class="fa fa-heart"></i></a>  Like</label><span class="ms-2 counter" id="count6">2659</span>
-                      </li>
-                      <li class="list-inline-item ms-2">
-                        <label class="m-0"><a href="#"><i class="fa fa-comment"></i></a>  Comment</label><span class="ms-2 counter" id="count7">569</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-12">
-              <div class="card">
-                <div class="profile-img-style">
-                  <div class="row">
-                    <div class="col-sm-8">
-                      <div class="d-flex"><img class="img-thumbnail rounded-circle me-3" src="{{ user.avatar}} " alt="Generic placeholder image">
-                        <div class="flex-grow-1 align-self-center">
-                          <h5 class="mt-0 user-name">{{ user.full_name }}</h5>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-sm-4 align-self-center">
-                      <div class="float-sm-end"><small class="font-light">10 Hours ago</small></div>
-                    </div>
-                  </div>
-                  <hr>
-                  <p>Comfort is very important to me. I think people live better in big houses and in big clothes. Design and style should work toward making you look good and feel good without a lot of effort so you can get on with the things that matter. My shows are about the complete woman who swallows it all. Its a question of survival. Those fashion designers are just crazy; but arent we all? You can only go forward by making mistakes.</p>
-                  <div class="like-comment mt-4">
-                    <ul class="list-inline">
-                      <li class="list-inline-item border-right pe-3">
-                        <label class="m-0"><a href="#"><i class="fa fa-heart"></i></a>  Like</label><span class="ms-2 counter" id="count8">2659</span>
-                      </li>
-                      <li class="list-inline-item ms-2">
-                        <label class="m-0"><a href="#"><i class="fa fa-comment"></i></a>  Comment</label><span class="ms-2 counter" id="count9">569</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-12">
-              <div class="card">
-                <div class="profile-img-style">
-                  <div class="row">
-                    <div class="col-sm-8">
-                      <div class="d-flex"><img class="img-thumbnail rounded-circle me-3" src="../assets/images/avatar/4.jpg" alt="Generic placeholder image">
-                        <div class="flex-grow-1 align-self-center">
-                          <h5 class="mt-0 user-name">JOHAN DIO</h5>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-sm-4 align-self-center">
-                      <div class="float-sm-end"><small class="font-light">10 Hours ago</small></div>
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-lg-12 col-xl-4">
-                      <div class="my-gallery" id="aniimated-thumbnials-3" itemscope="">
-                        <figure itemprop="associatedMedia" itemscope=""><a href="../assets/images/blog/img.png" data-pswp-width="1875" data-pswp-height="2500" target="_blank"><img class="img-fluid rounded" src="../assets/images/blog/img.png" itemprop="thumbnail" alt="gallery"></a>
-                          <figcaption itemprop="caption description">Image caption  1</figcaption>
-                        </figure>
-                      </div>
-                      <div class="like-comment mt-4 like-comment-sm-mb">
-                        <ul class="list-inline">
-                          <li class="list-inline-item border-right pe-3">
-                            <label class="m-0"><a href="#"><i class="fa fa-heart"></i></a>  Like</label><span class="ms-2 counter" id="count10">2659</span>
-                          </li>
-                          <li class="list-inline-item ms-2">
-                            <label class="m-0"><a href="#"><i class="fa fa-comment"></i></a>  Comment</label><span class="ms-2 counter" id="count11">569</span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="col-xl-6">
-                      <p>Success isn't about the end result, it's about what you learn along the way. Confidence. If you have it, you can make anything look good. Grunge is a hippied romantic version of punk. I'm an accomplice to helping women get what they want. Clothes can transform your mood and confidence. I think it's an old fashioned notion that fashion needs to be exclusive to be fashionable.</p>
-                    </div>
-                  </div>
+                  {% else %}
+                    <p>This user hasn't posted any articles yet.</p>
+                  {% endif %}
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <!-- Container-fluid ends-->
       </div>
       {% include 'admin/template/footer.html' %}
       </div>

@@ -1,11 +1,11 @@
 from flask import Blueprint, render_template, session, redirect, url_for,request
 from flask import jsonify
-from app import collection_user_registration
+from app import collection_user_registration,collection_articles,collection_login_credentials
 from app.utils import get_weather_data
 from functools import wraps
 from . import app
 from bson import ObjectId
-
+from .utils import get_image_url
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -167,7 +167,7 @@ def remove_role():
 def user_profile(user_id):
     # Fetch user data from the database
     user = collection_user_registration.find_one({'_id': ObjectId(user_id)})
-    
+   
     if user:
         # Convert ObjectId to string for JSON serialization
         user['_id'] = str(user['_id'])
@@ -183,7 +183,24 @@ def user_profile(user_id):
                 user['age'] = 'N/A'
         else:
             user['age'] = 'N/A'
-        
-        return render_template('admin/template/user_profile.html', user=user)
+
+        # Fetch login credentials to get the author_id
+        login_credentials = collection_login_credentials.find_one({'registration_id': ObjectId(user_id)})
+        if login_credentials:
+            author_id = login_credentials['_id']
+            
+            # Fetch user's posts using the author_id from login credentials
+            user_posts = list(collection_articles.find({'author_id': author_id}).sort('created_at', -1))
+            
+            # Process posts to add image_url and format dates
+            for post in user_posts:
+                post['_id'] = str(post['_id'])
+                if 'image_public_id' in post:
+                    post['image_url'] = get_image_url(post['image_public_id'])
+                post['created_at'] = post['created_at'].strftime('%B %d, %Y')
+            
+            return render_template('admin/template/user_profile.html', user=user, posts=user_posts)
+        else:
+            return "User login credentials not found", 404
     else:
         return "User not found", 404

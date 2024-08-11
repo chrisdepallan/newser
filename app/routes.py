@@ -68,8 +68,15 @@ def login_required(f):
 @app.route("/profile")
 @login_required
 def profile():
+    user_id = session.get('user_id')
+    user = collection_user_registration.find_one({'_id': user_id})
+    
+    if not user:
+        flash('User not found', 'error')
+        return redirect(url_for('home'))
+    
     weather_data = session.get('weather_data', {})
-    return render_template("Newsers/profile.html", weather_data=weather_data)
+    return render_template("admin/template/user_profile.html", user=user, weather_data=weather_data)
 
 @app.route("/edit_profile", methods=['GET', 'POST'])
 @login_required
@@ -287,8 +294,7 @@ def payment_cancel():
 @app.route('/payment')
 def payment():
     # amount = request.args.get('amount')  # Default to 1000 (10.00) if no amount is provided
-    return render_template('Newsers/payment.html')
-# @app.route('/create-checkout-session', methods=['POST'])
+    return render_template('Newsers/payment.html')# @app.route('/create-checkout-session', methods=['POST'])
 # @login_required
 # def create_checkout_session():
 #     data = request.json

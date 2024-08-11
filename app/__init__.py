@@ -35,7 +35,7 @@ db = client.newser
 collection_user_registration = db.newser_user_registration
 collection_login_credentials = db.newser_login_credentials
 collection_subscriptions=db.newser_subscriptions
-
+collection_articles=db.newser_articles
 # Initialize NewsAPI client within the application context
 with app.app_context():
     news_api_client = NewsAPIClient(app.config['NEWSAPI_KEYS'])
@@ -44,6 +44,6 @@ with app.app_context():
 app.jinja_env.filters['datetime'] = datetime_filter
 
 # Import routes
-from app import routes, auth,utils,dashboard
+from app import routes, auth,utils,dashboard,user
 # Register recommendation_engine blueprint
 # app.register_blueprint(recommendation_bp)

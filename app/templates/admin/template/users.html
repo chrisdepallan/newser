@@ -1557,7 +1557,29 @@
           </div>
           <!-- Container-fluid ends-->
         </div>
-
+        <div class="modal fade" id="roleModal" tabindex="-1" aria-labelledby="roleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="roleModalLabel">Add Role</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <select id="roleSelect" class="form-select">
+                  <option value="">Select a role</option>
+                  <option value="normal_user">Normal User</option>
+                  <option value="moderator">Moderator</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="saveRole()">Save Role</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
         <footer class="footer"> 
           <div class="container-fluid">
             <div class="row"> 
@@ -1623,25 +1645,62 @@ function loadUsers(page) {
             <div class="social-details">
                 <h4 class="mb-1"><a class="f-20" href="#">${user.full_name}</a></h4>
                 <ul class="card-social">
-                    <li><i class="fa fa-phone"></i> ${user.phone_number || 'N/A'}</li>
-                    <li><i class="fa fa-map-marker"></i> ${user.address || 'N/A'}</li>
-                    <li><i class="fa fa-calendar"></i> ${user.age || 'N/A'}</li>
+                                       <li>
+                        <svg class="feather me-1">
+                            <use href="{{ url_for('static', filename='admin/assets/svg/feather-icons/dist/feather-sprite.svg') }}#phone"></use>
+                        </svg>
+                        ${user.phone_number || 'N/A'}
+                    </li>
+                    <li>
+                        <svg class="feather me-1">
+                            <use href="{{ url_for('static', filename='admin/assets/svg/feather-icons/dist/feather-sprite.svg') }}#map-pin"></use>
+                        </svg>
+                        ${user.address || 'N/A'}
+                    </li>
+                    <li>
+                        <svg class="feather me-1">
+                            <use href="{{ url_for('static', filename='admin/assets/svg/feather-icons/dist/feather-sprite.svg') }}#calendar"></use>
+                        </svg>
+                        ${user.age || 'N/A'}
+                    </li>
                 </ul>
+                <div class="mt-2 mb-2">
+                    ${user.roles.map(role => `
+                        <span class="badge bg-${getRoleColor(role)} me-1">
+                            ${role}
+                            <button class="btn-close btn-close-white btn-sm ms-1" 
+                                onclick="removeRole('${user._id}', '${role}')" 
+                                aria-label="Remove ${role} role"></button>
+                        </span>
+                    `).join('')}
+                </div>
                 <div class="mt-3">
                     <button class="btn btn-primary btn-sm me-2" onclick="visitProfile('${user._id}')">
-                        <i class="fa fa-user"></i> Profile
+                        <svg class="feather me-1">
+                            <use href="{{ url_for('static', filename='admin/assets/svg/feather-icons/dist/feather-sprite.svg') }}#user"></use>
+                        </svg>
+                        Profile
                     </button>
                     <button class="btn btn-warning btn-sm me-2" onclick="addRoles('${user._id}')">
-                        <i class="fa fa-user-tag"></i> Roles
+                        <svg class="feather me-1">
+                            <use href="{{ url_for('static', filename='admin/assets/svg/feather-icons/dist/feather-sprite.svg') }}#users"></use>
+                        </svg>
+                        Roles
                     </button>
                    ${user.status === 'banned' 
                         ? `<button class="btn btn-success btn-sm" onclick="unbanUser('${user._id}')">
-                             <i class="fa fa-user-check"></i> Unban
+                             <svg class="feather me-1">
+                                 <use href="{{ url_for('static', filename='admin/assets/svg/feather-icons/dist/feather-sprite.svg') }}#user-check"></use>
+                             </svg>
+                             Unban
                            </button>`
                         : `<button class="btn btn-danger btn-sm" onclick="banUser('${user._id}')">
-                             <i class="fa fa-ban"></i> Ban
+                             <svg class="feather me-1">
+                                 <use href="{{ url_for('static', filename='admin/assets/svg/feather-icons/dist/feather-sprite.svg') }}#user-x"></use>
+                             </svg>
+                             Ban
                            </button>`
-                    }
+                    } }
                 </div>
             </div>
         </div>
@@ -1656,6 +1715,18 @@ function loadUsers(page) {
             console.error('Error loading users:', error);
         }
     });
+}
+function getRoleColor(role) {
+  switch (role.toLowerCase()) {
+      case 'admin':
+          return 'danger';
+      case 'moderator':
+          return 'warning';
+      case 'normal_user':
+          return 'info';
+      default:
+          return 'secondary';
+  }
 }
 
 function updatePagination(currentPage, totalPages) {
@@ -1740,9 +1811,60 @@ function unbanUser(userId) {
       });
   }
 }
+let currentUserId;
+
+function addRoles(userId) {
+  currentUserId = userId;
+  $('#roleModal').modal('show');
+}
+
+function saveRole() {
+  const selectedRole = $('#roleSelect').val();
+  if (!selectedRole) {
+    alert('Please select a role');
+    return;
+  }
+
+  $.ajax({
+    url: '/add_role',
+    method: 'POST',
+    data: JSON.stringify({ user_id: currentUserId, role: selectedRole }),
+    contentType: 'application/json',
+    success: function(response) {
+      alert('Role added successfully');
+      $('#roleModal').modal('hide');
+      loadUsers(currentPage); // Reload the current page to reflect changes
+    },
+    error: function(error) {
+      console.error('Error adding role:', error);
+      alert('Failed to add role');
+    }
+  });
+}
+
+function removeRole(userId, role) {
+    if (confirm(`Are you sure you want to remove the ${role} role from this user?`)) {
+        $.ajax({
+            url: '/remove_role',
+            method: 'POST',
+            data: JSON.stringify({ user_id: userId, role: role }),
+            contentType: 'application/json',
+            success: function(response) {
+                alert('Role removed successfully');
+                loadUsers(currentPage); // Reload the current page to reflect changes
+            },
+            error: function(error) {
+                console.error('Error removing role:', error);
+                alert('Failed to remove role');
+            }
+        });
+    }
+}
+
 $(document).ready(function() {
     loadUsers(currentPage);
 });
+
 </script>
 </body>
 </html>

@@ -38,27 +38,27 @@ def get_users():
         'phone_number': 1,
         'address': 1,
         'dob': 1,
-        'status': 1
+        'status': 1,
+        'newser_user_roles': 1  # Include the roles field
     }).skip(skip).limit(per_page))
 
     for user in users:
         user['_id'] = str(user['_id'])
         # Convert DOB to age
         if user['dob']:
-            print(user['dob'])
             try:
                 dob = datetime.strptime(user['dob'], '%Y-%m-%d')
                 today = datetime.now()
-
-                # print(int(today.year)-int(dob.year))
-               
                 age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
-                print(age)
                 user['age'] = age
             except ValueError:
                 user['age'] = 'N/A'
         else:
             user['age'] = 'N/A'
+        
+        # Rename 'newser_user_roles' to 'roles' for frontend consistency
+        user['roles'] = user.pop('newser_user_roles', [])
+        
         # Remove the 'dob' field as we no longer need it
         user.pop('dob', None)
 
@@ -116,10 +116,28 @@ def unban_user(user_id):
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/add_role', methods=['POST'])
+@login_required
+def add_role():
+    data = request.json
+    user_id = data.get('user_id')
+    role = data.get('role')
 
+    if not user_id or not role:
+        return jsonify({'error': 'Missing user_id or role'}), 400
 
+    try:
+        result = collection_user_registration.update_one(
+            {'_id': ObjectId(user_id)},
+            {'$addToSet': {'newser_user_roles': role}}
+        )
 
-
+        if result.modified_count > 0:
+            return jsonify({'message': 'Role added successfully'}), 200
+        else:
+            return jsonify({'error': 'User not found or role already assigned'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/add_post', methods=['GET', 'POST'])
 @login_required
@@ -148,3 +166,51 @@ def add_post():
     
     # If it's a GET request, just render the add_post template
     return render_template('admin/template/add_post.html')
+
+@app.route('/remove_role', methods=['POST'])
+@login_required
+def remove_role():
+    data = request.json
+    user_id = data.get('user_id')
+    role = data.get('role')
+
+    if not user_id or not role:
+        return jsonify({'error': 'Missing user_id or role'}), 400
+
+    try:
+        result = collection_user_registration.update_one(
+            {'_id': ObjectId(user_id)},
+            {'$pull': {'newser_user_roles': role}}
+        )
+
+        if result.modified_count > 0:
+            return jsonify({'message': 'Role removed successfully'}), 200
+        else:
+            return jsonify({'error': 'User not found or role not assigned'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+@app.route('/user/<user_id>')
+@login_required
+def user_profile(user_id):
+    # Fetch user data from the database
+    user = collection_user_registration.find_one({'_id': ObjectId(user_id)})
+    
+    if user:
+        # Convert ObjectId to string for JSON serialization
+        user['_id'] = str(user['_id'])
+        
+        # Calculate age if DOB is available
+        if 'dob' in user and user['dob']:
+            try:
+                dob = datetime.strptime(user['dob'], '%Y-%m-%d')
+                today = datetime.now()
+                age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+                user['age'] = age
+            except ValueError:
+                user['age'] = 'N/A'
+        else:
+            user['age'] = 'N/A'
+        
+        return render_template('admin/template/user_profile.html', user=user)
+    else:
+        return "User not found", 404

@@ -60,10 +60,12 @@ def setup_cloudinary():
     )
 
 def upload_image(image_file):
+    setup_cloudinary()
     result = cloudinary.uploader.upload(image_file)
     return result['public_id']
 
 def get_image_url(public_id):
+    setup_cloudinary()
     return cloudinary_url(public_id, width=800, height=800, crop="fill")[0]
 
 class NewsAPIClient:

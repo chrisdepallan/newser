@@ -71,12 +71,10 @@ def profile():
     user_id = session.get('user_id')
     user = collection_user_registration.find_one({'_id': user_id})
     
-    if not user:
-        flash('User not found', 'error')
-        return redirect(url_for('home'))
+    
     
     weather_data = session.get('weather_data', {})
-    return render_template("admin/template/user_profile.html", user=user, weather_data=weather_data)
+    return render_template("Newsers/profile.html", user=user, weather_data=weather_data)
 
 @app.route("/edit_profile", methods=['GET', 'POST'])
 @login_required
@@ -141,10 +139,7 @@ def update_avatar():
 def newser():
     hello_world()
 
-@app.route('/home')
-@login_required
-def home():
-    return render_template('Newsers/index.html')
+
 
 @app.route('/home_test')
 def home_test():

@@ -1,126 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hostel Management System - Admin Panel</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        html, body {
-            height: 100%;
-        }
-        body {
-            display: flex;
-            flex-direction: column;
-        }
-        .content {
-            flex: 1 0 auto;
-        }
-        .footer {
-            flex-shrink: 0;
-        }
-    </style>
+    <title>Appuz - Sample Daisy UI Website</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.1.0/dist/full.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.6"></script>
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Hostel Management System</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvas" aria-controls="navbarOffcanvas">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="navbarOffcanvas" aria-labelledby="navbarOffcanvasLabel">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="navbarOffcanvasLabel">Menu</h5>
-                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Students</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Rooms</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Payments</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Complaints</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+<body hx-boost="true">
+    <!-- Navbar -->
+    <div class="navbar bg-base-100">
+        <div class="flex-1">
+            <a class="btn btn-ghost normal-case text-xl" hx-get="/" hx-push-url="true">Appuz</a>
         </div>
-    </nav>
+        <div class="flex-none">
+            <ul class="menu menu-horizontal px-1">
+                <li><a hx-get="/" hx-push-url="true">Home</a></li>
+                <li><a hx-get="/about" hx-push-url="true">About</a></li>
+                <li><a hx-get="/contact" hx-push-url="true">Contact</a></li>
+            </ul>
+        </div>
+    </div>
 
-    <div class="content container-fluid py-4">
-        <h1 class="mb-4">Admin Dashboard</h1>
-        <div class="row g-4">
-            <div class="col-sm-6 col-lg-3">
-                <div class="card text-white bg-primary h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Total Students</h5>
-                        <p class="card-text display-4">150</p>
+    <div id="content">
+        <!-- Hero Section with Counter -->
+        <div class="hero min-h-screen bg-base-200">
+            <div class="hero-content text-center">
+                <div class="max-w-md">
+                    <h1 class="text-5xl font-bold">Welcome to Appuz</h1>
+                    <p class="py-6">Discover amazing features and join us today!</p>
+                    <div class="my-4">
+                        <span>Counter: </span>
+                        <span id="counter" hx-get="/increment" hx-trigger="click" hx-swap="innerHTML">0</span>
                     </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-3">
-                <div class="card text-white bg-success h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Available Rooms</h5>
-                        <p class="card-text display-4">25</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-3">
-                <div class="card text-white bg-warning h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Pending Payments</h5>
-                        <p class="card-text display-4">10</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-3">
-                <div class="card text-white bg-danger h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Active Complaints</h5>
-                        <p class="card-text display-4">5</p>
-                    </div>
+                    <p class="btn btn-primary" hx-get="/increment" hx-trigger="click" hx-swap="innerHTML">Get Started</p>button
                 </div>
             </div>
         </div>
 
-        <div class="row mt-4 g-4">
-            <div class="col-lg-6">
-                <h2>Recent Activities</h2>
-                <ul class="list-group">
-                    <li class="list-group-item">New student registered: John Doe</li>
-                    <li class="list-group-item">Room 101 assigned to Jane Smith</li>
-                    <li class="list-group-item">Payment received from Mike Johnson</li>
-                    <li class="list-group-item">Complaint resolved: Faulty AC in Room 205</li>
-                </ul>
-            </div>
-            <div class="col-lg-6">
-                <h2>Quick Actions</h2>
-                <div class="d-grid gap-2">
-                    <a href="add_student.html" class="btn btn-primary" role="button">Add New Student</a>
-                    <a href="assign_room.html" class="btn btn-success" role="button">Assign Room</a>
-                    <a href="record_payment.html" class="btn btn-warning" role="button">Record Payment</a>
-                    <a href="report_complaint.html" class="btn btn-danger" role="button">Report Complaint</a>
-                </div>
+        <!-- Features Section -->
+        <div class="container mx-auto py-12">
+            <h2 class="text-3xl font-bold text-center mb-8">Our Features</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6" hx-get="/features" hx-trigger="revealed">
+                <!-- Features will be loaded here -->
             </div>
         </div>
     </div>
 
-    <footer class="footer bg-light py-3 mt-auto">
-        <div class="container text-center">
-            <span class="text-muted">© 2023 Hostel Management System. All rights reserved.</span>
+    <!-- Footer -->
+    <footer class="footer footer-center p-10 bg-base-200 text-base-content rounded">
+        <div class="grid grid-flow-col gap-4">
+            <a class="link link-hover" hx-get="/about" hx-push-url="true">About us</a> 
+            <a class="link link-hover" hx-get="/contact" hx-push-url="true">Contact</a> 
+            <a class="link link-hover" hx-get="/privacy" hx-push-url="true">Privacy Policy</a>
+        </div> 
+        <div>
+            <p>Copyright © 2023 - All rights reserved by Appuz</p>
         </div>
     </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

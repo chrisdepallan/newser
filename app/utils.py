@@ -81,8 +81,10 @@ class NewsAPIClient:
 
     def make_request(self, endpoint, params):
         params['apiKey'] = self.get_current_key()
-        response = requests.get(f"https://newsapi.org/v2/{endpoint}", params=params)
+        # params['country'] = 'in'  # Add this line to filter news from India
         
+        response = requests.get(f"https://newsapi.org/v2/{endpoint}", params=params)
+        print(response.url)
         if response.status_code == 429:  # Rate limit exceeded
             self.switch_key()
             params['apiKey'] = self.get_current_key()

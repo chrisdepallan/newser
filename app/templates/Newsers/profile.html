@@ -62,27 +62,7 @@
                                 </div>
                             </div>
                         </div>
-                        {% if session %}
-            <a href="/profile" class="btn btn-primary" >
-                <img src="{{ url_for('static', filename='newsers/img/acc_icons1_bgX.png') }}" alt="Image" style="width: 40px; height: 40px;">
-            </a>
-            <a href="/logout" class="btn btn-danger">
-                <img src="{{ url_for('static', filename='newsers/img/acc_icons1_bgX.png') }}" alt="Image" style="width: 40px; height: 40px;">
-            </a>
-            <a href="#" class="btn btn-success">
-                <img src="{{ url_for('static', filename='newsers/img/dollarsign_bgX.png') }}" alt="Image" style="width: 40px; height: 40px;">
-            </a><a href="#" class="btn btn-primary">
-                <img src="{{ url_for('static', filename='newsers/img/acc_icons1_bgX.png') }}" alt="Image" style="width: 40px; height: 40px;">
-            </a><a href="#" class="btn btn-primary">
-                <img src="{{ url_for('static', filename='newsers/img/acc_icons1_bgX.png') }}" alt="Image" style="width: 40px; height: 40px;">
-            </a><a href="#" class="btn btn-primary">
-                <img src="{{ url_for('static', filename='newsers/img/acc_icons1_bgX.png') }}" alt="Image" style="width: 40px; height: 40px;">
-            </a>
-        {% else %}
-            <p> </a><a href="login" class="">
-                <img src="{{ url_for('static', filename='newsers/img/login.png') }}" alt="Image" style="width: 40px; height: 40px;">
-            </a></p>
-        {% endif %}
+             {% include 'Newsers/topbar_right.html' %}
                         <div class="top-link flex-lg-wrap">
                             <i class="fas fa-calendar-alt text-white border-end border-secondary pe-2 me-2"> <span class="text-body">Tuesday, Sep 12, 2024</span></i>
                             <div class="d-flex icon">
@@ -110,21 +90,7 @@
                             <span class="fa fa-bars text-primary"></span>
                         </button>
                         <div class="collapse navbar-collapse bg-light py-3" id="navbarCollapse">
-                            <div class="navbar-nav mx-auto border-top">
-                                <a href="index-2.html" class="nav-item nav-link active">Home</a>
-                                <a href="detail-page.html" class="nav-item nav-link">Detail  Page</a>
-                                <a href="404.html" class="nav-item nav-link">404 Page</a>
-                                <div class="nav-item dropdown">
-                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Dropdown</a>
-                                    <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                        <a href="#" class="dropdown-item">Dropdown 1</a>
-                                        <a href="#" class="dropdown-item">Dropdown 2</a>
-                                        <a href="#" class="dropdown-item">Dropdown 3</a>
-                                        <a href="#" class="dropdown-item">Dropdown 4</a>
-                                    </div>
-                                </div>
-                                <a href="contact.html" class="nav-item nav-link">Contact Us</a>
-                            </div>
+                       {% include 'Newsers/navbar.html' %}
                             {% if weather_data and weather_data.icon_url and weather_data.temperature and weather_data.city and weather_data.date %}
                             <div class="d-flex flex-nowrap border-top pt-3 pt-xl-0">
                                 <div class="d-flex">
@@ -266,7 +232,7 @@
                           <div class="row">
                             <div class="col-sm-12">
                               <a href="/logout" class="btn btn-danger me-2">
-                               </a>
+                               Logout</a>
                               <a class="btn btn-info " target="__blank" href="/edit_profile">Edit</a>
                             </div>
                           </div>

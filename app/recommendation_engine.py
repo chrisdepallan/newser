@@ -13,8 +13,10 @@ def trending_news():
         'q': 'trending',
         'language': 'en',
         'sortBy': 'popularity',
+        
         'pageSize': 5
     }
+    
     trending_response = client.make_request('everything', trending_params)
     trending_articles = trending_response.get('articles', [])
     
@@ -28,6 +30,7 @@ def trending_news():
                 'source': article['source']['name'],
                 'publishedAt': article['publishedAt']
             })
+    print(trending_news,"sdsdsds")
     return trending_news
 
 def top_story():
@@ -100,11 +103,13 @@ def get_recommendations():
     params = {
         'q': query,
         'language': 'en',
+        'country': 'in',
         'sortBy': 'relevancy',
         'pageSize': 10  # Limit to 10 recommendations
     }
     
-    response = client.make_request('everything', params)
+    response = client.make_request('top-headlines', params)
+    print(response.url)
     articles = response.get('articles', [])
     
     recommendations = []
@@ -124,7 +129,7 @@ def get_trending():
     client = NewsAPIClient(current_app.config['NEWSAPI_KEYS'])
     
     params = {
-        'country': 'us',  # You can make this dynamic based on user's location
+          # You can make this dynamic based on user's location
         'category': 'general',
         'pageSize': 5  # Limit to 5 trending articles
     }
@@ -139,7 +144,7 @@ def get_trending():
             'url': article['url'],
             'source': article['source']['name']
         })
-    
+    print("trending",trending)
     return jsonify(trending)
 
 # @recommendation_bp.route('/api/search', methods=['GET'])

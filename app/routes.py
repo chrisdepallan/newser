@@ -39,6 +39,7 @@ def hello_world():
     trending_news = get_trending_news()
     popular_news = get_popular_news()
     
+    
     return render_template("Newsers/index.html", story=story, trending_news=trending_news, popular_news=popular_news, weather_data=weather_data)
 
 @app.route('/news')
@@ -285,7 +286,17 @@ def payment_success():
 def payment_cancel():
     return render_template('Newsers/cancel.html')
 
+counter = 0
 
+@app.route('/count')
+def home():
+    return render_template('joell/appuz.html')
+
+@app.route('/increment')
+def increment():
+    global counter
+    counter += 1
+    return str(counter)
 @app.route('/payment')
 def payment():
     # amount = request.args.get('amount')  # Default to 1000 (10.00) if no amount is provided

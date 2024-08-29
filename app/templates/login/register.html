@@ -55,8 +55,7 @@
   </style>
   </head>
   <body>
-    <img src="{{ url_for('static', filename='newsers/img/logo.png') }}" class="logo hide-on-mobile" onclick="window.location.href='/'" style="position:absolute"/>
-          
+    {% include 'login/topbar.html' %}       
     <section class="vh-100">
       <div class="container-fluid h-custom">
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -110,6 +109,7 @@
               <div data-mdb-input-init class="form-outline mb-4">
                   <input type="date" id="dob" name="dob" class="form-control active form-control-lg" />
                   <label class="form-label" for="dob">Date of Birth</label>
+                  <p class="text-danger"></p>
               </div>
           
               <!-- Password input -->
@@ -212,6 +212,7 @@
         function validatePassword() {
             const password = $("#password").val();
             const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+            // Sample password that matches this regex: "password123"
             if (!regex.test(password)) {
                 $(".pwd_error").text("Password must be at least 8 characters long and contain at least one letter and one number.");
                 return false;
@@ -233,10 +234,27 @@
             }
         }
     
-        // Example of a password that satisfies the condition:
-        // const validPassword = "Password123";
+        function validateDateOfBirth() {
+            const dob = new Date($("#dob").val());
+            const today = new Date();
+            const minAge = 5;
+            
+            // Calculate the date 5 years ago
+            const minDate = new Date(today.getFullYear() - minAge, today.getMonth(), today.getDate());
+            
+            if (dob > minDate) {
+                $("#dob").next(".text-danger").text("You must be at least 5 years old to register.");
+                return false;
+            } else {
+                $("#dob").next(".text-danger").text("");
+                return true;
+            }
+        }
+    
         function validateForm() {
-            return validateFullName() && validateUsername() && validateEmail() && validatePhoneNumber() && validatePassword() && validateConfirmPassword();
+            return validateFullName() && validateUsername() && validateEmail() && 
+                   validatePhoneNumber() && validatePassword() && validateConfirmPassword() && 
+                   validateDateOfBirth();
         }
     
         $("input").on("keyup blur", function() {

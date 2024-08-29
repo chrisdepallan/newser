@@ -1,0 +1,15 @@
+{% if session %}
+<div class="d-flex">
+    <a href="/profile" class="btn btn-primary me-2 rounded-circle p-0 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; background-color: #007bff; border: none; transition: all 0.3s ease;">
+        <img src="{{ url_for('static', filename='newsers/img/acc_icons1_bgX.png') }}" alt="Profile" style="width: 45px; height: 45px;">
+    </a>
+    <!--<a href="/logout" class="btn btn-danger me-2">
+        <img src="{{ url_for('static', filename='newsers/img/acc_icons1_bgX.png') }}" alt="Logout" style="width: 40px; height: 40px;">
+    </a>-->
+</div>
+{% else %}
+<div>
+    <a href="/login"><button class="log logs me-2">Login</button></a>
+    <a href="/register"><button class="reg logs">Sign up</button></a>
+</div>
+{% endif %}

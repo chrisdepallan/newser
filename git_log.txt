@@ -1,0 +1,21 @@
+* 60ce4d0 - chris de pallan, 13 hours ago : final_first_review
+* 273a983 - chris de pallan, 16 hours ago : refactoring
+* 987ef77 - chris de pallan, 18 hours ago : edit post
+* c490fbf - chris de pallan, 22 hours ago : checkpoint
+* 4ef4fd5 - chris de pallan, 33 hours ago : payment
+* 159f6e0 - chris de pallan, 3 days ago : dashboard, main page
+* f45ddb5 - chris de pallan, 5 days ago : s=test
+* 536792f - chris de pallan, 5 days ago : pfp generation
+* 0b38791 - chris de pallan, 6 days ago : urls index
+* 112e37e - chris de pallan, 6 days ago : minor changes
+* bdbf463 - chris de pallan, 8 days ago : google signin completed
+* e2b2304 - chris de pallan, 8 days ago : login manager
+* 9f98750 - chris de pallan, 10 days ago : dashboard_ini
+* fabf04b - chris de pallan, 13 days ago : otp final
+* bd19ceb - chris de pallan, 13 days ago : Otp Module
+* 7657e07 - chris de pallan, 3 weeks ago : blueprintification
+* 325f245 - chris de pallan, 3 weeks ago : restart
+* 170813b - chris de pallan, 5 weeks ago : requirements update
+* 0efb36c - chris de pallan, 5 weeks ago : Initial commit
+* 2c83461 - chris de pallan, 5 weeks ago : first commit
+* 1178100 - chris de pallan, 6 weeks ago : first commit

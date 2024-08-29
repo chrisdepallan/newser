@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <!-- Font Awesome -->
-    <linklogin
+    <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
       rel="stylesheet"
     />
@@ -82,7 +82,32 @@
         .logo {
           display: none;
         }
+        .h-custom {
+          height: 100%;
+        }
+        .gbutton {
+          max-width: 100%;
+          padding: 1rem 2rem;
+        }
+        .button-content span {
+          margin-left: 0;
+          font-size: 0.75rem;
+        }
       }
+
+      @media (max-width: 576px) {
+        .container-fluid {
+          padding: 0 15px;
+        }
+        .col-md-8.col-lg-6.col-xl-4.offset-xl-1 {
+          padding: 0 15px;
+        }
+      }
+
+      .h-custom {
+        min-height: calc(100vh - 100px);
+      }
+
       .gbutton {
         margin-top: 1rem;
         max-width: 388px;
@@ -157,13 +182,11 @@
     </style>
   </head>
   <body>
-    <img src="{{ url_for('static', filename='newsers/img/logo.png') }}" class="logo hide-on-mobile" onclick="window.location.href='/'" style="position:absolute"/>
-          
-
-    <section class="vh-100">
-      <div class="container-fluid h-custom">
+   {% include 'login/topbar.html' %}
+    <section class="h-custom">
+      <div class="container-fluid">
         <div class="row d-flex justify-content-center align-items-center h-100">
-          <div class="col-md-9 col-lg-6 col-xl-5">
+          <div class="col-md-9 col-lg-6 col-xl-5 d-none d-md-block">
             <img
               src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
               class="img-fluid"
@@ -172,95 +195,90 @@
           </div>
 
           <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-            <a href="/google_login" class="text-white me-4">
-              <button
-                class="gbutton"
-                onclick="{{ url_for('newser_signin_google') }}"
-              >
-                <div class="button-content">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    preserveAspectRatio="xMidYMid"
-                    viewBox="0 0 256 262"
-                  >
-                    <path
-                      fill="#4285F4"
-                      d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027"
-                    ></path>
-                    <path
-                      fill="#34A853"
-                      d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1"
-                    ></path>
-                    <path
-                      fill="#FBBC05"
-                      d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82 0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782"
-                    ></path>
-                    <path
-                      fill="#EB4335"
-                      d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"
-                    ></path>
-                  </svg>
-                  <span style="margin-left: -140px">Continue with &nbsp;</span>
-                </div>
-                <div class="bouncing-balls">
-                  <div class="ball blue"></div>
-                  <div class="ball red"></div>
-                  <div class="ball yellow"></div>
-                  <div class="ball green"></div>
-                </div>
-              </button>
-            </a>
+            <div class="text-center mb-4">
+              <a href="/google_login" class="text-white">
+                <button
+                  class="gbutton w-100"
+                  onclick="{{ url_for('newser_signin_google') }}"
+                >
+                  <div class="button-content">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      preserveAspectRatio="xMidYMid"
+                      viewBox="0 0 256 262"
+                      style="height: 24px; margin-right: 10px;"
+                    >
+                      <path
+                        fill="#4285F4"
+                        d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027"
+                      ></path>
+                      <path
+                        fill="#34A853"
+                        d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1"
+                      ></path>
+                      <path
+                        fill="#FBBC05"
+                        d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82 0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782"
+                      ></path>
+                      <path
+                        fill="#EB4335"
+                        d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"
+                      ></path>
+                    </svg>
+                    <span>Continue with Google</span>
+                  </div>
+                  <div class="bouncing-balls">
+                    <div class="ball blue"></div>
+                    <div class="ball red"></div>
+                    <div class="ball yellow"></div>
+                    <div class="ball green"></div>
+                  </div>
+                </button>
+              </a>
+            </div>
+            
+            <div class="divider d-flex align-items-center my-4">
+              <p class="text-center fw-bold mx-3 mb-0">Or</p>
+            </div>
+
             <form method="POST" action="/login">
-             
-              <div class="divider d-flex align-items-center my-4">
-                <p class="text-center fw-bold mx-3 mb-0">Or</p>
-              </div>
-
               <!-- Email input -->
-
-              <div data-mdb-input-init class="form-outline mb-4">
+              <div class="form-outline mb-4">
+                <label class="form-label" for="email">Email address</label>
                 <input
                   type="email"
                   name="email"
                   id="email"
-                  class="form-control active form-control-lg"
-                  mdbInput
+                  class="form-control form-control-lg"
                   placeholder="Enter a valid email address"
+                  required
                 />
-                <label class="form-label" for="form3Example3" placeholder=" "
-                  >Email address</label
-                >
-                <p class="email-err text-danger" style="position: fixed"></p>
+                <p class="email-err text-danger"></p>
               </div>
 
               <!-- Password input -->
-              <div data-mdb-input-init class="form-outline mb-3">
+              <div class="form-outline mb-3">
+                <label class="form-label" for="password">Password</label>
                 <input
                   type="password"
                   name="password"
                   id="password"
-                  class="form-control active aform-control-lg"
+                  class="form-control form-control-lg"
                   placeholder="Enter password"
+                  required
                 />
-                <label class="form-label" for="form3Example4">Password</label>
-                <p class="password-err text-danger" style="position: fixed"></p>
+                <p class="password-err text-danger"></p>
               </div>
 
-              <div class="d-flex justify-content-between align-items-center">
-                <!-- Checkbox -->
-               
-                <a href="/request-password-reset" class="text-body"
-                  >Forgot password?</a
-                >
+              <div class="d-flex justify-content-end mb-4">
+                <a href="/request-password-reset" class="text-body">Forgot password?</a>
               </div>
 
               <div class="text-center text-lg-start mt-4 pt-2">
                 <button
                   type="submit"
                   id="submit"
-                  data-mdb-button-init
-                  data-mdb-ripple-init
-                  class="btn btn-primary btn-lg"
+                  class="btn btn-primary btn-lg w-100"
                   style="padding-left: 2.5rem; padding-right: 2.5rem"
                 >
                   Login
@@ -274,32 +292,8 @@
           </div>
         </div>
       </div>
-      <div
-        class="d-none d-md-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary"
-      >
-        <!-- Copyright -->
-        <div class="text-white mb-3 mb-md-0">
-          Copyright © 2020. All rights reserved.
-        </div>
-        <!-- Copyright -->
-
-        <!-- Right -->
-        <div>
-          <a href="#!" class="text-white me-4">
-            <i class="fab fa-facebook-f"></i>
-          </a>
-          <a href="#!" class="text-white me-4">
-            <i class="fab fa-twitter"></i>
-          </a>
-          <a href="#!" class="text-white me-4">
-            <i class="fab fa-google"></i>
-          </a>
-          <a href="#!" class="text-white">
-            <i class="fab fa-linkedin-in"></i>
-          </a>
-        </div>
-        <!-- Right -->
-      </div>
     </section>
+
+    {% include 'login/footer.html' %}
   </body>
 </html>

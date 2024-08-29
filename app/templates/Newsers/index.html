@@ -168,24 +168,7 @@
                                 </div>  
                             </div>
                         </div>
-                        {% if session %}
-                            <div class="d-flex">
-                                <a href="/profile" class="btn btn-primary me-2">
-                                    <img src="{{ url_for('static', filename='newsers/img/acc_icons1_bgX.png') }}" alt="Profile" style="width: 40px; height: 40px;">
-                                </a>
-                                <!--<a href="/logout" class="btn btn-danger me-2">
-                                    <img src="{{ url_for('static', filename='newsers/img/acc_icons1_bgX.png') }}" alt="Logout" style="width: 40px; height: 40px;">
-                                </a>-->
-                                <a href="#" class="btn btn-success">
-                                    <img src="{{ url_for('static', filename='newsers/img/dollarsign_bgX.png') }}" alt="Dollar" style="width: 40px; height: 40px;">
-                                </a>
-                            </div>
-                        {% else %}
-                            <div>
-                                <a href="/login"><button class="log logs me-2">Login</button></a>
-                                <a href="/register"><button class="reg logs">Sign up</button></a>
-                            </div>
-                        {% endif %}
+                  {% include 'Newsers/topbar_right.html' %}
                         <div class="top-link flex-lg-wrap">
                             <i class="fas fa-calendar-alt text-white border-end border-secondary pe-2 me-2"> <span class="text-body">{{weather_data.date}},{{weather_data.weekday}}</span></i>
                             <div class="d-flex icon">
@@ -213,27 +196,7 @@
                             <span class="fa fa-bars text-primary"></span>
                         </button>
                         <div class="collapse navbar-collapse bg-light py-3" id="navbarCollapse">
-                            <div class="navbar-nav mx-auto border-top">
-                                <a href="/" class="nav-item nav-link active">Home</a>
-                                <a href="/detail-page" class="nav-item nav-link">Detail Page</a>
-                                <a href="/dashboard" class="nav-item nav-link">Dashboard</a>
-                                <a href="/payment" class="nav-item nav-link">pricing</a>
-                                <div class="nav-item dropdown">
-                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Dropdown</a>
-                                    <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                        <a href="#" class="dropdown-item">Dropdown 1</a>
-                                        <a href="#" class="dropdown-item">Dropdown 2</a>
-                                        <a href="#" class="dropdown-item">Dropdown 3</a>
-                                        <a href="#" class="dropdown-item">Dropdown 4</a>
-                                    </div>
-                                </div>
-                                <a href="/contact" class="nav-item nav-link">Contact Us</a>
-                            </div>
-                            <!-- Add login and signup buttons here, visible only on mobile -->
-                            <div class="d-xl-none mt-3">
-                                <a href="/login"><button class="log logs me-2">Login</button></a>
-                                <a href="/register"><button class="reg logs">Sign up</button></a>
-                            </div>
+                          {% include 'Newsers/navbar.html' %}
                             <div class="d-flex flex-nowrap border-top pt-3 pt-xl-0">
                                 <div class="d-flex">
                                     <img src="{{ weather_data.icon_url }}" class="img-fluid w-100 me-2" alt="{{ weather_data.description }}">
@@ -257,22 +220,7 @@
 
 
         <!-- Modal Search Start -->
-        <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-fullscreen">
-                <div class="modal-content rounded-0">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Search by keyword</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body d-flex align-items-center">
-                        <div class="input-group w-75 mx-auto d-flex">
-                            <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
-                            <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
         <!-- Modal Search End -->
 
 <!-- Features Start -->
@@ -313,45 +261,42 @@
         <div class="container-fluid py-5">
             <div class="container py-5">
                 <div class="row g-4">
-                    <!-- Main News Heading -->
-                    <div class="col-lg-7 col-xl-8 mt-0">
-                        <div class="position-relative overflow-hidden rounded">
-                            <img src="{{ url_for('static', filename='newsers/img/news-1.jpg') }}" class="img-fluid rounded img-zoomin w-100" alt="">
-                            <div class="d-flex justify-content-center px-4 position-absolute flex-wrap" style="bottom: 10px; left: 0;">
-                                <a href="#" class="text-white me-3 link-hover"><i class="fa fa-clock"></i> 06 minute read</a>
-                                <a href="#" class="text-white me-3 link-hover"><i class="fa fa-eye"></i> 3.5k Views</a>
-                                <a href="#" class="text-white me-3 link-hover"><i class="fa fa-comment-dots"></i> 05 Comment</a>
-                                <a href="#" class="text-white link-hover"><i class="fa fa-arrow-up"></i> 1.5k Share</a>
-                            </div>
-                        </div>
-                        <div class="border-bottom py-3">
-                            <a href="#" class="display-4 text-dark mb-0 link-hover">Lorem Ipsum is simply dummy text of the printing</a>
-                        </div>
-                        <p class="mt-3 mb-4">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley standard dummy text ever since the 1500s, when an unknown printer took a galley...
-                        </p>
-                        <!-- Top Story -->
-                        <div class="bg-light p-4 rounded">
-                            <div class="news-2">
-                                <h3 class="mb-4">Top Story</h3>
-                            </div>
-                            <div class="row g-4 align-items-center">
-                                <div class="col-md-6">
-                                    <div class="rounded overflow-hidden">
-                                        <img src="{{ story.image }}" class="img-fluid rounded img-zoomin w-100" alt="{{ story.title }}">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="d-flex flex-column">
-                                        <a href="{{ story.url }}" class="h3">{{ story.title }}</a>
-                                        <p class="mb-2">{{ story.description }}</p>
-                                        <p class="mb-0 fs-5"><i class="fa fa-newspaper"></i> {{ story.source }}</p>
-                                        <p class="mb-0 fs-5"><i class="fa fa-calendar"></i> {{ story.publishedAt|datetime }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                  <!-- News Trending Sideview -->
+                   <!-- Main News Heading -->
+<div class="col-lg-7 col-xl-8 mt-0">
+    <div class="position-relative overflow-hidden rounded">
+        <img src="{{ trending_news[0].image }}" class="img-fluid rounded img-zoomin w-100" alt="{{ trending_news[0].title }}">
+        <div class="d-flex justify-content-center px-4 position-absolute flex-wrap" style="bottom: 10px; left: 0;">
+            <a href="#" class="text-white me-3 link-hover"><i class="fa fa-clock"></i> {{ trending_news[0].publishedAt|datetime }}</a>
+            <a href="#" class="text-white me-3 link-hover"><i class="fa fa-newspaper"></i> {{ trending_news[0].source }}</a>
+        </div>
+    </div>
+    <div class="border-bottom py-3">
+        <a href="{{ trending_news[0].url }}" class="display-4 text-dark mb-0 link-hover">{{ trending_news[0].title }}</a>
+    </div>
+    <p class="mt-3 mb-4">{{ trending_news[0].description }}</p>
+    
+    <!-- Top Story -->
+    <div class="bg-light p-4 rounded">
+        <div class="news-2">
+            <h3 class="mb-4">Top Story</h3>
+        </div>
+        <div class="row g-4 align-items-center">
+            <div class="col-md-6">
+                <div class="rounded overflow-hidden">
+                    <img src="{{ story.image }}" class="img-fluid rounded img-zoomin w-100" alt="{{ story.title }}">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="d-flex flex-column">
+                    <a href="{{ story.url }}" class="h3">{{ story.title }}</a>
+                    <p class="mb-2">{{ story.description }}</p>
+                    <p class="mb-0 fs-5"><i class="fa fa-newspaper"></i> {{ story.source }}</p>
+                    <p class="mb-0 fs-5"><i class="fa fa-calendar"></i> {{ story.publishedAt|datetime }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="col-lg-5 col-xl-4">
     <div class="bg-light rounded p-4 pt-0">
          <div class="row g-4">

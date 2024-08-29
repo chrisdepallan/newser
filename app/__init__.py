@@ -20,10 +20,12 @@ redis_password = 'X51UKTJVjgI2727qmgGyEHegLLTkPNSQ'  # Replace with your actual 
 app.config['SESSION_TYPE'] = 'redis'
 app.config['SESSION_PERMANENT'] = False
 app.config['SESSION_USE_SIGNER'] = True
-app.config['SESSION_REDIS'] =redis.Redis(
-  host='redis-11738.c244.us-east-1-2.ec2.redns.redis-cloud.com',
-  port=11738,
-  password='X51UKTJVjgI2727qmgGyEHegLLTkPNSQ')
+app.config['SESSION_REDIS'] = redis.Redis(
+    host=redis_host,
+    port=redis_port,
+    password=redis_password,
+    ssl=True  # Enable SSL/TLS connection
+)
 
 # Initialize extensions
 Session(app)

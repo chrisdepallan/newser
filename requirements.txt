@@ -23,12 +23,15 @@ msgspec==0.18.6
 newsapi-python==0.2.7
 packaging==24.1
 pycparser==2.22
+PyJWT==2.9.0
 pymongo==4.8.0
 pyotp==2.9.0
+redis==5.0.8
 requests==2.32.3
 six==1.16.0
 stripe==10.6.0
 typing_extensions==4.12.2
 urllib3==2.2.2
+vercel==0.2.1
 Werkzeug==3.0.3
 WTForms==3.1.2

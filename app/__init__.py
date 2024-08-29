@@ -9,7 +9,22 @@ from flask_cors import CORS
 import redis
 
 # Initialize Flask app
+import redis
+
+# Initialize Flask app
 app = Flask(__name__, template_folder='templates')
+app.config.from_object('config.Config')
+
+# Configure Redis for session management
+redis_host = 'redis-11738.c244.us-east-1-2.ec2.redns.redis-cloud.com'
+redis_port = 11738
+app.config['SESSION_TYPE'] = 'redis'
+app.config['SESSION_PERMANENT'] = False
+app.config['SESSION_USE_SIGNER'] = True
+app.config['SESSION_REDIS'] = redis.Redis(host=redis_host, port=redis_port)
+
+# Initialize extensions
+Session(app)
 app.config.from_object('config.Config')
 
 # Configure Redis for session management
@@ -23,12 +38,11 @@ app.config['SESSION_USE_SIGNER'] = True
 app.config['SESSION_REDIS'] = redis.Redis(
     host=redis_host,
     port=redis_port,
-    password=redis_password,
-    ssl=True  # Enable SSL/TLS connection
-)
+    password=redis_password
+    )
 
 # Initialize extensions
-Session(app)
+
 
 bcrypt = Bcrypt(app)
 oauth = OAuth(app)

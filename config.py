@@ -25,3 +25,4 @@ class Config:
     CLOUDINARY_API_KEY = os.getenv('CLOUDINARY_API_KEY', '864987881763555')
     CLOUDINARY_API_SECRET = os.getenv('CLOUDINARY_API_SECRET', 'UQA7JNdHcdpDMQvka0guWEtYhwQ')
     WEATHERAPI_KEY = 'd288547b5e1e498abbc175853240808'
+    REDIS_URL = "redis://default:TCnfNcNZYpS4ujKc9GViKIRTt64Ts8Wn@redis-13853.c89.us-east-1-3.ec2.redns.redis-cloud.com:13853"

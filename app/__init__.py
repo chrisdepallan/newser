@@ -7,6 +7,7 @@ from app.utils import NewsAPIClient, datetime_filter
 from flask_mail import Mail
 
 from flask_cors import CORS
+import redis
 
 # Initialize Flask app
 app = Flask(__name__, template_folder='templates')
@@ -19,6 +20,14 @@ bcrypt = Bcrypt(app)
 oauth = OAuth(app)
 mail = Mail(app)
 CORS(app)
+
+# Initialize Redis
+redis_client = redis.Redis.from_url(app.config['REDIS_URL'])
+
+# Configure Flask-Session to use Redis
+app.config['SESSION_TYPE'] = 'redis'
+app.config['SESSION_REDIS'] = redis_client
+Session(app)
 
 # Register OAuth client
 oauth.register(

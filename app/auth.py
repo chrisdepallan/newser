@@ -1,15 +1,18 @@
 from flask import redirect, url_for, request, session, render_template, jsonify
-from app import app, bcrypt, oauth, collection_user_registration, collection_login_credentials
+from app import app, bcrypt, oauth, collection_user_registration, collection_login_credentials,redis_client
 from authlib.integrations.flask_client import OAuthError
 from app.routes import generate_avatar # Import the generate_avatar function
+import uuid
+import json
 
 class LoginManager:
-    def __init__(self, app, bcrypt, oauth, collection_user_registration, collection_login_credentials):
+    def __init__(self, app, bcrypt, oauth, collection_user_registration, collection_login_credentials, redis_client):
         self.app = app
         self.bcrypt = bcrypt
         self.oauth = oauth
         self.collection_user_registration = collection_user_registration
         self.collection_login_credentials = collection_login_credentials
+        self.redis_client = redis_client
 
  
     def google_login(self):
@@ -25,7 +28,6 @@ class LoginManager:
         if token is None:
             return "Google authentication failed: no token received."
 
-        session["user"] = token
         user_info = token.get("userinfo")
         user_email = user_info.get('email')
         user = self.collection_login_credentials.find_one({'email': user_email})
@@ -57,17 +59,23 @@ class LoginManager:
         else:
             registration_id = user['registration_id']
 
-        session['user_id'] = str(user['_id'])
-        session['username'] = user['username']
-        session['email'] = user['email']
         user_details = self.collection_user_registration.find_one({'_id': registration_id})
-        if user_details:
-            session['full_name'] = user_details['full_name']
-            session['phone_number'] = user_details['phone_number']
-            session['address'] = user_details['address']
-            session['dob'] = user_details['dob']
+        session_id = str(uuid.uuid4())
+        user_data = {
+            'user_id': str(user['_id']),
+            'username': user['username'],
+            'email': user['email'],
+            'full_name': user_details['full_name'],
+            'phone_number': user_details['phone_number'],
+            'address': user_details['address'],
+            'dob': user_details['dob'],
+            'avatar': user_details.get('avatar')
+        }
+        self.redis_client.setex(f"session:{session_id}", 3600, json.dumps(user_data))  # Expire in 1 hour
 
-        return redirect(url_for("hello_world"))
+        response = redirect(url_for("hello_world"))
+        response.set_cookie('session_id', session_id, httponly=True, secure=True, samesite='Lax')
+        return response
 
  
     def register(self):
@@ -113,8 +121,6 @@ class LoginManager:
 
  
     def login(self):
-        # Run get_and_decode_user_password for debugging purposes
-        
         if request.method == 'POST':
             email = request.form.get('email')
             password = request.form.get('password')
@@ -124,27 +130,36 @@ class LoginManager:
 
             user = self.collection_login_credentials.find_one({'email': email})
             if user and self.bcrypt.check_password_hash(user['password'], password):
-                session['user_id'] = str(user['_id'])
-                session['username'] = user['username']
-                session['email'] = user['email']
                 user_details = self.collection_user_registration.find_one({'_id': user['registration_id']})
-                if user_details:
-                    session['full_name'] = user_details['full_name']
-                    session['phone_number'] = user_details['phone_number']
-                    session['address'] = user_details['address']
-                    session['dob'] = user_details['dob']
-                    if user_details['avatar'] is not None:
-                        session['avatar'] = user_details['avatar']
-                    
-                return redirect(url_for('hello_world'))
+                
+                session_id = str(uuid.uuid4())
+                user_data = {
+                    'user_id': str(user['_id']),
+                    'username': user['username'],
+                    'email': user['email'],
+                    'full_name': user_details['full_name'],
+                    'phone_number': user_details['phone_number'],
+                    'address': user_details['address'],
+                    'dob': user_details['dob'],
+                    'avatar': user_details.get('avatar')
+                }
+                self.redis_client.setex(f"session:{session_id}", 3600, json.dumps(user_data))  # Expire in 1 hour
+
+                response = redirect(url_for('hello_world'))
+                response.set_cookie('session_id', session_id, httponly=True, secure=True, samesite='Lax')
+                return response
             else:
                 return jsonify({'error': 'Invalid email or password'}), 401
         return render_template("login/index.html")
     
  
     def logout(self):
-        session.clear()
-        return redirect(url_for('hello_world'))    
+        session_id = request.cookies.get('session_id')
+        if session_id:
+            self.redis_client.delete(f"session:{session_id}")
+        response = redirect(url_for('hello_world'))
+        response.delete_cookie('session_id')
+        return response
 
  
     def check_email(self):
@@ -155,7 +170,7 @@ class LoginManager:
         return jsonify({'exists': False}), 200
 
 
-login_manager = LoginManager(app, bcrypt, oauth, collection_user_registration, collection_login_credentials)
+login_manager = LoginManager(app, bcrypt, oauth, collection_user_registration, collection_login_credentials, redis_client)
 
 
 

@@ -1,4 +1,4 @@
-{% if session %}
+{% if request.cookies.get('session_id') %}
 <div class="d-flex">
     <a href="/profile" class="btn btn-primary me-2 rounded-circle p-0 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; background-color: #007bff; border: none; transition: all 0.3s ease;">
         <img src="{{ url_for('static', filename='newsers/img/acc_icons1_bgX.png') }}" alt="Profile" style="width: 45px; height: 45px;">

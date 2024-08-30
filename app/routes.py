@@ -57,12 +57,24 @@ def search():
 from functools import wraps
 from flask import session, redirect, url_for
 from app.auth import login_manager
+from app import redis_client
+import json
 
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if 'user_id' not in session:
+        session_id = request.cookies.get('session_id')
+        if not session_id:
             return redirect(url_for('login'))
+        
+        user_data = redis_client.get(f"session:{session_id}")
+        if not user_data:
+            return redirect(url_for('login'))
+        
+        # Optionally, you can decode the user data and attach it to the request
+        # This allows you to access user information in your route handlers
+        request.user = json.loads(user_data)
+        
         return f(*args, **kwargs)
     return decorated_function
 

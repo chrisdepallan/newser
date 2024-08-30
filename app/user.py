@@ -29,6 +29,7 @@ def login_required(f):
         
         return f(*args, **kwargs)
     return decorated_function
+
 @app.route('/create-article', methods=['GET', 'POST'])
 @login_required
 def create_article():

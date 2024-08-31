@@ -54,5 +54,5 @@ app.jinja_env.filters['datetime'] = datetime_filter
 
 # Import routes
 from app import routes, auth,utils,dashboard,user
-# Register recommendation_engine blueprint
+# Register recommendation_engine blueprintddsd
 # app.register_blueprint(recommendation_bp)

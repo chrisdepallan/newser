@@ -121,10 +121,12 @@ class LoginManager:
 
  
     def login(self):
+        print("Login function called")  # Debug print
         if request.method == 'POST':
+            print("POST request received")  # Debug print
             email = request.form.get('email')
             password = request.form.get('password')
-
+            print(f"Email: {email}, Password: {password}")  # Debug print (be cautious with logging passwords in production)
             if not email or not password:
                 return jsonify({'error': 'Email and password are required'}), 400
 

@@ -174,34 +174,25 @@ class LoginManager:
 
 login_manager = LoginManager(app, bcrypt, oauth, collection_user_registration, collection_login_credentials, redis_client)
 
-
-
-
 @app.route("/google_login")
-
 def google_login():
     return login_manager.google_login()
 
 @app.route("/newser-signin-google")
-
 def newser_signin_google():
     return login_manager.newser_signin_google()
 @app.route('/logout')
-
 def logout():
     return login_manager.logout()
 
 @app.route('/register', methods=['GET', 'POST'])
-
 def register():
     return login_manager.register()
 
 @app.route('/login', methods=['POST', 'GET'])
-
 def login():
     return login_manager.login()
 
 @app.route('/check-email')
-
 def check_email():
     return login_manager.check_email()

@@ -313,55 +313,31 @@ def increment():
 def payment():
     # amount = request.args.get('amount')  # Default to 1000 (10.00) if no amount is provided
     return render_template('Newsers/payment.html')# @app.route('/create-checkout-session', methods=['POST'])
-# @login_required
-# def create_checkout_session():
-#     data = request.json
-#     amount = int(data.get('amount', 1000))  # Amount in cents
-#     user_id = session.get("user_id")  # Assuming you're using Flask-Login
 
-#     try:
-#         checkout_session = stripe.checkout.Session.create(
-#             payment_method_types=['card'],
-#             line_items=[
-#                 {
-#                     'price_data': {
-#                         'currency': 'usd',
-#                         'unit_amount': amount,
-#                         'product_data': {
-#                             'name': 'Custom Payment',
-#                         },
-#                     },
-#                     'quantity': 1,
-#                 },
-#             ],
-#             mode='payment',
-#             success_url=url_for('payment_success', _external=True) + '?session_id={CHECKOUT_SESSION_ID}',
-#             cancel_url=url_for('payment_cancel', _external=True),
-#         )
-        
-#         # Insert payment details into newser_subscriptions
-#         newser_subscriptions.insert_one({
-#             'user_id': user_id,
-#             'amount': amount / 100,  # Convert cents to dollars
-#             'date': datetime.utcnow(),
-#             'session_id': checkout_session.id
-#         })
-        
-#         return jsonify({'id': checkout_session.id})
-#     except Exception as e:
-#         return jsonify(error=str(e)), 403
-
-# @app.route('/payment/success')
-# def payment_success():
-#     session_id = request.args.get('session_id')
-#     if session_id:
-#         # Update the subscription status in the database
-#         newser_subscriptions.update_one(
-#             {'session_id': session_id},
-#             {'$set': {'status': 'completed'}}
-#         )
-#     return render_template('Newsers/success.html')
-
-# @app.route('/payment/cancel')
-# def payment_cancel():
-#     return render_template('Newsers/cancel.html')
+@app.route('/download-receipt/<session_id>')
+@login_required
+def download_receipt(session_id):
+    # Fetch the subscription details from the database
+    subscription = collection_subscriptions.find_one({'session_id': session_id})
+    
+    if not subscription:
+        return jsonify({"error": "Receipt not found"}), 404
+    
+    # Generate the receipt content
+    receipt_content = f"""
+    Receipt for Payment
+    -------------------
+    User ID: {subscription['user_id']}
+    Amount: ${subscription['amount']}
+    Date: {subscription['date']}
+    Status: {subscription.get('status', 'N/A')}
+    """
+    
+    # Create a response with the receipt content
+    response = current_app.response_class(
+        receipt_content,
+        mimetype='text/plain',
+        headers={'Content-Disposition': f'attachment;filename=receipt_{session_id}.txt'}
+    )
+    
+    return response

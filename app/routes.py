@@ -3,7 +3,7 @@ from app import app, collection_user_registration, collection_login_credentials,
 from app.utils import *
 import pyotp
 from werkzeug.utils import secure_filename
-from app import app, mail, bcrypt
+from app import app, mail, bcrypt,redis_client
 import random
 from flask_mail import Message
 from flask import request, jsonify, current_app
@@ -81,17 +81,27 @@ def login_required(f):
 @app.route("/profile")
 @login_required
 def profile():
-    user_id = session.get('user_id')
-    user = collection_user_registration.find_one({'_id': user_id})
+    session_id = request.cookies.get('session_id')
+    user_data = redis_client.get(f"session:{session_id}")
     
+    if not user_data:
+        return jsonify({"error": "User session not found"}), 401
     
-    
+    user = json.loads(user_data)
+    print(user)
     weather_data = session.get('weather_data', {})
     return render_template("Newsers/profile.html", user=user, weather_data=weather_data)
 
 @app.route("/edit_profile", methods=['GET', 'POST'])
-@login_required
 def edit_profile():
+    session_id = request.cookies.get('session_id')
+    user_data = redis_client.get(f"session:{session_id}")
+    
+    if not user_data:
+        return jsonify({"error": "User session not found"}), 401
+    
+    user = json.loads(user_data)
+
     if request.method == 'POST':
         # Get form data
         full_name = request.form.get('full_name')
@@ -108,24 +118,21 @@ def edit_profile():
             'address': address
         }
         if new_avatar_url:
-            update_data['avatar_url'] = new_avatar_url
+            update_data['avatar'] = new_avatar_url
         
         collection_user_registration.update_one(
-            {'_id': session['user_id']},
+            {'_id': ObjectId(user['user_id'])},
             {'$set': update_data}
         )
         
-        # Update session data
-        session['full_name'] = full_name
-        session['phone_number'] = phone_number
-        session['dob'] = dob
-        session['address'] = address
-        if new_avatar_url:
-            session['avatar_url'] = new_avatar_url
+        # Update user data in Redis
+        user.update(update_data)
+        redis_client.setex(f"session:{session_id}", 3600, json.dumps(user))  # Update Redis with new data
         
         flash('Profile updated successfully', 'success')
         return redirect(url_for('profile'))
-    return render_template("Newsers/edit_profile.html")
+
+    return render_template("Newsers/edit_profile.html", user=user)
 
 @app.route("/update-avatar", methods=['POST'])
 @login_required

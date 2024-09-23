@@ -11,8 +11,8 @@ import os
 import cloudinary
 import json
 from app import redis_client
-from bs4 import BeautifulSoup
 import requests
+from bs4 import BeautifulSoup  # Corrected import
 
 
 # Import the login_required decorator

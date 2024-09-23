@@ -196,3 +196,14 @@ def login():
 @app.route('/check-email')
 def check_email():
     return login_manager.check_email()
+
+def get_current_user():
+    session_id = request.cookies.get('session_id')
+    if session_id:
+        user_data = redis_client.get(f"session:{session_id}")
+        if user_data:
+            return json.loads(user_data)
+    return None
+def is_admin(user):
+    # return user.get('role') == 'admin'
+    return True

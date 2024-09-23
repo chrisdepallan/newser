@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% include 'admin/template/head.html' %}
+<body>
+    <!-- tap to top-->
+    <div class="tap-top">
+      <svg class="feather">
+        <use href="{{ url_for('static', filename='admin/assets/svg/feather-icons/dist/feather-sprite.svg#arrow-up') }}"></use>
+      </svg>
+    </div>
+    <!-- loader-->
+    <div class="loader-wrapper">
+      <div class="loader"></div>
+    </div>
+    <main class="page-wrapper compact-wrapper" id="pageWrapper">
+      <!-- Page header start -->
+      {% include 'admin/template/header.html' %}
+      <!-- Page header end-->
+      <div class="page-body-wrapper">
+        <!-- Page sidebar start-->
+        <div class="overlay"></div>
+        {% include 'admin/template/aside.html' %}
+        <!-- Page sidebar end-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="row page-title">
+              <div class="col-sm-6">
+                <h3>Default dashboard</h3>
+              </div>
+              <div class="col-sm-6">
+                <nav>
+                  <ol class="breadcrumb justify-content-sm-end align-items-center">
+                    <li class="breadcrumb-item"> <a href="index.html">
+                        <svg class="svg-color">
+                          <use href="{{ url_for('static', filename='admin/assets/svg/iconly-sprite.svg#Home') }}"></use>
+                        </svg></a></li>
+                    <li class="breadcrumb-item">Dashboard</li>
+                    <li class="breadcrumb-item active">Default</li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+          <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-6">
+                        <h3>Compose Mail</h3>
+                    </div>
+                    <div class="col-6">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ url_for('dashboard_view') }}"><i class="fa fa-home"></i></a></li>
+                            <li class="breadcrumb-item">Email</li>
+                            <li class="breadcrumb-item active">Compose Mail</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form id="emailForm" method="post" action="{{ url_for('send_email') }}" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label for="subject" class="form-label">Subject</label>
+                                    <input type="text" class="form-control" id="subject" name="subject" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Recipients</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="recipient_groups" value="admin" id="adminCheck">
+                                        <label class="form-check-label" for="adminCheck">
+                                            Admins
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="recipient_groups" value="moderator" id="moderatorCheck">
+                                        <label class="form-check-label" for="moderatorCheck">
+                                            Moderators
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="recipient_groups" value="normal_user" id="normalUserCheck">
+                                        <label class="form-check-label" for="normalUserCheck">
+                                            Normal Users
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="content" class="form-label">Content</label>
+                                    <div id="editor" style="height: 300px;"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="attachments" class="form-label">Attachments</label>
+                                    <input type="file" class="form-control" id="attachments" name="attachments" multiple>
+                                </div>
+                                <input type="hidden" name="content" id="quillContent">
+                                <button type="submit" class="btn btn-primary">Send Email</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        {% include 'admin/template/footer.html' %}
+      </div>
+    </main>
+    <!-- jquery-->
+    <script src="{{ url_for('static', filename='admin/assets/js/vendors/jquery/dist/jquery.min.js') }}"></script>
+    <!-- bootstrap js-->
+    <script src="{{ url_for('static', filename='admin/assets/js/vendors/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='admin/assets/js/config.js') }}"></script>
+    <!-- Sidebar js-->
+    <script src="{{ url_for('static', filename='admin/assets/js/sidebar.js') }}"></script>
+    <!-- Apexchart js-->
+    <script src="{{ url_for('static', filename='admin/assets/js/vendors/apexcharts/dist/apexcharts.min.js') }}"></script>
+    <!-- Chart js-->
+    <script src="{{ url_for('static', filename='admin/assets/js/vendors/chart.js/dist/chart.umd.js') }}"></script>
+    <!-- Datatable js-->
+    <script src="{{ url_for('static', filename='admin/assets/js/vendors/simple-datatables/dist/umd/simple-datatables.js') }}"></script>
+    <!-- default dashboard js-->
+    <script src="{{ url_for('static', filename='admin/assets/js/dashboard/default.js') }}"></script>
+    <!-- scrollbar js-->
+    <script src="{{ url_for('static', filename='admin/assets/js/scrollbar/simplebar.js') }}"></script>
+    <script src="{{ url_for('static', filename='admin/assets/js/scrollbar/custom.js') }}"></script>
+    <!-- scrollable-->
+    <!-- customizer-->
+    <script src="{{ url_for('static', filename='admin/assets/js/theme-customizer/customizer.js') }}"></script>
+    <!-- custom script -->
+    <script src="{{ url_for('static', filename='admin/assets/js/script.js') }}"></script>
+    <script>
+        var quill = new Quill('#editor', {
+            theme: 'snow'
+        });
+
+        document.getElementById('emailForm').onsubmit = function() {
+            document.getElementById('quillContent').value = quill.root.innerHTML;
+        };
+    </script>
+</body>
+</html>

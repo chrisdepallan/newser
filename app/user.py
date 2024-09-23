@@ -1,7 +1,8 @@
 from flask import render_template, request, redirect, url_for, flash, session, current_app
 from app import app, collection_user_registration,collection_articles
+from app.utils import get_weather_data
 from functools import wraps
-
+from .recommendation_engine import get_trending_news
 from bson import ObjectId
 from datetime import datetime
 from werkzeug.utils import secure_filename
@@ -168,3 +169,60 @@ def allowed_file(filename):
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+from app.recommendation_engine import get_recommendations, get_trending, get_popular_news, get_top_story
+from app.utils import NewsAPIClient
+
+
+# ```python
+@app.route('/article-detail')
+def article_detail():
+    import requests
+    from bs4 import BeautifulSoup
+
+    article_url = request.args.get('article')
+    if not article_url:
+        flash('No article URL provided', 'error')
+        return redirect(url_for('hello_world'))
+
+    # Manually scrape the article details
+    try:
+        response = requests.get(article_url)
+        response.raise_for_status()
+    except requests.RequestException as e:
+        flash(f'Error fetching article: {str(e)}', 'error')
+        return redirect(url_for('hello_world'))
+
+    soup = BeautifulSoup(response.content, 'html.parser')
+
+    # Extract the article details (this will depend on the structure of the article page)
+    article = {
+        'title': soup.find('title').get_text(),
+        'content': ' '.join(''.join([str(tag.get_text()) for tag in soup.find('body').find_all(['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'])]).split()[:300])  # Extract only text tags and limit to 300 words
+    }
+   # Extract a proper article image
+    image_url = None
+    for img in soup.find_all('img'):
+        src = img.get('src')
+        if src and not src.endswith('.svg'):
+            image_url = src
+            break
+
+    article['image_url'] = image_url
+    if not article['title'] or not article['content']:
+        flash('Article not found', 'error')
+        return redirect(url_for('hello_world'))
+
+    # Get recommendations based on the article's title
+    # recommendations = get_recommendations(article['title'])
+
+    # Get trending news
+    trending_news = get_trending_news()
+
+    # Get weather data
+    weather_data = get_weather_data()
+
+    return render_template('Newsers/detail-page.html',
+                           trending_news=trending_news,
+                           weather_data=weather_data,
+                           article=article)

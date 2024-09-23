@@ -4,6 +4,14 @@ import cloudinary
 import cloudinary.uploader
 from cloudinary.utils import cloudinary_url
 from flask import current_app
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.image import MIMEImage
+import os,json
+from flask import flash
+
+
 
 def get_ip():
     response = requests.get('https://api64.ipify.org?format=json').json()
@@ -143,3 +151,46 @@ def datetime_filter(value, format="%B %d, %Y"):
 # from app.utils import get_weather_data
 # weather_data = get_weather_data(YOUR_API_KEY, user_city)
 # Add weather_data to session or pass it to the template
+
+#  Mail sending function
+
+def send_mass_email(emails, subject, quill_content, image_files=None):
+    # Configure email settings
+    smtp_server = current_app.config['MAIL_SERVER']
+    smtp_port = current_app.config['MAIL_PORT']
+    sender_email = current_app.config['MAIL_DEFAULT_SENDER']
+    password = current_app.config['MAIL_PASSWORD']
+
+    # Connect to SMTP server
+    server = smtplib.SMTP(smtp_server, smtp_port)
+    server.starttls()
+    server.login(sender_email, password)
+
+    # Send emails
+    for recipient_email in emails:
+        # Create message
+        message = MIMEMultipart()
+        message['From'] = sender_email
+        message['To'] = recipient_email
+        message['Subject'] = subject
+
+        # Add Quill.js content as HTML body to email
+        message.attach(MIMEText(quill_content, 'html'))
+
+        # Attach images if provided
+        if image_files:
+            for i, image_file in enumerate(image_files, start=1):
+                with open(image_file, 'rb') as img:
+                    img_data = img.read()
+                    image = MIMEImage(img_data, name=os.path.basename(image_file))
+                    image.add_header('Content-ID', f'<image{i}>')
+                    message.attach(image)
+
+        # Send email
+        server.send_message(message)
+        print(f"Email sent to {recipient_email}")
+
+    # Close the SMTP server connection
+    server.quit()
+
+    print("All emails sent successfully.")

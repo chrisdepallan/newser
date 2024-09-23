@@ -12,7 +12,7 @@ import cloudinary
 import json
 from app import redis_client
 from bs4 import BeautifulSoup
-
+import requests
 
 
 # Import the login_required decorator
@@ -179,9 +179,7 @@ from app.utils import NewsAPIClient
 # ```python
 @app.route('/article-detail')
 def article_detail():
-    import requests
-    from bs4 import BeautifulSoup
-
+ 
     article_url = request.args.get('article')
     if not article_url:
         flash('No article URL provided', 'error')

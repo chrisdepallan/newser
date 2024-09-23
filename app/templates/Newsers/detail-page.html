@@ -312,6 +312,12 @@
                                     <h4 class="my-4">Sentiment Analysis</h4>
                                     <button id="sentiment-btn" class="btn btn-primary w-100 mb-4">Analyze Sentiment</button>
                                     <div id="sentiment-result" class="p-3 bg-light rounded"></div>
+                                    <h4 class="my-4">Question Answering</h4>
+                                    <div class="mb-4">
+                                        <input type="text" id="question-input" class="form-control mb-2" placeholder="Ask a question about the article">
+                                        <button id="ask-btn" class="btn btn-primary w-100">Get Answer</button>
+                                    </div>
+                                    <div id="answer-result" class="p-3 bg-light rounded"></div>
                                     <h4 class="my-4">Named Entity Recognition</h4>
                 <button id="ner-btn" class="btn btn-primary w-100 mb-4">Recognize Entities</button>
                 <div id="ner-result" class="p-3 bg-light rounded"></div>
@@ -748,6 +754,35 @@
                     .catch(error => {
                         console.error('Error:', error);
                         document.getElementById('sentiment-result').innerText = 'An error occurred while analyzing the sentiment.';
+                    });
+                }
+                document.getElementById('ask-btn').addEventListener('click', function() {
+                    const question = document.getElementById('question-input').value;
+                    const articleContent = document.querySelector('#premium-content').innerText;
+                    getAnswer(question, articleContent);
+                });
+        
+                function getAnswer(question, context) {
+                    const apiUrl = 'https://api-inference.huggingface.co/models/bert-large-uncased-whole-word-masking-finetuned-squad';
+                    const apiKey = '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'; // Replace with your Hugging Face API key
+        
+                    fetch(apiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${apiKey}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ inputs: { question: question, context: context } })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Question Answering Response:', data); // Log the response
+                        const answer = data.answer;
+                        document.getElementById('answer-result').innerText = `Answer: ${answer}`;
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        document.getElementById('answer-result').innerText = 'An error occurred while getting the answer.';
                     });
                 }
             });

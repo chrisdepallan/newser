@@ -261,8 +261,8 @@ def compose_mail():
     # Fetch all users grouped by their roles
     users = collection_login_credentials.find({}, {'_id': 1, 'email': 1, 'newser_user_roles': 1})
     for user in users:
-        print(user)
-    print(users)
+        print(user['email'])
+    # print(users)
     user_groups = {
         'admin': [],
         'moderator': [],
@@ -296,25 +296,17 @@ def send_email():
 
     # Fetch all users' emails based on selected groups
     all_emails = []
-    for group in recipient_groups:
-        emails = collection_login_credentials.find(
-            {'newser_user_roles': group},
-            {'email': 1, '_id': 0}
-        )
-        all_emails.extend([user['email'] for user in emails])
+    users = collection_login_credentials.find({}, {'_id': 1, 'email': 1, 'newser_user_roles': 1})
+    for user in users:
+        if user.get('email'):
+            all_emails.append(user['email'])
 
     # Remove duplicates
     all_emails = list(set(all_emails))
     print(all_emails,"all_emails")
     # Save attachments temporarily
     temp_files = []
-    if attachments:
-        for file in attachments:
-            if file.filename:
-                filename = secure_filename(file.filename)
-                temp_path = os.path.join('/tmp', filename)
-                file.save(temp_path)
-                temp_files.append(temp_path)
+   
 
     try:
         send_mass_email(all_emails, subject, quill_content, temp_files)
@@ -327,6 +319,80 @@ def send_email():
             os.remove(temp_file)
 
     return redirect(url_for('compose_mail'))
+
+@app.route('/posts')
+@login_required
+def posts_view():
+    user = get_current_user()
+    if not user:
+        return redirect(url_for('login'))
+    
+    # Check if user has admin or moderator privileges
+    # if not is_admin(user) and 'moderator' not in user.get('newser_user_roles', []):
+    #     return redirect(url_for('hello_world'))
+    
+    return render_template('admin/template/posts.html', user=user)
+
+@app.route('/get_posts')
+@login_required
+def get_posts():
+    user = get_current_user()
+    if not user:
+        return redirect(url_for('login'))
+    
+    # Check if user has admin or moderator privileges
+    # if not is_admin(user) and 'moderator' not in user.get('newser_user_roles', []):
+    #     return redirect(url_for('hello_world'))
+
+    page = int(request.args.get('page', 1))
+    per_page = 16  # 4x4 grid
+    skip = (page - 1) * per_page
+
+    posts = list(collection_articles.find({}, {
+        '_id': 1,
+        'title': 1,
+        'content': 1,
+        'author': 1,
+        'created_at': 1,
+        'image_public_id': 1
+    }).sort('created_at', -1).skip(skip).limit(per_page))
+
+    for post in posts:
+        post['_id'] = str(post['_id'])
+        if 'image_public_id' in post:
+            post['image_url'] = get_image_url(post['image_public_id'])
+        post['created_at'] = post['created_at'].isoformat()
+
+    total_posts = collection_articles.count_documents({})
+    total_pages = (total_posts + per_page - 1) // per_page
+
+    return jsonify({
+        'posts': posts,
+        'total_pages': total_pages,
+        'current_page': page
+    })
+
+@app.route('/delete_post/<post_id>', methods=['POST'])
+@login_required
+def delete_post(post_id):
+    user = get_current_user()
+    if not user:
+        return redirect(url_for('login'))
+    
+    # Check if user has admin or moderator privileges
+    # if not is_admin(user) and 'moderator' not in user.get('newser_user_roles', []):
+    #     return jsonify({'error': 'Unauthorized'}), 403
+
+    try:
+        result = collection_articles.delete_one({'_id': ObjectId(post_id)})
+        if result.deleted_count > 0:
+            return jsonify({'message': 'Post deleted successfully'}), 200
+        else:
+            return jsonify({'error': 'Post not found'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# Add routes for edit_post and view_post as needed
 
 
 

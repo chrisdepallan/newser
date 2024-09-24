@@ -41,7 +41,19 @@ def create_article():
         title = request.form.get('title')
         content = request.form.get('content')
         category = request.form.getlist('category')  # Assuming multiple categories can be selected
-        
+        session_id = request.cookies.get('session_id')
+        if not session_id:
+            return redirect(url_for('login'))
+    
+        # Get the user data from Redis
+        user_data = redis_client.get(f"session:{session_id}")
+        if not user_data:
+            return redirect(url_for('login'))
+    
+    # Parse the user data
+        user = json.loads(user_data)
+        user_id = ObjectId(user['user_id'])
+    
         if not title or not content:
             flash('Title and content are required.', 'error')
             return redirect(url_for('create_article'))
@@ -62,7 +74,7 @@ def create_article():
             'title': title,
             'content': content,
             'category': category,
-            'author_id': ObjectId(session['user_id']),
+            'author_id': user_id,
             'author_name': session.get('username', 'Unknown'),
             'created_at': datetime.utcnow(),
             'status': 'pending',  # Assuming articles need approval before publishing
@@ -97,7 +109,21 @@ def my_articles():
 @app.route('/view-articles')
 @login_required
 def view_articles():
-    user_id = ObjectId(session['user_id'])
+    # Get the session ID from the cookie
+    session_id = request.cookies.get('session_id')
+    if not session_id:
+        return redirect(url_for('login'))
+    
+    # Get the user data from Redis
+    user_data = redis_client.get(f"session:{session_id}")
+    if not user_data:
+        return redirect(url_for('login'))
+    
+    # Parse the user data
+    user = json.loads(user_data)
+    user_id = ObjectId(user['user_id'])
+    
+    # Fetch articles for the user
     articles = collection_articles.find({'author_id': user_id}).sort('created_at', -1)
  
     # Process articles to add image_url and format dates
@@ -125,7 +151,16 @@ def view_article(article_id):
     # Format the date
     article['created_at'] = article['created_at'].strftime('%B %d, %Y')
     
-    return render_template('Newsers/detail-page.html', article=article)
+    # Get trending news
+    trending_news = get_trending_news()
+
+    # Get weather data
+    weather_data = get_weather_data()
+    
+    return render_template('Newsers/detail-page.html',
+                           article=article,
+                           trending_news=trending_news,
+                           weather_data=weather_data)
 
 @app.route('/edit-article/<article_id>', methods=['GET', 'POST'])
 @login_required
@@ -135,9 +170,9 @@ def edit_article(article_id):
         flash('Article not found', 'error')
         return redirect(url_for('view_articles'))
 
-    if article['author_id'] != ObjectId(session['user_id']):
-        flash('You do not have permission to edit this article', 'error')
-        return redirect(url_for('view_articles'))
+    # if article['author_id'] != ObjectId(session['user_id']):
+    #     flash('You do not have permission to edit this article', 'error')
+    #     return redirect(url_for('view_articles'))
 
     if request.method == 'POST':
         title = request.form.get('title')

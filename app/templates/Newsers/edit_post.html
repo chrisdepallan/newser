@@ -203,8 +203,18 @@
             theme: 'snow',
             modules: {
                 toolbar: toolbarOptions,
-                clipboard: {
-                    matchVisual: false
+                keyboard: {
+                    bindings: {
+                        backspace: {
+                            key: 8,
+                            handler: function(range, context) {
+                                if (range.index === 0 && range.length === 0) {
+                                    return;
+                                }
+                                quill.deleteText(range.index - 1, 1, Quill.sources.USER);
+                            }
+                        }
+                    }
                 }
             },
             placeholder: 'Write your article content here...'
@@ -279,6 +289,11 @@
                 }, 100 * (index + 1));
             });
         });
+        window.onbeforeunload = function() {
+            if (quill.root.innerHTML !== `{{ article.content | safe }}`) {
+                return "You have unsaved changes. Are you sure you want to leave?";
+            }
+        };
     </script>
 </body>
 </html>

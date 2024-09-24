@@ -178,13 +178,13 @@ def send_mass_email(emails, subject, quill_content, image_files=None):
         message.attach(MIMEText(quill_content, 'html'))
 
         # Attach images if provided
-        if image_files:
-            for i, image_file in enumerate(image_files, start=1):
-                with open(image_file, 'rb') as img:
-                    img_data = img.read()
-                    image = MIMEImage(img_data, name=os.path.basename(image_file))
-                    image.add_header('Content-ID', f'<image{i}>')
-                    message.attach(image)
+        # if image_files:
+        #     for i, image_file in enumerate(image_files, start=1):
+        #         with open(image_file, 'rb') as img:
+        #             img_data = img.read()
+        #             image = MIMEImage(img_data, name=os.path.basename(image_file))
+        #             image.add_header('Content-ID', f'<image{i}>')
+        #             message.attach(image)
 
         # Send email
         server.send_message(message)

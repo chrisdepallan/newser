@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% include 'Newsers/head.html' %}
+
+<body>
+
+    <!-- Spinner Start -->
+    <div id="spinner" class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
+        <div class="spinner-grow text-primary" role="status"></div>
+    </div>
+    <!-- Spinner End -->
+
+    <!-- Navbar start -->
+    <div class="container-fluid sticky-top px-0">
+        <img src="{{ url_for('static', filename='newsers/img/logo.png') }}" class="hide-on-mobile" onclick="window.location.href='/'" style="position:absolute"/>
+
+        <div class="container-fluid topbar bg-dark d-none d-lg-block">
+            <div class="container px-0">
+                <div class="topbar-top d-flex justify-content-between flex-lg-wrap">
+                    <div class="top-info flex-grow-0">
+                        <span class="rounded-circle btn-sm-square bg-primary me-2">
+                            <i class="fas fa-bolt text-white"></i>
+                        </span>
+                        <div class="pe-2 me-3 border-end border-white d-flex align-items-center">
+                            <p class="mb-0 text-white fs-6 fw-normal">Trending</p>
+                        </div>
+                        <div class="overflow-hidden" style="width: 735px;">
+                            <div id="note" class="ps-2">
+                                <img src="{{ url_for('static', filename='newsers/img/features-fashion.jpg') }}" class="img-fluid rounded-circle border border-3 border-primary me-2" style="width: 30px; height: 30px;" alt="">
+                           <!----> <a href="#"><p class="text-white mb-0 link-hover">{{ trending_news[0].title }}</p></a>
+                        --></div>
+                        </div>
+                    </div>
+                    {% include 'Newsers/topbar_right.html' %}
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid bg-light">
+            <div class="container px-0">
+                <nav class="navbar navbar-light navbar-expand-xl">
+                    <a href="/" class="navbar-brand mt-3">
+                        <p class="text-primary display-6 mb-2" style="line-height: 0;">Newsers</p>
+                        <small class="text-body fw-normal" style="letter-spacing: 12px;">Newspaper</small>
+                    </a>
+                    <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                        <span class="fa fa-bars text-primary"></span>
+                    </button>
+                    <div class="collapse navbar-collapse bg-light py-3" id="navbarCollapse">
+                        {% include 'Newsers/navbar.html' %}
+                        <div class="d-flex flex-nowrap border-top pt-3 pt-xl-0">
+                            <div class="d-flex">
+                                <img src="{{ weather_data.icon_url }}" class="img-fluid w-100 me-2" alt="{{ weather_data.description }}">
+                                <div class="d-flex align-items-center">
+                                    <strong class="fs-4 text-secondary">{{ weather_data.temperature }}°C</strong>
+                                    <div class="d-flex flex-column ms-2" style="width: 150px;">
+                                        <span class="text-body">{{ weather_data.city }},</span>
+                                        <small>{{ weather_data.date }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn-search btn border border-primary btn-md-square rounded-circle bg-white my-auto" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- Navbar End -->
+
+    <!-- Modal Search Start -->
+    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content rounded-0">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Search by keyword</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex align-items-center">
+                    <div class="input-group w-75 mx-auto d-flex">
+                        <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
+                        <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Search End -->
+
+    <!-- Single Product Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+            <ol class="breadcrumb justify-content-start mb-4">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                <li class="breadcrumb-item active text-dark">Single Page</li>
+            </ol>
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="mb-4">
+                        <a href="#" class="h1 display-5">{{ article.title }}</a>
+                    </div>
+                    <div class="position-relative rounded overflow-hidden mb-3">
+                        <img src="{{ article.image_url }}" class="img-zoomin img-fluid rounded w-100" alt="">
+                        <div class="position-absolute text-white px-4 py-2 bg-primary rounded" style="top: 20px; right: 20px;">                                              
+                            Business
+                        </div>
+                    </div>
+                    <!-- <div class="d-flex justify-content-between">
+                        <a href="#" class="text-dark link-hover me-3"><i class="fa fa-clock"></i> 06 minute read</a>
+                        <a href="#" class="text-dark link-hover me-3"><i class="fa fa-eye"></i> 3.5k Views</a>
+                        <a href="#" class="text-dark link-hover me-3"><i class="fa fa-comment-dots"></i> 05 Comment</a>
+                        <a href="#" class="text-dark link-hover"><i class="fa fa-arrow-up"></i> 1.5k Share</a>
+                    </div> -->
+                    {{ article.content|safe }}
+                    <p class="my-4 premium-content" id="premium-content">{{ article.content|safe }}</p>
+                    
+                                        <div class="tab-class">
+                        <div class="d-flex justify-content-between border-bottom mb-4">
+                            <ul class="nav nav-pills d-inline-flex text-center">
+                                <li class="nav-item mb-3">
+                                    <h5 class="mt-2 me-3 mb-0">Tags:</h5>
+                                </li>
+                                <li class="nav-item mb-3">
+                                    <a class="d-flex py-2 bg-light rounded-pill active me-2" data-bs-toggle="pill" href="#tab-1">
+                                        <span class="text-dark" style="width: 100px;">Sports</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item mb-3">
+                                    <a class="d-flex py-2 bg-light rounded-pill me-2" data-bs-toggle="pill" href="#tab-2">
+                                        <span class="text-dark" style="width: 100px;">Magazine</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item mb-3">
+                                    <a class="d-flex py-2 bg-light rounded-pill me-2" data-bs-toggle="pill" href="#tab-3">
+                                        <span class="text-dark" style="width: 100px;">Politics</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="d-flex align-items-center">
+                                <h5 class="mb-0 me-3">Share:</h5>
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.url|urlencode }}" target="_blank" class="fab fa-facebook-f link-hover btn btn-square rounded-circle border-primary text-dark me-2"></a>
+                                <a href="https://twitter.com/intent/tweet?url={{ request.url|urlencode }}&text={{ article.title|urlencode }}" target="_blank" class="fab fa-twitter link-hover btn btn-square rounded-circle border-primary text-dark me-2"></a>
+                                <a href="https://www.instagram.com/" target="_blank" class="fab fa-instagram link-hover btn btn-square rounded-circle border-primary text-dark me-2"></a>
+                                <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.url|urlencode }}&title={{ article.title|urlencode }}" target="_blank" class="fab fa-linkedin-in link-hover btn btn-square rounded-circle border-primary text-dark"></a>
+                            </div>
+                        </div>
+                        <div class="tab-content">
+                            <div id="tab-1" class="tab-pane fade show active">
+                                <div class="row g-4 align-items-center">
+                                    <div class="col-3">
+                                        <img src="{{ url_for('static', filename='newsers/img/footer-4.jpg') }}" class="img-fluid w-100 rounded" alt="">
+                                    </div>
+                                    <div class="col-9">
+                                        <h3>Amelia Alex</h3>
+                                        <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy Lorem Ipsum has been the industry's standard dummy type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic
+                                         but also the leap into electronic.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="tab-2" class="tab-pane fade show">
+                                <div class="row g-4 align-items-center">
+                                    <div class="col-3">
+                                        <img src="{{ url_for('static', filename='newsers/img/footer-5.jpg') }}" class="img-fluid w-100 rounded" alt="">
+                                    </div>
+                                    <div class="col-9">
+                                        <h3>Amelia Alex</h3>
+                                        <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy Lorem Ipsum has been the industry's standard dummy type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic
+                                         but also the leap into electronic.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="tab-3" class="tab-pane fade show">
+                                <div class="row g-4 align-items-center">
+                                    <div class="col-3">
+                                        <img src="{{ url_for('static', filename='newsers/img/footer-6.jpg') }}" class="img-fluid w-100 rounded" alt="">
+                                    </div>
+                                    <div class="col-9">
+                                        <h3>Amelia Alex</h3>
+                                        <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy Lorem Ipsum has been the industry's standard dummy type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic
+                                         but also the leap into electronic.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-light rounded my-4 p-4">
+                        <h4 class="mb-4">You Might Also Like</h4>
+                        <div class="row g-4">
+                            <div class="col-lg-6">
+                                <div class="d-flex align-items-center p-3 bg-white rounded">
+                                    <img src="{{ url_for('static', filename='newsers/img/chatGPT.jpg') }}" class="img-fluid rounded" alt="">
+                                    <div class="ms-3">
+                                        <a href="#" class="h5 mb-2">Lorem Ipsum is simply dummy text of the printing</a>
+                                        <p class="text-dark mt-3 mb-0 me-3"><i class="fa fa-clock"></i> 06 minute read</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="d-flex align-items-center p-3 bg-white rounded">
+                                    <img src="{{ url_for('static', filename='newsers/img/chatGPT-1.jpg') }}" class="img-fluid rounded" alt="">
+                                    <div class="ms-3">
+                                        <a href="#" class="h5 mb-2">Lorem Ipsum is simply dummy text of the printing</a>
+                                        <p class="text-dark mt-3 mb-0 me-3"><i class="fa fa-clock"></i> 06 minute read</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-light rounded p-4">
+                        <h4 class="mb-4">Comments</h4>
+                        <div class="p-4 bg-white rounded mb-4">
+                            <div class="row g-4">
+                                <div class="col-3">
+                                    <img src="{{ url_for('static', filename='newsers/img/footer-4.jpg') }}" class="img-fluid rounded-circle w-100" alt="">
+                                </div>
+                                <div class="col-9">
+                                    <div class="d-flex justify-content-between">
+                                        <h5>James Boreego</h5>
+                                        <a href="#" class="link-hover text-body fs-6"><i class="fas fa-long-arrow-alt-right me-1"></i> Reply</a>
+                                    </div>
+                                    <small class="text-body d-block mb-3"><i class="fas fa-calendar-alt me-1"></i> Dec 9, 2024</small>
+                                    <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy Lorem Ipsum has been the industry's standard dummy type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-white rounded mb-0">
+                            <div class="row g-4">
+                                <div class="col-3">
+                                    <img src="{{ url_for('static', filename='newsers/img/footer-4.jpg') }}" class="img-fluid rounded-circle w-100" alt="">
+                                </div>
+                                <div class="col-9">
+                                    <div class="d-flex justify-content-between">
+                                        <h5>James Boreego</h5>
+                                        <a href="#" class="link-hover text-body fs-6"><i class="fas fa-long-arrow-alt-right me-1"></i> Reply</a>
+                                    </div>
+                                    <small class="text-body d-block mb-3"><i class="fas fa-calendar-alt me-1"></i> Dec 9, 2024</small>
+                                    <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy Lorem Ipsum has been the industry's standard dummy type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-light rounded p-4 my-4">
+                        <h4 class="mb-4">Leave A Comment</h4>
+                        <form action="#">
+                            <div class="row g-4">
+                                <div class="col-lg-6">
+                                    <input type="text" class="form-control py-3" placeholder="Full Name">
+                                </div>
+                                <div class="col-lg-6">
+                                    <input type="email" class="form-control py-3" placeholder="Email Address">
+                                </div>
+                                <div class="col-12">
+                                    <textarea class="form-control" name="textarea" id="" cols="30" rows="7" placeholder="Write Your Comment Here"></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <button class="form-control btn btn-primary py-3" type="button">Submit Now</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                    <div class="col-lg-4">
+                        <div class="row g-4">
+                            <div class="col-12">
+                                <div class="p-3 rounded border">
+                                    <div class="input-group w-100 mx-auto d-flex mb-4">
+                                        <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
+                                        <span id="search-icon-1" class="btn btn-primary input-group-text p-3"><i class="fa fa-search text-white"></i></span>
+                                    </div>
+                                    <h4 class="mb-4">Popular Categories</h4>
+                                    <div class="row g-2">
+                                        <div class="col-12">
+                                            <a href="#" class="link-hover btn btn-light w-100 rounded text-uppercase text-dark py-3">
+                                                Life Style
+                                            </a>
+                                        </div>
+                                        <div class="col-12">
+                                            <a href="#" class="link-hover btn btn-light w-100 rounded text-uppercase text-dark py-3">
+                                                Fashion
+                                            </a>
+                                        </div>
+                                        <div class="col-12">
+                                            <a href="#" class="link-hover btn btn-light w-100 rounded text-uppercase text-dark py-3">
+                                                Relationship
+                                            </a>
+                                        </div>
+                                        <div class="col-12">
+                                            <a href="#" class="link-hover btn btn-light w-100 rounded text-uppercase text-dark py-3">
+                                                Art & Culture
+                                            </a>
+                                        </div>
+                                        <div class="col-12">
+                                            <a href="#" class="link-hover btn btn-light w-100 rounded text-uppercase text-dark py-3">
+                                                Self Development
+                                            </a>
+                                        </div>
+                                        <div class="col-12">
+                                            <a href="#" class="link-hover btn btn-light w-100 rounded text-uppercase text-dark py-3 mb-4">
+                                                travel & tourism
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <h4 class="my-4">Text Summarizer</h4>
+                                    <button id="summarize-btn" class="btn btn-primary w-100 mb-4">Summarize Article</button>
+                                    <div id="summary-result" class="p-3 bg-light rounded"></div>
+                                    <h4 class="my-4">Sentiment Analysis</h4>
+                                    <button id="sentiment-btn" class="btn btn-primary w-100 mb-4">Analyze Sentiment</button>
+                                    <div id="sentiment-result" class="p-3 bg-light rounded"></div>
+                                    <h4 class="my-4">Question Answering</h4>
+                                    <div class="mb-4">
+                                        <input type="text" id="question-input" class="form-control mb-2" placeholder="Ask a question about the article">
+                                        <button id="ask-btn" class="btn btn-primary w-100">Get Answer</button>
+                                    </div>
+                                    <div id="answer-result" class="p-3 bg-light rounded"></div>
+                                    <h4 class="my-4">Named Entity Recognition</h4>
+                <button id="ner-btn" class="btn btn-primary w-100 mb-4">Recognize Entities</button>
+                <div id="ner-result" class="p-3 bg-light rounded"></div>
+                                    <h4 class="my-4">Popular News</h4>
+                                    <div class="row g-4">
+                                        <div class="col-12">
+                                            <div class="row g-4 align-items-center features-item">
+                                                <div class="col-4">
+                                                    <div class="rounded-circle position-relative">
+                                                        <div class="overflow-hidden rounded-circle">
+                                                            <img src="{{ url_for('static', filename='newsers/img/features-sports-1.jpg') }}" class="img-zoomin img-fluid rounded-circle w-100" alt="">
+                                                        </div>
+                                                        <span class="rounded-circle border border-2 border-white bg-primary btn-sm-square text-white position-absolute" style="top: 10%; right: -10px;">3</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-8">
+                                                    <div class="features-content d-flex flex-column">
+                                                        <p class="text-uppercase mb-2">Sports</p>
+                                                        <a href="#" class="h6">
+                                                            Get the best speak market, news.
+                                                        </a>
+                                                        <small class="text-body d-block"><i class="fas fa-calendar-alt me-1"></i> December 9, 2024</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="row g-4 align-items-center features-item">
+                                                <div class="col-4">
+                                                    <div class="rounded-circle position-relative">
+                                                        <div class="overflow-hidden rounded-circle">
+                                                            <img src="{{ url_for('static', filename='newsers/img/features-technology.jpg') }}" class="img-zoomin img-fluid rounded-circle w-100" alt="">
+                                                        </div>
+                                                        <span class="rounded-circle border border-2 border-white bg-primary btn-sm-square text-white position-absolute" style="top: 10%; right: -10px;">3</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-8">
+                                                    <div class="features-content d-flex flex-column">
+                                                        <p class="text-uppercase mb-2">Technology</p>
+                                                        <a href="#" class="h6">
+                                                            Get the best speak market, news.
+                                                        </a>
+                                                        <small class="text-body d-block"><i class="fas fa-calendar-alt me-1"></i> December 9, 2024</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="row g-4 align-items-center features-item">
+                                                <div class="col-4">
+                                                    <div class="rounded-circle position-relative">
+                                                        <div class="overflow-hidden rounded-circle">
+                                                            <img src="{{ url_for('static', filename='newsers/img/features-fashion.jpg') }}" class="img-zoomin img-fluid rounded-circle w-100" alt="">
+                                                        </div>
+                                                        <span class="rounded-circle border border-2 border-white bg-primary btn-sm-square text-white position-absolute" style="top: 10%; right: -10px;">3</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-8">
+                                                    <div class="features-content d-flex flex-column">
+                                                        <p class="text-uppercase mb-2">Fashion</p>
+                                                        <a href="#" class="h6">
+                                                            Get the best speak market, news.
+                                                        </a>
+                                                        <small class="text-body d-block"><i class="fas fa-calendar-alt me-1"></i> December 9, 2024</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="row g-4 align-items-center features-item">
+                                                <div class="col-4">
+                                                    <div class="rounded-circle position-relative">
+                                                        <div class="overflow-hidden rounded-circle">
+                                                            <img src="{{ url_for('static', filename='newsers/img/features-life-style.jpg') }}" class="img-zoomin img-fluid rounded-circle w-100" alt="">
+                                                        </div>
+                                                        <span class="rounded-circle border border-2 border-white bg-primary btn-sm-square text-white position-absolute" style="top: 10%; right: -10px;">3</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-8">
+                                                    <div class="features-content d-flex flex-column">
+                                                        <p class="text-uppercase mb-2">Life Style</p>
+                                                        <a href="#" class="h6">
+                                                            Get the best speak market, news.
+                                                        </a>
+                                                        <small class="text-body d-block"><i class="fas fa-calendar-alt me-1"></i> December 9, 2024</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <a href="#" class="link-hover btn border border-primary rounded-pill text-dark w-100 py-3 mb-4">View More</a>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="border-bottom my-3 pb-3">
+                                                <h4 class="mb-0">Trending Tags</h4>
+                                            </div>
+                                            <ul class="nav nav-pills d-inline-flex text-center mb-4">
+                                                <li class="nav-item mb-3">
+                                                    <a class="d-flex py-2 bg-light rounded-pill me-2" href="#">
+                                                        <span class="text-dark link-hover" style="width: 90px;">Lifestyle</span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item mb-3">
+                                                    <a class="d-flex py-2 bg-light rounded-pill me-2" href="#">
+                                                        <span class="text-dark link-hover" style="width: 90px;">Sports</span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item mb-3">
+                                                    <a class="d-flex py-2 bg-light rounded-pill me-2" href="#">
+                                                        <span class="text-dark link-hover" style="width: 90px;">Politics</span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item mb-3">
+                                                    <a class="d-flex py-2 bg-light rounded-pill me-2" href="#">
+                                                        <span class="text-dark link-hover" style="width: 90px;">Magazine</span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item mb-3">
+                                                    <a class="d-flex py-2 bg-light rounded-pill me-2" href="#">
+                                                        <span class="text-dark link-hover" style="width: 90px;">Game</span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item mb-3">
+                                                    <a class="d-flex py-2 bg-light rounded-pill me-2" href="#">
+                                                        <span class="text-dark link-hover" style="width: 90px;">Movie</span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item mb-3">
+                                                    <a class="d-flex py-2 bg-light rounded-pill me-2" href="#">
+                                                        <span class="text-dark link-hover" style="width: 90px;">Travel</span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item mb-3">
+                                                    <a class="d-flex py-2 bg-light rounded-pill me-2" href="#">
+                                                        <span class="text-dark link-hover" style="width: 90px;">World</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="position-relative banner-2">
+                                                <img src="{{ url_for('static', filename='newsers/img/banner-2.jpg') }}" class="img-fluid w-100 rounded" alt="">
+                                                <div class="text-center banner-content-2">
+                                                    <h6 class="mb-2">The Most Populer</h6>
+                                                    <p class="text-white mb-2">News & Magazine WP Theme</p>
+                                                    <a href="#" class="btn btn-primary text-white px-4">Shop Now</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Single Product End -->
+
+
+        <!-- Footer Start -->
+        <div class="container-fluid bg-dark footer py-5">
+            <div class="container py-5">
+                <div class="pb-4 mb-4" style="border-bottom: 1px solid rgba(255, 255, 255, 0.2);">
+                    <div class="row g-4">
+                        <div class="col-lg-3">
+                            <a href="#" class="d-flex flex-column flex-wrap">
+                                <p class="text-white mb-0 display-6">Newsers</p>
+                                <small class="text-light" style="letter-spacing: 11px; line-height: 0;">Newspaper</small>
+                            </a>
+                        </div>
+                        <div class="col-lg-9">
+                            <div class="d-flex position-relative rounded-pill overflow-hidden">
+                                <input class="form-control border-0 w-100 py-3 rounded-pill" type="email" placeholder="example@gmail.com">
+                                <button type="submit" class="btn btn-primary border-0 py-3 px-5 rounded-pill text-white position-absolute" style="top: 0; right: 0;">Subscribe Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-5">
+                    <div class="col-lg-6 col-xl-3">
+                        <div class="footer-item-1">
+                            <h4 class="mb-4 text-white">Get In Touch</h4>
+                            <p class="text-secondary line-h">Address: <span class="text-white">123 Streat, New York</span></p>
+                            <p class="text-secondary line-h">Email: <span class="text-white">Example@gmail.com</span></p>
+                            <p class="text-secondary line-h">Phone: <span class="text-white">+0123 4567 8910</span></p>
+                            <div class="d-flex line-h">
+                                <a class="btn btn-light me-2 btn-md-square rounded-circle" href="#"><i class="fab fa-twitter text-dark"></i></a>
+                                <a class="btn btn-light me-2 btn-md-square rounded-circle" href="#"><i class="fab fa-facebook-f text-dark"></i></a>
+                                <a class="btn btn-light me-2 btn-md-square rounded-circle" href="#"><i class="fab fa-youtube text-dark"></i></a>
+                                <a class="btn btn-light btn-md-square rounded-circle" href="#"><i class="fab fa-linkedin-in text-dark"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-xl-3">
+                        <div class="footer-item-2">
+                            <div class="d-flex flex-column mb-4">
+                                <h4 class="mb-4 text-white">Recent Posts</h4>
+                                <a href="#">
+                                    <div class="d-flex align-items-center">
+                                        <div class="rounded-circle border border-2 border-primary overflow-hidden">
+                                            <img src="{{ url_for('static', filename='newsers/img/footer-1.jpg') }}" class="img-zoomin img-fluid rounded-circle w-100" alt="">
+                                        </div>
+                                        <div class="d-flex flex-column ps-4">
+                                            <p class="text-uppercase text-white mb-3">Life Style</p>
+                                            <a href="#" class="h6 text-white">
+                                                Get the best speak market, news.
+                                            </a>
+                                            <small class="text-white d-block"><i class="fas fa-calendar-alt me-1"></i> Dec 9, 2024</small>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="d-flex flex-column">
+                                <a href="#">
+                                    <div class="d-flex align-items-center">
+                                        <div class="rounded-circle border border-2 border-primary overflow-hidden">
+                                            <img src="{{ url_for('static', filename='newsers/img/footer-2.jpg') }}" class="img-zoomin img-fluid rounded-circle w-100" alt="">
+                                        </div>
+                                        <div class="d-flex flex-column ps-4">
+                                            <p class="text-uppercase text-white mb-3">Sports</p>
+                                            <a href="#" class="h6 text-white">
+                                                Get the best speak market, news.
+                                            </a>
+                                            <small class="text-white d-block"><i class="fas fa-calendar-alt me-1"></i> Dec 9, 2024</small>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-xl-3">
+                        <div class="d-flex flex-column text-start footer-item-3">
+                            <h4 class="mb-4 text-white">Categories</h4>
+                            <a class="btn-link text-white" href="#"><i class="fas fa-angle-right text-white me-2"></i> Sports</a>
+                            <a class="btn-link text-white" href="#"><i class="fas fa-angle-right text-white me-2"></i> Magazine</a>
+                            <a class="btn-link text-white" href="#"><i class="fas fa-angle-right text-white me-2"></i> Lifestyle</a>
+                            <a class="btn-link text-white" href="#"><i class="fas fa-angle-right text-white me-2"></i> Politician</a>
+                            <a class="btn-link text-white" href="#"><i class="fas fa-angle-right text-white me-2"></i> Technology</a>
+                            <a class="btn-link text-white" href="#"><i class="fas fa-angle-right text-white me-2"></i> Intertainment</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-xl-3">
+                        <div class="footer-item-4">
+                            <h4 class="mb-4 text-white">Our Gallary</h4>
+                            <div class="row g-2">
+                                <div class="col-4">
+                                    <div class="rounded overflow-hidden">
+                                        <img src="{{ url_for('static', filename='newsers/img/footer-1.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
+                                    </div>
+                               </div>
+                               <div class="col-4">
+                                    <div class="rounded overflow-hidden">
+                                        <img src="{{ url_for('static', filename='newsers/img/footer-2.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
+                                    </div>
+                               </div>
+                                <div class="col-4">
+                                    <div class="rounded overflow-hidden">
+                                        <img src="{{ url_for('static', filename='newsers/img/footer-3.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
+                                    </div>
+                               </div>
+                                <div class="col-4">
+                                    <div class="rounded overflow-hidden">
+                                        <img src="{{ url_for('static', filename='newsers/img/footer-4.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
+                                    </div>
+                               </div>
+                                <div class="col-4">
+                                    <div class="rounded overflow-hidden">
+                                        <img src="{{ url_for('static', filename='newsers/img/footer-5.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
+                                    </div>
+                               </div>
+                               <div class="col-4">
+                                <div class="rounded overflow-hidden">
+                                    <img src="{{ url_for('static', filename='newsers/img/footer-6.jpg') }}" class="img-zoomin img-fluid rounded w-100" alt="">
+                                </div>
+                           </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
+
+
+        <!-- Copyright Start -->
+        <div class="container-fluid copyright bg-dark py-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                        <span class="text-light"><a href="#"><i class="fas fa-copyright text-light me-2"></i>Your Site Name</a>, All right reserved.</span>
+                    </div>
+                    <div class="col-md-6 my-auto text-center text-md-end text-white">
+                        <!--/*** This template is free as long as you keep the below author's credit link/attribution link/backlink. ***/-->
+                        <!--/*** If you'd like to use the template without the below author's credit link/attribution link/backlink, ***/-->
+                        <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
+                        Designed By <a class="border-bottom" href="https://htmlcodex.com/">HTML Codex</a> Distributed By <a href="https://themewagon.com/">ThemeWagon</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Copyright End -->
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-primary border-2 border-white rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>   
+
+        <style>
+            .premium-content {
+                position: relative;
+                overflow: hidden;
+            }
+        
+            .premium-content::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                backdrop-filter: blur(10px);
+                z-index: 1;
+            }
+        
+            .premium-overlay {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 2;
+                background: rgba(0, 0, 0, 0.7);
+                color: white;
+                padding: 10px 20px;
+                border-radius: 5px;
+            }
+        </style>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+
+                const content = document.querySelector('#premium-content');
+                const text = content.innerText;
+                const words = text.split(' ');
+        
+                if (words.length > 200) {
+                    const visibleText = words.slice(0, 200).join(' ');
+                    const hiddenText = words.slice(200).join(' ');
+        
+                    content.innerHTML = `<p>${visibleText}</p><div class="blurred-content">${hiddenText}</div>`;
+                    content.classList.add('premium-content');
+                }
+        
+                // Summarize button click event
+                document.getElementById('summarize-btn').addEventListener('click', function() {
+                    const articleContent = document.querySelector('#premium-content').innerText;
+                    summarizeText(articleContent);
+                });
+        
+                function summarizeText(text) {
+                    const apiUrl = 'https://api-inference.huggingface.co/models/facebook/bart-large-cnn';
+                    const apiKey = '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'; // Replace with your Hugging Face API key
+        
+                    fetch(apiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${apiKey}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ inputs: text })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        const summary = data[0].summary_text;
+                        document.getElementById('summary-result').innerText = summary;
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        document.getElementById('summary-result').innerText = 'An error occurred while summarizing the text.';
+                    });
+                }
+
+                document.getElementById('ner-btn').addEventListener('click', function() {
+                    const articleContent = document.querySelector('#premium-content').innerText;
+                    recognizeEntities(articleContent);
+                });
+
+                function recognizeEntities(text) {
+                    const apiUrl = 'https://api-inference.huggingface.co/models/dslim/bert-base-NER';
+                    const apiKey = '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'; // Replace with your Hugging Face API key
+
+                    fetch(apiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${apiKey}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ inputs: text })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("entities", data);
+                        const uniqueEntities = [...new Set(data.map(entity => `${entity.entity_group}: ${entity.word}`))];
+                        const formattedEntities = uniqueEntities.join(', ');
+                        console.log("entities", formattedEntities);
+                        document.getElementById('ner-result').innerText = `Entities: ${formattedEntities}`;
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        document.getElementById('ner-result').innerText = 'An error occurred while recognizing entities.';
+                    });
+                }
+                document.getElementById('sentiment-btn').addEventListener('click', function() {
+                    const articleContent = document.querySelector('#premium-content').innerText;
+                    analyzeSentiment(articleContent);
+                });
+        
+                function analyzeSentiment(text) {
+                    const apiUrl = 'https://api-inference.huggingface.co/models/distilbert-base-uncased-finetuned-sst-2-english';
+                    const apiKey = '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'; // Replace with your Hugging Face API key
+        
+                    fetch(apiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${apiKey}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ inputs: text })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        const sentiment = data[0][0].label;
+                        console.log(data)
+                        document.getElementById('sentiment-result').innerText = `Sentiment: ${sentiment}`;
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        document.getElementById('sentiment-result').innerText = 'An error occurred while analyzing the sentiment.';
+                    });
+                }
+                document.getElementById('ask-btn').addEventListener('click', function() {
+                    const question = document.getElementById('question-input').value;
+                    const articleContent = document.querySelector('#premium-content').innerText;
+                    getAnswer(question, articleContent);
+                });
+        
+                function getAnswer(question, context) {
+                    const apiUrl = 'https://api-inference.huggingface.co/models/bert-large-uncased-whole-word-masking-finetuned-squad';
+                    const apiKey = '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'; // Replace with your Hugging Face API key
+        
+                    fetch(apiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${apiKey}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ inputs: { question: question, context: context } })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Question Answering Response:', data); // Log the response
+                        const answer = data.answer;
+                        document.getElementById('answer-result').innerText = `Answer: ${answer}`;
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        document.getElementById('answer-result').innerText = 'An error occurred while getting the answer.';
+                    });
+                }
+            });
+        </script>
+        
+        <!-- JavaScript Libraries -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="{{ url_for('static', filename='newsers/lib/easing/easing.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='newsers/lib/waypoints/waypoints.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='newsers/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+
+        <!-- Template Javascript -->
+        <script src="{{ url_for('static', filename='newsers/js/main.js') }}"></script>
+    </body>
+
+
+<!-- Mirrored from themewagon.github.io/Newsers/detail-page.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 02 Jul 2024 15:54:59 GMT -->
+</html>

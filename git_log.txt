@@ -1,21 +1,263 @@
-* 60ce4d0 - chris de pallan, 13 hours ago : final_first_review
-* 273a983 - chris de pallan, 16 hours ago : refactoring
-* 987ef77 - chris de pallan, 18 hours ago : edit post
-* c490fbf - chris de pallan, 22 hours ago : checkpoint
-* 4ef4fd5 - chris de pallan, 33 hours ago : payment
-* 159f6e0 - chris de pallan, 3 days ago : dashboard, main page
-* f45ddb5 - chris de pallan, 5 days ago : s=test
-* 536792f - chris de pallan, 5 days ago : pfp generation
-* 0b38791 - chris de pallan, 6 days ago : urls index
-* 112e37e - chris de pallan, 6 days ago : minor changes
-* bdbf463 - chris de pallan, 8 days ago : google signin completed
-* e2b2304 - chris de pallan, 8 days ago : login manager
-* 9f98750 - chris de pallan, 10 days ago : dashboard_ini
-* fabf04b - chris de pallan, 13 days ago : otp final
-* bd19ceb - chris de pallan, 13 days ago : Otp Module
-* 7657e07 - chris de pallan, 3 weeks ago : blueprintification
-* 325f245 - chris de pallan, 3 weeks ago : restart
-* 170813b - chris de pallan, 5 weeks ago : requirements update
-* 0efb36c - chris de pallan, 5 weeks ago : Initial commit
-* 2c83461 - chris de pallan, 5 weeks ago : first commit
-* 1178100 - chris de pallan, 6 weeks ago : first commit
+commit a9561d3dde47c453b1a33a7221b331c0f877d980
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Tue Sep 24 10:51:44 2024 +0530
+
+    comments
+
+commit a160244ba6c5ebff01f3d32ee23ad14e8484be7d
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Tue Sep 24 09:12:12 2024 +0530
+
+    final
+
+commit cdeb624d274fa83ca49a0c34b7cdb4d12e2f5de8
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Tue Sep 24 04:48:17 2024 +0530
+
+    Update detail-page.html
+
+commit affc5091cbf47ea5eeba765f2a9738a57e3d3af3
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Mon Sep 23 23:18:19 2024 +0530
+
+    Update requirements.txt
+
+commit b3cb93a8edbcf1e4f917c0644831237afbd1e3a5
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Mon Sep 23 23:14:41 2024 +0530
+
+    user.py update
+
+commit 16e2169b8d395241ad8c9dcc68b6030b84eb5bd4
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Mon Sep 23 22:57:42 2024 +0530
+
+    Update user.py
+
+commit a0505b39ddf904027eeca5bd43d6b4179f17b94d
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Mon Sep 23 22:53:14 2024 +0530
+
+    error?
+
+commit 76efca725a502a2750d6be203087399a35fc555b
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Mon Sep 23 22:42:42 2024 +0530
+
+    models details page prime
+
+commit f3c12baae700225cb4fb052985603f6346f27fa9
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Mon Sep 23 05:00:16 2024 +0530
+
+    adsense
+
+commit ba560f97ea973c16c647345c10438e5a9150c92d
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Mon Sep 23 04:57:59 2024 +0530
+
+    Update index.html
+
+commit ce4c729c254355564dc696ba8836c7b0797dbc8f
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Mon Sep 23 04:55:22 2024 +0530
+
+    session changes
+
+commit 5a1615f94ab84f67102f66501a14584298996014
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Sat Sep 7 10:45:25 2024 +0530
+
+    readme
+
+commit 1547216b2ad89fa3e0ecc25d59dfc061f1f23568
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Sun Sep 1 15:38:09 2024 +0530
+
+    registration and login changes
+
+commit beca6121be03ee0c19dbb46474a268fd325c6d2d
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Sat Aug 31 12:15:32 2024 +0530
+
+    Update __init__.py
+
+commit f8d73c7349fbaba38ad6d23d4cc9f21e68077486
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Fri Aug 30 07:48:14 2024 +0530
+
+    login required redis
+
+commit cab581483b26b345fe83281df43535db9af6673f
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Fri Aug 30 07:46:00 2024 +0530
+
+    Update user.py
+
+commit ed01fdc1632d9d3c58724b9a1c359e6f4403df08
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Fri Aug 30 07:44:23 2024 +0530
+
+    Update __init__.py
+
+commit 6b45cb5fe7f7155b6b600127e500f37b1c856eff
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Fri Aug 30 07:38:02 2024 +0530
+
+    redis ini
+
+commit 9924c0ec23b215e5f5277450440276b8004f4297
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Thu Aug 29 22:26:10 2024 +0530
+
+    Update __init__.py
+
+commit 3ab60adb7a1953cfaefbb4c652b899077b6b4f91
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Thu Aug 29 22:24:37 2024 +0530
+
+    redis
+
+commit 12615c96f66c40f639353ab7a10feea13377e8c3
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Thu Aug 29 22:02:20 2024 +0530
+
+    redis
+
+commit 60fffb673c3d07ee50f23193049ffdebfeb67e26
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Thu Aug 29 21:59:00 2024 +0530
+
+    redis
+
+commit ac3e3a4d39ec33bc5edc4f9fab565d095a8cb212
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Thu Aug 29 11:26:10 2024 +0530
+
+    hosting
+
+commit 60ce4d0370fb58243a0e599b81df30469ac79e59
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Sun Aug 11 17:31:38 2024 +0530
+
+    final_first_review
+
+commit 273a983793a6bace2970f9a8ff7271238f254ac7
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Sun Aug 11 14:58:23 2024 +0530
+
+    refactoring
+
+commit 987ef7763fd61f1ed2a64e9455f69098fa6a50fb
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Sun Aug 11 12:27:47 2024 +0530
+
+    edit post
+
+commit c490fbf1690b28fb9404a8d018a99b5ccd0d5f0f
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Sun Aug 11 08:53:06 2024 +0530
+
+    checkpoint
+
+commit 4ef4fd5537e0eaa08398b71a67cd71107ad32182
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Sat Aug 10 21:25:35 2024 +0530
+
+    payment
+
+commit 159f6e03774af11c19b6bcd5fa7d22bee10fec6e
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Fri Aug 9 07:00:22 2024 +0530
+
+    dashboard, main page
+
+commit f45ddb5d17420602ee2acb8f8af57aeb958bddd8
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Wed Aug 7 14:01:54 2024 +0530
+
+    s=test
+
+commit 536792f5094c8912ec46fc49e369d5d645924ba5
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Wed Aug 7 08:50:20 2024 +0530
+
+    pfp generation
+
+commit 0b38791971a7022ae0b142527c9a202a37439938
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Tue Aug 6 14:35:01 2024 +0530
+
+    urls index
+
+commit 112e37ef6169fab790b3234df7a5179d3cdea906
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Mon Aug 5 20:48:26 2024 +0530
+
+    minor changes
+
+commit bdbf463807eab962ab74508e9f59050b21ed8121
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Sun Aug 4 11:36:10 2024 +0530
+
+    google signin completed
+
+commit e2b230475824fea9a9caeccb4b6c64b94e759587
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Sun Aug 4 11:16:47 2024 +0530
+
+    login manager
+
+commit 9f987500d7f3ce59269b0d01ab36ef36f06c08be
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Fri Aug 2 16:07:18 2024 +0530
+
+    dashboard_ini
+
+commit fabf04b89e65c383e81760f1ed54db214f14fd58
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Tue Jul 30 17:59:50 2024 +0530
+
+    otp final
+
+commit bd19ceb0a78240b27cf2ed8357be9028badd1c0c
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Tue Jul 30 15:00:36 2024 +0530
+
+    Otp Module
+
+commit 7657e07d074de9166b6f900fb2bfc190d6519ce4
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Tue Jul 23 14:45:44 2024 +0530
+
+    blueprintification
+
+commit 325f24509d31132fee8ce9c3f72a0eb2e1a4cdae
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Tue Jul 23 11:06:27 2024 +0530
+
+    restart
+
+commit 170813bec24a937b938d61efd8b8810c188f3ed0
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Mon Jul 8 15:26:56 2024 +0530
+
+    requirements update
+
+commit 0efb36c868ff24950f473a1354ecc458c474dbdb
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Mon Jul 8 15:13:10 2024 +0530
+
+    Initial commit
+
+commit 2c83461cb0eb71b51ac1ce691e9b99d734567296
+Author: chris de pallan <70682683+chrisdepallan@users.noreply.github.com>
+Date:   Mon Jul 8 14:39:06 2024 +0530
+
+    first commit
+
+commit 11781003ef3332825c872a32b65a04b4cbd5810d
+Author: chris de pallan <chrisdepallan@gmail.com>
+Date:   Mon Jul 1 21:33:43 2024 +0530
+
+    first commit

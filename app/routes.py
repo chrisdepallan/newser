@@ -10,7 +10,7 @@ from flask import request, jsonify, current_app
 from werkzeug.utils import secure_filename
 from . import app
 from .recommendation_engine import get_top_story, get_trending_news, get_popular_news
-from .utils import upload_image, setup_cloudinary, get_image_url
+from .utils import upload_image, setup_cloudinary, get_image_url,get_article_details
 SECRET = 'base32secret3232'
 import stripe
 
@@ -304,6 +304,7 @@ def create_checkout_session():
         return jsonify(error=str(e)), 403
 
 @app.route('/payment/success')
+@login_required
 def payment_success():
     session_id = request.args.get('session_id')
     if session_id:
@@ -329,7 +330,9 @@ def increment():
     global counter
     counter += 1
     return str(counter)
+
 @app.route('/payment')
+@login_required
 def payment():
     # amount = request.args.get('amount')  # Default to 1000 (10.00) if no amount is provided
     return render_template('Newsers/payment.html')# @app.route('/create-checkout-session', methods=['POST'])
@@ -395,8 +398,124 @@ def submit_comment():
     flash('Comment submitted successfully', 'success')
     return redirect(url_for('article_detail', article=article_id))
 
-# @app.route("/article/<article_id>")
-# def article_detail(article_id):
-#     article = collection_articles.find_one({'_id': ObjectId(article_id)})
-#     comments = collection_comments.find({'article_id': article_id}).sort('created_at', -1)
-#     return render_template("Newsers/detail-page.html", article=article, comments=comments)
+
+@app.route('/get_comments/<article_id>')
+def get_comments(article_id):
+    comments = list(collection_comments.find({'article_id': article_id}).sort('created_at', -1))
+    print(article_id)
+    
+    print(comments)
+    # Convert ObjectId and datetime to string for JSON serialization
+    for comment in comments:
+        comment['_id'] = str(comment['_id'])
+        comment['created_at'] = comment['created_at'].strftime('%Y-%m-%d %H:%M:%S')
+    
+    return jsonify(comments)
+
+@app.route("/api")
+def api():
+    return render_template('api/api_index.html')
+
+@app.route("/api/recommendations")
+def api_recommendations():
+    query = request.args.get('query', 'technology')  # Default to technology if no query
+    recommendations = get_search_results(query)  # Using existing search function
+    
+    return jsonify({
+        "recommendations": [{
+            "title": article.get("title"),
+            "url": article.get("url"),
+            "source": article.get("source", {}).get("name"),
+            "publishedAt": article.get("publishedAt")
+        } for article in recommendations]
+    })
+
+@app.route("/api/trending")
+def api_trending():
+    trending_news = get_trending_news()  # Using existing function
+    
+    def format_article(article):
+        if isinstance(article, str):
+            return {
+                "title": article,
+                "url": "",
+                "image": None,
+                "source": None,
+                "publishedAt": None
+            }
+        return {
+            "title": article.get("title"),
+            "url": article.get("url"),
+            "image": article.get("urlToImage"),
+            "source": article.get("source", {}).get("name") if isinstance(article.get("source"), dict) else article.get("source"),
+            "publishedAt": article.get("publishedAt")
+        }
+    
+    return jsonify({
+        "trending": [format_article(article) for article in trending_news]
+    })
+@app.route("/api/top-story")
+def api_top_story():
+    story = get_top_story()  # Using existing function
+    
+    def format_article(article):
+        if isinstance(article, str):
+            return {
+                "title": article,
+                "url": "",
+                "image": None, 
+                "source": None,
+                "publishedAt": None,
+                "description": None
+            }
+        return {
+            "title": article.get("title"),
+            "url": article.get("url"),
+            "image": article.get("urlToImage"),
+            "source": article.get("source", {}).get("name") if isinstance(article.get("source"), dict) else article.get("source"),
+            "publishedAt": article.get("publishedAt"),
+            "description": article.get("description")
+        }
+    
+    return jsonify({
+        "story": format_article(story)
+    })
+
+@app.route("/api/popular")
+def api_popular():
+    popular_news = get_popular_news()  # Using existing function
+    
+    return jsonify({
+        "popular": [{
+            "title": article.get("title"),
+            "url": article.get("url"),
+            "source": article.get("source", {}).get("name"),
+            "publishedAt": article.get("publishedAt")
+        } for article in popular_news]
+    })
+
+
+@app.route("/api/article-detail")
+def api_article_detail():
+    article_url = request.args.get('article')
+    if not article_url:
+        return jsonify({"error": "Article URL is required"}), 400
+        
+    # You'll need to implement this function to fetch article details
+    article = get_article_details(article_url)
+    
+    return jsonify({
+        "article": {
+            "title": article.get("title"),
+            "url": article.get("url"),
+            "content": article.get("content"),
+            "author": article.get("author"),
+            "publishedAt": article.get("publishedAt"),
+            "tags": article.get("tags", []),
+            "relatedArticles": [{
+                "title": related.get("title"),
+                "url": related.get("url"),
+                "publishedAt": related.get("publishedAt")
+            } for related in article.get("relatedArticles", [])]
+        }
+    })

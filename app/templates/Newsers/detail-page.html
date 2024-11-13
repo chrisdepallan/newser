@@ -771,6 +771,66 @@
                         document.getElementById('answer-result').innerText = 'An error occurred while getting the answer.';
                     });
                 }
+
+                function loadComments() {
+                    const articleId = '{{ request.args.get("article") }}';
+                    const encodedArticleId = encodeURIComponent(articleId);
+                    
+                    fetch(`/get_comments/${encodedArticleId}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(comments => {
+                            const container = document.getElementById('comments-container');
+                            container.innerHTML = comments.map(comment => `
+                                <div class="d-flex mb-4">
+                                    <div class="ps-3 w-100">
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <h6 class="fw-bold mb-0">${comment.full_name}</h6>
+                                            <small class="text-body">${comment.created_at}</small>
+                                        </div>
+                                        <p class="mb-0">${comment.content}</p>
+                                    </div>
+                                </div>
+                            `).join('');
+                        })
+                        .catch(error => {
+                            console.error('Error loading comments:', error);
+                            document.getElementById('comments-container').innerHTML = 
+                                '<p class="text-danger">Error loading comments. Please try again later.</p>';
+                        });
+                }
+
+                // Load comments when page loads
+                document.addEventListener('DOMContentLoaded', loadComments);
+
+                // Modify the existing form submission to use AJAX
+                document.querySelector('form[action*="submit_comment"]').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const formData = new FormData(this);
+                    fetch('{{ url_for("submit_comment") }}', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            // Clear the form
+                            this.reset();
+                            // Reload comments
+                            loadComments();
+                        } else {
+                            throw new Error('Comment submission failed');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error submitting comment:', error);
+                        alert('Error submitting comment. Please try again.');
+                    });
+                });
             });
         </script>
         

@@ -29,14 +29,14 @@
               </div>
               <div class="col-sm-6">
                 <nav>
-                  <ol class="breadcrumb justify-content-sm-end align-items-center">
+                  <!--<ol class="breadcrumb justify-content-sm-end align-items-center">
                     <li class="breadcrumb-item"> <a href="index.html">
                         <svg class="svg-color">
                           <use href="{{ url_for('static', filename='admin/assets/svg/iconly-sprite.svg#Home') }}"></use>
                         </svg></a></li>
                     <li class="breadcrumb-item">Dashboard</li>
                     <li class="breadcrumb-item active">Default</li>
-                  </ol>
+                  </ol>-->
                 </nav>
               </div>
             </div>
@@ -48,7 +48,7 @@
                   <div class="card-body">
                     <div class="img-overlay">
                       <h1>Good day, {{user.full_name}}</h1>
-                      <p>Welcome to the Edmin family! We are delighted that you have visited our dashboard.</p><a class="btn btn-primary" href="/payment">Go Premium</a>
+                      <p>Welcome to the Newser! We are delighted that you have visited our dashboard.</p><a class="btn btn-primary" href="/payment">Go Premium</a>
                     </div>
                   </div>
                 </div>
@@ -56,14 +56,14 @@
               <div class="col-sm-6 col-xl-3">
                 <div class="card project-card">
                   <div class="card-header">
-                    <h4>Project Overview</h4>
+                    <h4>News Overview</h4>
                     <div class="dropdown icon-dropdown">
                       <button class="btn dropdown-toggle" id="userdropdown7" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="icon-more-alt"></i></button>
                       <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userdropdown7"><a class="dropdown-item" href="#">Weekly</a><a class="dropdown-item" href="#">Monthly</a><a class="dropdown-item" href="#">Yearly</a></div>
                     </div>
                   </div>
                   <div class="card-body pt-0">
-                    <h4>56<span class="ms-1">Project</span></h4>
+                    <h4>56<span class="ms-1">Sources</span></h4>
                     <div class="row align-items-center">
                       <div class="col-5 custom-width">
                         <div class="progress progress-striped-primary">
@@ -80,27 +80,27 @@
                         <ul class="overview-details"> 
                           <li class="d-flex align-items-center">
                             <div class="circle-dot-primary"><span></span></div>
-                            <h5>15<span class="font-light ms-1">Signed</span></h5>
+                            <h5>15<span class="font-light ms-1">Active</span></h5>
                           </li>
                           <li class="d-flex align-items-center">
                             <div class="circle-dot-secondary"><span></span></div>
-                            <h5>62<span class="font-light ms-1">Manager Review</span></h5>
+                            <h5>62<span class="font-light ms-1">Pending Review</span></h5>
                           </li>
                           <li class="d-flex align-items-center">
                             <div class="circle-dot-tertiary"><span></span></div>
-                            <h5>20<span class="font-light ms-1">Client Review</span></h5>
+                            <h5>20<span class="font-light ms-1">Inactive</span></h5>
                           </li>
                         </ul>
                       </div>
                     </div>
-                    <button class="view-btn btn bg-light d-block w-100 position-relative" type="button" data-bs-toggle="dropdown" aria-expanded="false">View project
+                    <button class="view-btn btn bg-light d-block w-100 position-relative" type="button" data-bs-toggle="dropdown" aria-expanded="false">View Sources
                       <svg class="feather">
                         <use href="{{ url_for('static', filename='admin/assets/svg/feather-icons/dist/feather-sprite.svg#chevron-down') }}"></use>
                       </svg>
                       <ul class="dropdown-menu dropdown-block">
-                        <li><a class="dropdown-item" href="#">Project</a></li>
-                        <li><a class="dropdown-item" href="#">Ecommerce</a></li>
-                        <li><a class="dropdown-item" href="#">Crypto</a></li>
+                        <li><a class="dropdown-item" href="#">News Sites</a></li>
+                        <li><a class="dropdown-item" href="#">RSS Feeds</a></li>
+                        <li><a class="dropdown-item" href="#">Social Media</a></li>
                       </ul>
                     </button>
                   </div>
@@ -114,7 +114,7 @@
                         <div class="row">
                           <div class="col-6 custom-width-1">
                             <h3 class="font-primary">457</h3>
-                            <h5 class="f-w-600">Total Clients</h5>
+                            <h5 class="f-w-600">Total Users</h5>
                           </div>
                           <div class="col-6 custom-width-2">
                             <div class="client" id="client"></div>
@@ -129,7 +129,7 @@
                         <div class="row">
                           <div class="col-6 custom-width-1">
                             <h3 class="font-secondary">541</h3>
-                            <h5 class="f-w-600">New Project</h5>
+                            <h5 class="f-w-600">New Articles</h5>
                           </div>
                           <div class="col-6 custom-width-2">
                             <div class="project" id="project"></div>
@@ -143,7 +143,7 @@
               <div class="col-sm-6 col-xl-3">
                 <div class="card investing-card">
                   <div class="card-header pb-0">
-                    <h4>Investing</h4>
+                    <h4>Engagement</h4>
                     <div class="dropdown icon-dropdown">
                       <button class="btn dropdown-toggle" id="userdropdown3" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="icon-more-alt"></i></button>
                       <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userdropdown3"><a class="dropdown-item" href="#">Weekly</a><a class="dropdown-item" href="#">Monthly</a><a class="dropdown-item" href="#">Yearly</a></div>
@@ -158,7 +158,7 @@
                 <!-- Invoice menu-->
                 <div class="card invoice-card">
                   <div class="card-header pb-0">
-                    <h4>All Invoices</h4>
+                    <h4>Recent Articles</h4>
                     <div class="dropdown icon-dropdown">
                       <button class="btn dropdown-toggle" id="userdropdown4" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="icon-more-alt"></i></button>
                       <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userdropdown4"><a class="dropdown-item" href="#">Weekly</a><a class="dropdown-item" href="#">Monthly</a><a class="dropdown-item" href="#">Yearly</a></div>
@@ -172,11 +172,11 @@
                             <th class="form-check">
                               <input class="form-check-input" type="checkbox">
                             </th>
-                            <th>Invoice Id</th>
-                            <th>Client Name</th>
-                            <th>Project</th>
-                            <th>Created Date</th>
-                            <th>Amount </th>
+                            <th>Article ID</th>
+                            <th>Author</th>
+                            <th>Category</th>
+                            <th>Published Date</th>
+                            <th>Views</th>
                             <th>Status</th>
                           </tr>
                         </thead>
@@ -185,7 +185,7 @@
                                             <td>
                                               <input class="form-check-input" type="checkbox">
                                             </td>
-                                            <td>#IH63390</td>
+                                            <td>#ART63390</td>
                                             <td>
                                               <div class="d-flex align-items-center gap-2">
                                                 <div class="flex-shrink-0"><img class="b-r-10" src="{{ url_for('static', filename='admin/assets/images/avatar/10.jpg') }}" alt=""></div>
@@ -193,18 +193,18 @@
                                                     <h6 class="f-w-500">Elle Amberson</h6></a><span class="font-light f-w-400 f-13">Elle34@gmail.com</span></div>
                                               </div>
                                             </td>
-                                            <td>Website</td>
+                                            <td>Technology</td>
                                             <td>10-10-2024</td>
-                                            <td>$5411.55</td>
+                                            <td>5,411</td>
                                             <td> 
-                                              <button class="btn edge-btn f-13 w-100 btn-light-primary">Done</button>
+                                              <button class="btn edge-btn f-13 w-100 btn-light-primary">Published</button>
                                             </td>
                                           </tr>
                                           <tr>
                                             <td>
                                               <input class="form-check-input" type="checkbox">
                                             </td>
-                                            <td>#F749U8</td>
+                                            <td>#ART749U8</td>
                                             <td>
                                               <div class="d-flex align-items-center gap-2">
                                                 <div class="flex-shrink-0"><img class="b-r-10" src="{{ url_for('static', filename='admin/assets/images/avatar/11.jpg') }}" alt=""></div>
@@ -212,18 +212,18 @@
                                                     <h6 class="f-w-500">Anna Catmire</h6></a><span class="font-light f-w-400 f-13">Anna12@gmail.com</span></div>
                                               </div>
                                             </td>
-                                            <td>Mobile App</td>
+                                            <td>Politics</td>
                                             <td>15-09-2024</td>
-                                            <td>$6589.36</td>
+                                            <td>6,589</td>
                                             <td> 
-                                              <button class="btn edge-btn f-13 w-100 btn-light-tertiary">Pending</button>
+                                              <button class="btn edge-btn f-13 w-100 btn-light-tertiary">Draft</button>
                                             </td>
                                           </tr>
                                           <tr>
                                             <td>
                                               <input class="form-check-input" type="checkbox">
                                             </td>
-                                            <td>#RT5094</td>
+                                            <td>#ART5094</td>
                                             <td>
                                               <div class="d-flex align-items-center gap-2">
                                                 <div class="flex-shrink-0"><img class="b-r-10" src="{{ url_for('static', filename='admin/assets/images/avatar/1.jpg') }}" alt=""></div>
@@ -231,18 +231,18 @@
                                                     <h6 class="f-w-500">Laura Dagson</h6></a><span class="font-light f-w-400 f-13">Laura@gmail.com</span></div>
                                               </div>
                                             </td>
-                                            <td>Wordpress</td>
+                                            <td>Business</td>
                                             <td>23-05-2024</td>
-                                            <td>$9655.16</td>
+                                            <td>9,655</td>
                                             <td> 
-                                              <button class="btn edge-btn f-13 w-100 btn-light-primary">Done</button>
+                                              <button class="btn edge-btn f-13 w-100 btn-light-primary">Published</button>
                                             </td>
                                           </tr>
                                           <tr>
                                             <td>
                                               <input class="form-check-input" type="checkbox">
                                             </td>
-                                            <td>#PZ7384</td>
+                                            <td>#ART7384</td>
                                             <td>
                                               <div class="d-flex align-items-center gap-2">
                                                 <div class="flex-shrink-0"><img class="b-r-10" src="{{ url_for('static', filename='admin/assets/images/avatar/3.jpg') }}" alt=""></div>
@@ -250,11 +250,11 @@
                                                     <h6 class="f-w-500">Rachel Green</h6></a><span class="font-light f-w-400 f-13">Rache87@gmail.com</span></div>
                                               </div>
                                             </td>
-                                            <td>Service</td>
+                                            <td>Sports</td>
                                             <td>15-02-2024</td>
-                                            <td>$5984.62</td>
+                                            <td>5,984</td>
                                             <td> 
-                                              <button class="btn edge-btn f-13 w-100 btn-light-danger">Overdue</button>
+                                              <button class="btn edge-btn f-13 w-100 btn-light-danger">Removed</button>
                                             </td>
                                           </tr>
                         </tbody>
@@ -267,7 +267,7 @@
                 <!-- invest menu-->
                 <div class="card invest-card">
                   <div class="card-header">
-                    <h4>Total Investment</h4>
+                    <h4>Total Revenue</h4>
                     <div class="dropdown icon-dropdown">
                       <button class="btn dropdown-toggle" id="userdropdown2" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="icon-more-alt"></i></button>
                       <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userdropdown2"><a class="dropdown-item" href="#">Weekly</a><a class="dropdown-item" href="#">Monthly</a><a class="dropdown-item" href="#">Yearly</a></div>
@@ -278,7 +278,7 @@
                     <ul> 
                                       <li> 
                                         <h5>Total</h5>
-                                        <h6>$ 34,4562</h6>
+                                        <h6>$ 34,562</h6>
                                       </li>
                                       <li> 
                                         <h5>Monthly</h5>
@@ -286,17 +286,20 @@
                                       </li>
                                       <li> 
                                         <h5>Daily</h5>
-                                        <h6>$ 5000</h6>
+                                        <h6>$ 5,000</h6>
                                       </li>
                     </ul>
                   </div>
                 </div>
               </div>
               <div class="col-md-6 col-xl-3">
+               
+               
+               
                 <!-- Task menu-->
                 <div class="card task-card">
                   <div class="card-header pb-0">
-                    <h4>Task list</h4>
+                    <h4>News Tasks</h4>
                     <div class="dropdown icon-dropdown">
                       <button class="btn dropdown-toggle" id="userdropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="icon-more-alt"></i></button>
                       <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userdropdown"><a class="dropdown-item" href="#">Weekly</a><a class="dropdown-item" href="#">Monthly</a><a class="dropdown-item" href="#">Yearly</a></div>
@@ -312,8 +315,8 @@
                                           </div>
                                         </div>
                                         <div class="flex-grow-1"> <a href="task.html">
-                                            <h5 class="f-w-500">Task With dropdown menu</h5></a>
-                                          <h6>By Johnny</h6>
+                                            <h5 class="f-w-500">Review New Source Integration</h5></a>
+                                          <h6>By News Team</h6>
                                         </div>
                                         <div class="dropdown task-dropdown">
                                           <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="dorpdown44">
@@ -332,8 +335,8 @@
                                           </div>
                                         </div>
                                         <div class="flex-grow-1"> <a href="task.html">
-                                            <h5 class="f-w-500">Badge on the right task</h5></a>
-                                          <h6>This task has show on hover actions!</h6>
+                                            <h5 class="f-w-500">Update Article Categories</h5></a>
+                                          <h6>Reorganize news categories and tags</h6>
                                         </div>
                                         <div class="dropdown task-dropdown">
                                           <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="dorpdown55">
@@ -352,8 +355,8 @@
                                           </div>
                                         </div>
                                         <div class="flex-grow-1"> <a href="task.html">
-                                            <h5 class="f-w-500">Wash the car</h5></a>
-                                          <h6>Written by bob</h6>
+                                            <h5 class="f-w-500">Fix RSS Feed Parser</h5></a>
+                                          <h6>Debug RSS import issues</h6>
                                         </div>
                                         <div class="dropdown task-dropdown">
                                           <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="dorpdown66">
@@ -372,8 +375,8 @@
                                           </div>
                                         </div>
                                         <div class="flex-grow-1"> <a href="task.html">
-                                            <h5 class="f-w-500">Go grocery shopping</h5></a>
-                                          <h6>A short description for this todo item</h6>
+                                            <h5 class="f-w-500">Optimize Search Algorithm</h5></a>
+                                          <h6>Improve news search functionality</h6>
                                         </div>
                                         <div class="dropdown task-dropdown">
                                           <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="dorpdown77">
@@ -392,8 +395,8 @@
                                           </div>
                                         </div>
                                         <div class="flex-grow-1"> <a href="task.html">
-                                            <h5 class="f-w-500">Development Task</h5></a>
-                                          <h6>Finish react todo list app</h6>
+                                            <h5 class="f-w-500">Content Moderation</h5></a>
+                                          <h6>Review flagged news articles</h6>
                                         </div>
                                         <div class="dropdown task-dropdown">
                                           <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="dropdown88">
@@ -425,7 +428,7 @@
               <div class="col-md-6 col-xl-5">
                 <div class="card summary-card">
                   <div class="card-header pb-0">
-                    <h4>Task summary</h4>
+                    <h4>News Summary</h4>
                     <div class="dropdown icon-dropdown">
                       <button class="btn dropdown-toggle" id="userdropdown01" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="icon-more-alt"></i></button>
                       <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userdropdown01"><a class="dropdown-item" href="#">Weekly</a><a class="dropdown-item" href="#">Monthly</a><a class="dropdown-item" href="#">Yearly</a></div>
@@ -438,7 +441,7 @@
                           <h5 class="font-light">
                             <svg class="svg-w-20 stroke-light me-2">
                               <use href="{{ url_for('static', filename='admin/assets/svg/iconly-sprite.svg#Chart') }}"></use>
-                            </svg>Estimated project cost
+                            </svg>News Aggregation Stats
                           </h5>
                           <ul class="d-flex">
                             <li class="card-hover">
@@ -449,7 +452,7 @@
                                   </svg>
                                 </div>
                                 <div class="flex-grow-1">
-                                  <h6 class="f-w-500">Project</h6>
+                                  <h6 class="f-w-500">Sources</h6>
                                   <h4 class="f-w-700">32</h4>
                                 </div>
                               </div>
@@ -462,7 +465,7 @@
                                   </svg>
                                 </div>
                                 <div class="flex-grow-1">
-                                  <h6 class="f-w-500">Assigned</h6>
+                                  <h6 class="f-w-500">Articles</h6>
                                   <h4 class="f-w-700">78</h4>
                                 </div>
                               </div>
@@ -475,14 +478,14 @@
                                   </svg>
                                 </div>
                                 <div class="flex-grow-1">
-                                  <h6 class="f-w-500">Completed</h6>
+                                  <h6 class="f-w-500">Categories</h6>
                                   <h4 class="f-w-700">54</h4>
                                 </div>
                               </div>
                             </li>
                           </ul>
                           <div class="task-bottom d-flex align-items-center gap-2">
-                            <h5 class="font-light">Completion rate in terms of time:</h5>
+                            <h5 class="font-light">Content freshness rate:</h5>
                             <h2 class="font-primary">83%</h2><span class="badge bg-light f-14">
                               <svg class="svg-w-20 stroke-dark me-1">
                                 <use href="{{ url_for('static', filename='admin/assets/svg/iconly-sprite.svg#right-3') }}"></use>
@@ -494,10 +497,10 @@
                         <h5 class="font-light"> 
                           <svg class="svg-w-20 stroke-light me-2">
                             <use href="{{ url_for('static', filename='admin/assets/svg/iconly-sprite.svg#User') }}"></use>
-                          </svg>Our crew
+                          </svg>Our Team
                         </h5>
                         <div class="team-member"> 
-                          <h5 class="font-light mb-2">Team Members</h5>
+                          <h5 class="font-light mb-2">News Editors</h5>
                           <div class="customers d-inline-block avatar-group">
                             <ul>
                                               <li class="d-inline-block"><img class="img-40 b-r-8" src="{{ url_for('static', filename='admin/assets/images/user/13.jpg') }}" alt="#"></li>
@@ -508,7 +511,7 @@
                           </div>
                           <div class="d-flex bg-light">
                             <div class="flex-grow-1"> 
-                              <h6 class="f-16 font-light">Hours</h6>
+                              <h6 class="f-16 font-light">Articles</h6>
                               <h4>67</h4>
                             </div>
                             <div class="team-chart" id="team-chart"></div>
@@ -523,7 +526,7 @@
                 <!-- Bookmark menu-->
                 <div class="card"> 
                   <div class="card-header pb-0">
-                    <h4>Courses Highlighted</h4>
+                    <h4>Featured News</h4>
                     <div class="dropdown icon-dropdown">
                       <button class="btn dropdown-toggle" id="userdropdown1" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="icon-more-alt"></i></button>
                       <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userdropdown1"><a class="dropdown-item" href="#">Weekly</a><a class="dropdown-item" href="#">Monthly</a><a class="dropdown-item" href="#">Yearly</a></div>
@@ -534,9 +537,9 @@
                       <table class="table">
                         <thead> 
                           <tr> 
-                            <th>Course name</th>
-                            <th>Price</th>
-                            <th>Type</th>
+                            <th>Article Title</th>
+                            <th>Views</th>
+                            <th>Category</th>
                             <th>Status</th>
                           </tr>
                         </thead>
@@ -546,13 +549,13 @@
                                               <div class="d-flex align-items-center gap-2">
                                                 <div class="flex-shrink-0"><img src="{{ url_for('static', filename='admin/assets/images/dashboard1/invest/01.jpg') }}" alt=""></div>
                                                 <div class="flex-grow-1"> <a href="user-profile.html">
-                                                    <h6 class="f-w-500">Civil engineering</h6></a><span class="font-light f-w-400 f-13">20h 10m</span></div>
+                                                    <h6 class="f-w-500">Breaking Tech News</h6></a><span class="font-light f-w-400 f-13">2h ago</span></div>
                                               </div>
                                             </td>
-                                            <td>$150</td>
-                                            <td>UX/UI Design</td>
+                                            <td>15K</td>
+                                            <td>Technology</td>
                                             <td> 
-                                              <button class="btn edge-btn f-13 w-100 btn-light-primary">Done</button>
+                                              <button class="btn edge-btn f-13 w-100 btn-light-primary">Trending</button>
                                             </td>
                                           </tr>
                                           <tr>
@@ -560,13 +563,13 @@
                                               <div class="d-flex align-items-center gap-2">
                                                 <div class="flex-shrink-0"><img src="{{ url_for('static', filename='admin/assets/images/dashboard1/invest/02.jpg') }}" alt=""></div>
                                                 <div class="flex-grow-1"> <a href="user-profile.html">
-                                                    <h6 class="f-w-500">Web development</h6></a><span class="font-light f-w-400 f-13">12h 05m</span></div>
+                                                    <h6 class="f-w-500">Global Markets Update</h6></a><span class="font-light f-w-400 f-13">4h ago</span></div>
                                               </div>
                                             </td>
-                                            <td>$156</td>
-                                            <td>Illustration</td>
+                                            <td>12K</td>
+                                            <td>Finance</td>
                                             <td> 
-                                              <button class="btn edge-btn f-13 w-100 btn-light-tertiary">Pending</button>
+                                              <button class="btn edge-btn f-13 w-100 btn-light-tertiary">Featured</button>
                                             </td>
                                           </tr>
                                           <tr>
@@ -574,13 +577,13 @@
                                               <div class="d-flex align-items-center gap-2">
                                                 <div class="flex-shrink-0"><img src="{{ url_for('static', filename='admin/assets/images/dashboard1/invest/03.jpg') }}" alt=""></div>
                                                 <div class="flex-grow-1"> <a href="user-profile.html">
-                                                    <h6 class="f-w-500">Computer science</h6></a><span class="font-light f-w-400 f-13">06h 15m</span></div>
+                                                    <h6 class="f-w-500">Sports Highlights</h6></a><span class="font-light f-w-400 f-13">6h ago</span></div>
                                               </div>
                                             </td>
-                                            <td>$695</td>
-                                            <td>UX/UI Design</td>
+                                            <td>9K</td>
+                                            <td>Sports</td>
                                             <td> 
-                                              <button class="btn edge-btn f-13 w-100 btn-light-primary">Done</button>
+                                              <button class="btn edge-btn f-13 w-100 btn-light-primary">Live</button>
                                             </td>
                                           </tr>
                                           <tr>
@@ -588,13 +591,13 @@
                                               <div class="d-flex align-items-center gap-2">
                                                 <div class="flex-shrink-0"><img src="{{ url_for('static', filename='admin/assets/images/dashboard1/invest/04.jpg') }}" alt=""></div>
                                                 <div class="flex-grow-1"> <a href="user-profile.html">
-                                                    <h6 class="f-w-500">Web designer</h6></a><span class="font-light f-w-400 f-13">04h 30m</span></div>
+                                                    <h6 class="f-w-500">Entertainment News</h6></a><span class="font-light f-w-400 f-13">12h ago</span></div>
                                               </div>
                                             </td>
-                                            <td>$364</td>
-                                            <td>Leadership</td>
+                                            <td>7K</td>
+                                            <td>Entertainment</td>
                                             <td> 
-                                              <button class="btn edge-btn f-13 w-100 btn-light-tertiary">Done</button>
+                                              <button class="btn edge-btn f-13 w-100 btn-light-tertiary">Popular</button>
                                             </td>
                                           </tr>
                         </tbody>
@@ -603,11 +606,13 @@
                   </div>
                 </div>
               </div>
+
+              
               <div class="col-sm-6 col-xl-3 order-1 order-xl-0">
                 <!-- Schedule menu-->
                 <div class="card schedule-card">
                   <div class="card-header pb-0">
-                    <h4 class="mb-2">Schedule Time</h4>
+                    <h4 class="mb-2">Content Schedule</h4>
                     <div class="dropdown icon-dropdown">
                       <button class="btn dropdown-toggle" id="userdropdown8" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="icon-more-alt"></i></button>
                       <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userdropdown8"><a class="dropdown-item" href="#">Weekly</a><a class="dropdown-item" href="#">Monthly</a><a class="dropdown-item" href="#">Yearly</a></div>
@@ -640,22 +645,22 @@
                         <ul class="activity-update">
                                           <li class="d-flex align-items-center b-l-primary">
                                             <div class="flex-grow-1"> <span>10:00 to 10:20 am</span>
-                                              <h5>Mobile Application Release</h5>
-                                              <h6>Hannah</h6>
+                                              <h5>Breaking News Update</h5>
+                                              <h6>News Editor</h6>
                                             </div>
                                             <div class="flex-shrink-0"> <img class="img-40 b-r-10" src="{{ url_for('static', filename='admin/assets/images/avatar/11.jpg') }}" alt=""></div>
                                           </li>
                                           <li class="d-flex align-items-center b-l-secondary">
                                             <div class="flex-grow-1"> <span>12:00 to 01:45 am</span>
-                                              <h5>General Meeting</h5>
-                                              <h6>Madeleine Lisa</h6>
+                                              <h5>Editorial Meeting</h5>
+                                              <h6>Content Team</h6>
                                             </div>
                                             <div class="flex-shrink-0"> <img class="img-40 b-r-10" src="{{ url_for('static', filename='admin/assets/images/avatar/1.jpg') }}" alt=""></div>
                                           </li>
                                           <li class="d-flex align-items-center b-l-tertiary">
                                             <div class="flex-grow-1"> <span>06:00 to 11:30 am</span>
-                                              <h5>Client Visit</h5>
-                                              <h6>Hemmings Edmunds</h6>
+                                              <h5>Source Verification</h5>
+                                              <h6>Fact Checkers</h6>
                                             </div>
                                             <div class="flex-shrink-0"> <img class="img-40 b-r-10" src="{{ url_for('static', filename='admin/assets/images/avatar/3.jpg') }}" alt=""></div>
                                           </li>
@@ -665,15 +670,15 @@
                         <ul class="activity-update">
                                           <li class="d-flex align-items-center b-l-info">
                                             <div class="flex-grow-1"> <span>12:00 to 02:20 am</span>
-                                              <h5>What`s the project report update?</h5>
-                                              <h6>Loie Fenter</h6>
+                                              <h5>Feature Story Review</h5>
+                                              <h6>Senior Editor</h6>
                                             </div>
                                             <div class="flex-shrink-0"> <img class="img-40 b-r-10" src="{{ url_for('static', filename='admin/assets/images/avatar/2.jpg') }}" alt=""></div>
                                           </li>
                                           <li class="d-flex align-items-center b-l-success">
                                             <div class="flex-grow-1"> <span>04:00 to 08:20 am</span>
-                                              <h5>James created changelog page</h5>
-                                              <h6>Anna Catmire</h6>
+                                              <h5>Content Aggregation Update</h5>
+                                              <h6>Tech Team</h6>
                                             </div>
                                             <div class="flex-shrink-0"> <img class="img-40 b-r-10" src="{{ url_for('static', filename='admin/assets/images/avatar/4.jpg') }}" alt=""></div>
                                           </li>
@@ -683,22 +688,22 @@
                         <ul class="activity-update">
                                           <li class="d-flex align-items-center b-l-danger">
                                             <div class="flex-grow-1"> <span>09:00 to 02:20 am</span>
-                                              <h5>Dima phizeg edited ACME 2.4</h5>
-                                              <h6>Susan Connor</h6>
+                                              <h5>Analytics Review</h5>
+                                              <h6>Data Team</h6>
                                             </div>
                                             <div class="flex-shrink-0"> <img class="img-40 b-r-10" src="{{ url_for('static', filename='admin/assets/images/avatar/5.jpg') }}" alt=""></div>
                                           </li>
                                           <li class="d-flex align-items-center b-l-dark">
                                             <div class="flex-grow-1"> <span>10:00 to 01:45 am</span>
-                                              <h5>Complete the medical ui system idea.</h5>
-                                              <h6>Jeff Johnson</h6>
+                                              <h5>UI/UX Improvements</h5>
+                                              <h6>Design Team</h6>
                                             </div>
                                             <div class="flex-shrink-0"> <img class="img-40 b-r-10" src="{{ url_for('static', filename='admin/assets/images/avatar/6.jpg') }}" alt=""></div>
                                           </li>
                                           <li class="d-flex align-items-center b-l-warning">
                                             <div class="flex-grow-1"> <span>04:00 to 10:30 am</span>
-                                              <h5>Make a new landing page.</h5>
-                                              <h6>Roger Lum</h6>
+                                              <h5>Content Strategy Meeting</h5>
+                                              <h6>Strategy Team</h6>
                                             </div>
                                             <div class="flex-shrink-0"> <img class="img-40 b-r-10" src="{{ url_for('static', filename='admin/assets/images/avatar/9.jpg') }}" alt=""></div>
                                           </li>
@@ -708,22 +713,22 @@
                         <ul class="activity-update">
                                           <li class="d-flex align-items-center b-l-primary">
                                             <div class="flex-grow-1"> <span>10:00 to 10:20 am</span>
-                                              <h5>Mobile Application Release</h5>
-                                              <h6>Hannah</h6>
+                                              <h5>News Feed Update</h5>
+                                              <h6>Tech Team</h6>
                                             </div>
                                             <div class="flex-shrink-0"> <img class="img-40 b-r-10" src="{{ url_for('static', filename='admin/assets/images/avatar/11.jpg') }}" alt=""></div>
                                           </li>
                                           <li class="d-flex align-items-center b-l-secondary">
                                             <div class="flex-grow-1"> <span>12:00 to 01:45 am</span>
-                                              <h5>General Meeting</h5>
-                                              <h6>Madeleine Lisa</h6>
+                                              <h5>Source Review</h5>
+                                              <h6>Editorial Team</h6>
                                             </div>
                                             <div class="flex-shrink-0"> <img class="img-40 b-r-10" src="{{ url_for('static', filename='admin/assets/images/avatar/1.jpg') }}" alt=""></div>
                                           </li>
                                           <li class="d-flex align-items-center b-l-tertiary">
                                             <div class="flex-grow-1"> <span>06:00 to 11:30 am</span>
-                                              <h5>Client Visit</h5>
-                                              <h6>Hemmings Edmunds</h6>
+                                              <h5>API Integration Check</h5>
+                                              <h6>Development Team</h6>
                                             </div>
                                             <div class="flex-shrink-0"> <img class="img-40 b-r-10" src="{{ url_for('static', filename='admin/assets/images/avatar/3.jpg') }}" alt=""></div>
                                           </li>
@@ -733,15 +738,15 @@
                         <ul class="activity-update">
                                           <li class="d-flex align-items-center b-l-info">
                                             <div class="flex-grow-1"> <span>12:00 to 02:20 am</span>
-                                              <h5>What`s the project report update?</h5>
-                                              <h6>Loie Fenter</h6>
+                                              <h5>Performance Review</h5>
+                                              <h6>System Admin</h6>
                                             </div>
                                             <div class="flex-shrink-0"> <img class="img-40 b-r-10" src="{{ url_for('static', filename='admin/assets/images/avatar/2.jpg') }}" alt=""></div>
                                           </li>
                                           <li class="d-flex align-items-center b-l-success">
                                             <div class="flex-grow-1"> <span>04:00 to 08:20 am</span>
-                                              <h5>James created changelog page</h5>
-                                              <h6>Anna Catmire</h6>
+                                              <h5>Content Moderation</h5>
+                                              <h6>Moderation Team</h6>
                                             </div>
                                             <div class="flex-shrink-0"> <img class="img-40 b-r-10" src="{{ url_for('static', filename='admin/assets/images/avatar/4.jpg') }}" alt=""></div>
                                           </li>
@@ -751,22 +756,22 @@
                         <ul class="activity-update">
                                           <li class="d-flex align-items-center b-l-danger">
                                             <div class="flex-grow-1"> <span>09:00 to 02:20 am</span>
-                                              <h5>Dima phizeg edited ACME 2.4</h5>
-                                              <h6>Susan Connor</h6>
+                                              <h5>Weekly Analytics Report</h5>
+                                              <h6>Analytics Team</h6>
                                             </div>
                                             <div class="flex-shrink-0"> <img class="img-40 b-r-10" src="{{ url_for('static', filename='admin/assets/images/avatar/5.jpg') }}" alt=""></div>
                                           </li>
                                           <li class="d-flex align-items-center b-l-dark">
                                             <div class="flex-grow-1"> <span>10:00 to 01:45 am</span>
-                                              <h5>Complete the medical ui system idea.</h5>
-                                              <h6>Jeff Johnson</h6>
+                                              <h5>Content Planning</h5>
+                                              <h6>Editorial Team</h6>
                                             </div>
                                             <div class="flex-shrink-0"> <img class="img-40 b-r-10" src="{{ url_for('static', filename='admin/assets/images/avatar/6.jpg') }}" alt=""></div>
                                           </li>
                                           <li class="d-flex align-items-center b-l-warning">
                                             <div class="flex-grow-1"> <span>04:00 to 10:30 am</span>
-                                              <h5>Make a new landing page.</h5>
-                                              <h6>Roger Lum</h6>
+                                              <h5>System Maintenance</h5>
+                                              <h6>Tech Support</h6>
                                             </div>
                                             <div class="flex-shrink-0"> <img class="img-40 b-r-10" src="{{ url_for('static', filename='admin/assets/images/avatar/9.jpg') }}" alt=""></div>
                                           </li>
@@ -781,7 +786,7 @@
                   <div class="col-6 col-xl-12 col-lg-5">
                     <div class="card visit-card card-hover">
                       <div class="card-header pb-0">
-                        <h4>Total visit</h4>
+                        <h4>Total Readers</h4>
                         <div class="dropdown icon-dropdown">
                           <button class="btn dropdown-toggle" id="userdropdown03" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="icon-more-alt"></i></button>
                           <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userdropdown03"><a class="dropdown-item" href="#">Weekly</a><a class="dropdown-item" href="#">Monthly</a><a class="dropdown-item" href="#">Yearly</a></div>
@@ -817,7 +822,7 @@
                   <div class="col-6 col-xl-12 col-lg-7">
                     <div class="card visit-card card-hover">
                       <div class="card-header pb-0">
-                        <h4>Total Earning</h4>
+                        <h4>Ad Revenue</h4>
                         <div class="dropdown icon-dropdown">
                           <button class="btn dropdown-toggle" id="userdropdown02" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="icon-more-alt"></i></button>
                           <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userdropdown02"><a class="dropdown-item" href="#">Weekly</a><a class="dropdown-item" href="#">Monthly</a><a class="dropdown-item" href="#">Yearly</a></div>
@@ -835,7 +840,7 @@
               <div class="col-sm-6 col-xl-3 custom-margin">
                 <div class="card notification-card">
                   <div class="card-header">
-                    <h4>Notifications</h4>
+                    <h4>Content Updates</h4>
                     <div class="dropdown icon-dropdown">
                       <button class="btn dropdown-toggle" id="userdropdown5" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="icon-more-alt"></i></button>
                       <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userdropdown5"><a class="dropdown-item" href="#">Weekly</a><a class="dropdown-item" href="#">Monthly</a><a class="dropdown-item" href="#">Yearly</a></div>
@@ -845,18 +850,18 @@
                     <div class="d-flex bg-light gap-3">
                       <div class="flex-shrink-0"> <img class="img-40 b-r-15" src="{{ url_for('static', filename='admin/assets/images/avatar/10.jpg') }}" alt="Use1"></div>
                       <div class="flex-grow-1"><a href="user-profile.html">
-                          <h6>Polly edited  Contact page</h6></a><span>18 mins ago . Craftwork design</span></div>
+                          <h6>New Tech Section Added</h6></a><span>18 mins ago • Content Team</span></div>
                       <div class="circle-dot-primary"><span></span></div>
                     </div>
                     <div class="d-flex gap-3">
                       <div class="flex-shrink-0"> <span class="bg-secondary">KP</span></div>
                       <div class="flex-grow-1"><a href="user-profile.html">
-                          <h6>James left a comment on ACME 2.1</h6></a><span>3 hours ago . ACME</span></div>
+                          <h6>Breaking News: Market Update</h6></a><span>3 hours ago • Finance</span></div>
                     </div>
                     <div class="d-flex gap-3">
                       <div class="flex-shrink-0"> <img class="img-40 b-r-15" src="{{ url_for('static', filename='admin/assets/images/avatar/4.jpg') }}" alt="Use2"></div>
                       <div class="flex-grow-1"><a href="user-profile.html">
-                          <h6>Mary shared the file isometric 2.0</h6></a><span>4 hours ago . Craftwork Design</span>
+                          <h6>New Source Integration Request</h6></a><span>4 hours ago • Tech Team</span>
                         <div class="d-flex gap-2 p-0 mt-2">
                           <button class="btn btn-outline-dark">Decline</button>
                           <button class="btn btn-primary">Accept</button>
@@ -866,13 +871,13 @@
                     <div class="d-flex gap-3 bg-light">
                       <div class="flex-shrink-0"> <span class="bg-tertiary">HS</span></div>
                       <div class="flex-grow-1"><a href="user-profile.html">
-                          <h6>Dima phizeg edited ACME 2.4</h6></a><span>3 hours ago . ACME</span></div>
+                          <h6>Content Moderation Alert</h6></a><span>3 hours ago • Mod Team</span></div>
                       <div class="circle-dot-primary"><span></span></div>
                     </div>
                     <div class="d-flex gap-3">
                       <div class="flex-shrink-0"> <img class="img-40 b-r-15" src="{{ url_for('static', filename='admin/assets/images/avatar/12.jpg') }}" alt="Use3"></div>
                       <div class="flex-grow-1"><a href="user-profile.html">
-                          <h6>James created changelog page</h6></a><span>3 hours ago . Blank</span></div>
+                          <h6>Analytics Report Ready</h6></a><span>3 hours ago • Analytics</span></div>
                     </div>
                   </div>
                 </div>

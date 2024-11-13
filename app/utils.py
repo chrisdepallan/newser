@@ -194,3 +194,100 @@ def send_mass_email(emails, subject, quill_content, image_files=None):
     server.quit()
 
     print("All emails sent successfully.")
+
+def get_article_details(article_url):
+    """
+    Fetch detailed information about an article using its URL through direct web scraping.
+    
+    Args:
+        article_url (str): The URL of the article to fetch details for
+        
+    Returns:
+        dict: Article details including title, content, author, etc.
+    """
+    try:
+        # Enhanced headers to better mimic a real browser
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'DNT': '1',
+            'Connection': 'keep-alive',
+        }
+        
+        # Fetch the article page
+        response = requests.get(article_url, headers=headers, timeout=10)
+        response.raise_for_status()
+        
+        # Use BeautifulSoup to parse the HTML
+        from bs4 import BeautifulSoup
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        # Enhanced title extraction
+        title = (
+            soup.find('h1', class_=['article-headline', 'story-headline']) or  # Common news sites
+            soup.find('h1', {'data-component': 'headline'}) or  # BBC specific
+            soup.find('h1') or 
+            soup.find('title')
+        )
+        title = title.text.strip() if title else ''
+        
+        # Enhanced content extraction for BBC and other sites
+        article_content = ''
+        content_candidates = soup.find_all(['article', 'div'], class_=[
+            'article-content', 'content', 'story-content', 
+            'article__body-content', 'story-body',  # BBC specific
+            'article-body', 'main-content'
+        ])
+        if content_candidates:
+            # Remove unwanted elements
+            for elem in content_candidates[0].find_all(['script', 'style', 'nav']):
+                elem.decompose()
+            article_content = ' '.join(p.text.strip() for p in content_candidates[0].find_all('p'))
+        
+        # Enhanced author extraction
+        author = ''
+        author_candidates = soup.find_all(['a', 'span', 'div'], class_=[
+            'author', 'byline', 'article-author',
+            'author-name', 'article__author'  # BBC specific
+        ])
+        if author_candidates:
+            author = author_candidates[0].get_text(strip=True)
+        
+        # Try to find the publish date
+        publish_date = ''
+        date_candidates = soup.find_all(['time', 'span', 'div'], class_=['date', 'published', 'timestamp'])
+        if date_candidates:
+            publish_date = date_candidates[0].get_text(strip=True)
+        
+        # Try to find the main image
+        image_url = ''
+        image = soup.find('meta', property='og:image') or soup.find('meta', property='twitter:image')
+        if image:
+            image_url = image.get('content', '')
+        
+        # Extract keywords/tags from meta tags
+        tags = set()
+        keywords_meta = soup.find('meta', {'name': 'keywords'})
+        if keywords_meta:
+            tags.update(tag.strip().lower() for tag in keywords_meta.get('content', '').split(','))
+        
+        # Add some words from title as tags
+        if title:
+            title_words = [word.lower() for word in title.split() if len(word) > 3]
+            tags.update(title_words[:5])  # Add up to 5 words from title as tags
+        
+        return {
+            'title': title,
+            'url': article_url,
+            'content': article_content[:1000] if article_content else '',  # Limit content length
+            'author': author,
+            'publishedAt': publish_date,
+            'urlToImage': image_url,
+            'tags': list(tags),
+            'relatedArticles': []  # Empty list since we can't easily get related articles without an API
+        }
+        
+    except Exception as e:
+        print(f"Error fetching article details: {e}")
+        return {}

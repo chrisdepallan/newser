@@ -419,7 +419,11 @@ def api():
 @app.route("/api/recommendations")
 def api_recommendations():
     query = request.args.get('query', 'technology')  # Default to technology if no query
+    max_results = request.args.get('max', 10, type=int)  # Default to 10 if not specified
     recommendations = get_search_results(query)  # Using existing search function
+    
+    # Limit the number of results
+    recommendations = recommendations[:max_results]
     
     return jsonify({
         "recommendations": [{

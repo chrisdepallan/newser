@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newser API Documentation</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        .header {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        .endpoint {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .method {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+        .get { background: #e3f2fd; color: #0d47a1; }
+        .post { background: #e8f5e9; color: #1b5e20; }
+        .endpoint h3 {
+            margin-top: 0;
+        }
+        code {
+            background: #f8f9fa;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        .response {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Newser API Documentation</h1>
+        <p>Welcome to the Newser API documentation. Below you'll find all available endpoints and their usage.</p>
+    </div>
+
+    <div class="endpoint">
+        <span class="method get">GET</span>
+        <h3>/api/recommendations</h3>
+        <p>Get personalized news recommendations based on query.</p>
+        
+        <h4>Query Parameters:</h4>
+        <ul>
+            <li><code>query</code> (optional) - Search term for news (default: "technology")</li>
+        </ul>
+
+        <div class="response">
+            <h4>Sample Response:</h4>
+            <pre><code>{
+    "recommendations": [
+        {
+            "title": "Article Title",
+            "url": "https://article-url.com",
+            "source": "News Source",
+            "publishedAt": "2024-01-20T12:00:00Z"
+        }
+    ]
+}</code></pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <span class="method get">GET</span>
+        <h3>/api/trending</h3>
+        <p>Get current trending news articles.</p>
+
+        <div class="response">
+            <h4>Sample Response:</h4>
+            <pre><code>{
+    "trending": [
+        {
+            "title": "Trending Article",
+            "url": "https://article-url.com",
+            "image": "https://image-url.com",
+            "source": "News Source",
+            "publishedAt": "2024-01-20T12:00:00Z"
+        }
+    ]
+}</code></pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <span class="method get">GET</span>
+        <h3>/api/top-story</h3>
+        <p>Get the current top story.</p>
+
+        <div class="response">
+            <h4>Sample Response:</h4>
+            <pre><code>{
+    "story": {
+        "title": "Top Story Title",
+        "url": "https://article-url.com",
+        "image": "https://image-url.com",
+        "source": "News Source",
+        "publishedAt": "2024-01-20T12:00:00Z",
+        "description": "Article description"
+    }
+}</code></pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <span class="method get">GET</span>
+        <h3>/api/popular</h3>
+        <p>Get popular news articles.</p>
+
+        <div class="response">
+            <h4>Sample Response:</h4>
+            <pre><code>{
+    "popular": [
+        {
+            "title": "Popular Article",
+            "url": "https://article-url.com",
+            "source": "News Source",
+            "publishedAt": "2024-01-20T12:00:00Z"
+        }
+    ]
+}</code></pre>
+        </div>
+    </div>
+
+</body>
+</html>

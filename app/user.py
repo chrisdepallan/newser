@@ -211,7 +211,7 @@ from app.recommendation_engine import get_recommendations, get_trending, get_pop
 from app.utils import NewsAPIClient
 
 
-# ```python
+
 @app.route('/article-detail')
 def article_detail():
  

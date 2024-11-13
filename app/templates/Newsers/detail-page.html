@@ -90,11 +90,7 @@
     <!-- Single Product Start -->
     <div class="container-fluid py-5">
         <div class="container py-5">
-            <ol class="breadcrumb justify-content-start mb-4">
-                <li class="breadcrumb-item"><a href="/">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                <li class="breadcrumb-item active text-dark">Single Page</li>
-            </ol>
+        
             <div class="row g-4">
                 <div class="col-lg-8">
                     <div class="mb-4">
@@ -212,57 +208,44 @@
                     </div>
                     <div class="bg-light rounded p-4">
                         <h4 class="mb-4">Comments</h4>
-                        <div class="p-4 bg-white rounded mb-4">
-                            <div class="row g-4">
-                                <div class="col-3">
-                                    <img src="{{ url_for('static', filename='newsers/img/footer-4.jpg') }}" class="img-fluid rounded-circle w-100" alt="">
-                                </div>
-                                <div class="col-9">
-                                    <div class="d-flex justify-content-between">
-                                        <h5>James Boreego</h5>
-                                        <a href="#" class="link-hover text-body fs-6"><i class="fas fa-long-arrow-alt-right me-1"></i> Reply</a>
-                                    </div>
-                                    <small class="text-body d-block mb-3"><i class="fas fa-calendar-alt me-1"></i> Dec 9, 2024</small>
-                                    <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy Lorem Ipsum has been the industry's standard dummy type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic
-                                    </p>
-                                </div>
-                            </div>
+                        <div id="comments-container">
+                            <!-- Comments will be loaded here -->
                         </div>
-                        <div class="p-4 bg-white rounded mb-0">
-                            <div class="row g-4">
-                                <div class="col-3">
-                                    <img src="{{ url_for('static', filename='newsers/img/footer-4.jpg') }}" class="img-fluid rounded-circle w-100" alt="">
-                                </div>
-                                <div class="col-9">
-                                    <div class="d-flex justify-content-between">
-                                        <h5>James Boreego</h5>
-                                        <a href="#" class="link-hover text-body fs-6"><i class="fas fa-long-arrow-alt-right me-1"></i> Reply</a>
-                                    </div>
-                                    <small class="text-body d-block mb-3"><i class="fas fa-calendar-alt me-1"></i> Dec 9, 2024</small>
-                                    <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy Lorem Ipsum has been the industry's standard dummy type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                     <div class="bg-light rounded p-4 my-4">
                         <h4 class="mb-4">Leave A Comment</h4>
-                        <form action="#">
+                        {% if request.cookies.get('session_id') %}
+                        <form action="{{ url_for('submit_comment') }}" method="POST">
+                            <input type="hidden" name="article_id" value="{{ request.args.get('article') }}">
                             <div class="row g-4">
-                                <div class="col-lg-6">
-                                    <input type="text" class="form-control py-3" placeholder="Full Name">
-                                </div>
-                                <div class="col-lg-6">
-                                    <input type="email" class="form-control py-3" placeholder="Email Address">
+                                <div class="col-12">
+                                    <textarea class="form-control" name="content" cols="30" rows="7" placeholder="Write Your Comment Here"></textarea>
                                 </div>
                                 <div class="col-12">
-                                    <textarea class="form-control" name="textarea" id="" cols="30" rows="7" placeholder="Write Your Comment Here"></textarea>
-                                </div>
-                                <div class="col-12">
-                                    <button class="form-control btn btn-primary py-3" type="button">Submit Now</button>
+                                    <button class="form-control btn btn-primary py-3" type="submit">Submit Now</button>
                                 </div>
                             </div>
                         </form>
+                        {% else %}
+                        <form action="{{ url_for('submit_comment') }}" method="POST">
+                            <input type="hidden" name="article_id" value="{{ request.args.get('article') }}">
+                            <div class="row g-4">
+                                <div class="col-lg-6">
+                                    <input type="text" class="form-control py-3" name="full_name" placeholder="Full Name" required>
+                                </div>
+                                <div class="col-lg-6">
+                                    <input type="email" class="form-control py-3" name="email" placeholder="Email Address">
+                                </div>
+                                <div class="col-12">
+                                    <textarea class="form-control" name="content" cols="30" rows="7" placeholder="Write Your Comment Here" required></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <button class="form-control btn btn-primary py-3" type="submit">Submit Now</button>
+                                </div>
+                            </div>
+                        </form>
+                        {% endif %}
                     </div>
                 </div>
                     <div class="col-lg-4">
@@ -273,8 +256,9 @@
                                         <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
                                         <span id="search-icon-1" class="btn btn-primary input-group-text p-3"><i class="fa fa-search text-white"></i></span>
                                     </div>
-                                    <h4 class="mb-4">Popular Categories</h4>
-                                    <div class="row g-2">
+                                    
+                                  <!-- <h4 class="mb-4">Popular Categories</h4>
+                                     <div class="row g-2">
                                         <div class="col-12">
                                             <a href="#" class="link-hover btn btn-light w-100 rounded text-uppercase text-dark py-3">
                                                 Life Style
@@ -306,6 +290,7 @@
                                             </a>
                                         </div>
                                     </div>
+                                -->
                                     <h4 class="my-4">Text Summarizer</h4>
                                     <button id="summarize-btn" class="btn btn-primary w-100 mb-4">Summarize Article</button>
                                     <div id="summary-result" class="p-3 bg-light rounded"></div>
@@ -319,7 +304,8 @@
                                     </div>
                                     <div id="answer-result" class="p-3 bg-light rounded"></div>
                                     <h4 class="my-4">Named Entity Recognition</h4>
-                <button id="ner-btn" class="btn btn-primary w-100 mb-4">Recognize Entities</button>
+                
+                                    <button id="ner-btn" class="btn btn-primary w-100 mb-4">Recognize Entities</button>
                 <div id="ner-result" class="p-3 bg-light rounded"></div>
                                     <h4 class="my-4">Popular News</h4>
                                     <div class="row g-4">

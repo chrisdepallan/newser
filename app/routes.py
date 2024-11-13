@@ -1,5 +1,5 @@
 from flask import render_template, redirect, url_for, session, request, current_app, flash, jsonify
-from app import app, collection_user_registration, collection_login_credentials, news_api_client, collection_subscriptions
+from app import app, collection_user_registration, collection_login_credentials, news_api_client, collection_subscriptions,collection_comments
 from app.utils import *
 import pyotp
 from werkzeug.utils import secure_filename
@@ -121,7 +121,7 @@ def edit_profile():
             update_data['avatar'] = new_avatar_url
         
         collection_user_registration.update_one(
-            {'_id': ObjectId(user['user_id'])},
+            {'_id': user['user_id']},
             {'$set': update_data}
         )
         
@@ -144,12 +144,21 @@ def update_avatar():
         return jsonify({"success": False, "message": "No avatar URL provided"}), 400
 
     try:
-        print(new_avatar_url)
+        session_id = request.cookies.get('session_id')
+        user_data = redis_client.get(f"session:{session_id}")
+        if not user_data:
+            return jsonify({"error": "User session not found"}), 401
+            
+        user = json.loads(user_data)
+        
         collection_user_registration.update_one(
-            {'_id': session['user_id']},
+            {'_id': user['user_id']},
             {'$set': {'avatar': new_avatar_url}}
         )
-        session['avatar'] = new_avatar_url
+        
+        # Update user data in Redis
+        user['avatar'] = new_avatar_url
+        redis_client.setex(f"session:{session_id}", 3600, json.dumps(user))
         return jsonify({"success": True, "message": "Avatar updated successfully"})
     except Exception as e:
         return jsonify({"success": False, "message": str(e)}), 500
@@ -181,7 +190,11 @@ def request_password_reset():
                                        otp_code=otp)
             mail.send(msg)
 
-            session['reset_email'] = email
+            # Store email in Redis session
+            session_id = request.cookies.get('session_id')
+            session_data = {'reset_email': email}
+            redis_client.setex(f"session:{session_id}", 3600, json.dumps(session_data))
+
             return redirect(url_for('verify_otp'))
 
         flash('Email not found')
@@ -348,3 +361,42 @@ def download_receipt(session_id):
     )
     
     return response
+
+@app.route("/submit_comment", methods=['POST'])
+def submit_comment():
+    article_id = request.form.get('article_id')
+    content = request.form.get('content')
+    
+    session_id = request.cookies.get('session_id')
+    if session_id:
+        user_data = redis_client.get(f"session:{session_id}")
+        if user_data:
+            user = json.loads(user_data)
+            full_name = user.get('full_name', 'Anonymous')
+            user_id = user.get('user_id')
+        else:
+            full_name = 'Anonymous'
+            user_id = None
+    else:
+        full_name = 'Anonymous'
+        user_id = None
+
+    comment = {
+        'article_id': article_id,
+        'user_id': user_id,
+        'full_name': full_name,
+        'content': content,
+        'created_at': datetime.utcnow()
+    }
+    print(comment)
+
+    collection_comments.insert_one(comment)
+
+    flash('Comment submitted successfully', 'success')
+    return redirect(url_for('article_detail', article=article_id))
+
+# @app.route("/article/<article_id>")
+# def article_detail(article_id):
+#     article = collection_articles.find_one({'_id': ObjectId(article_id)})
+#     comments = collection_comments.find({'article_id': article_id}).sort('created_at', -1)
+#     return render_template("Newsers/detail-page.html", article=article, comments=comments)

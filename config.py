@@ -16,7 +16,7 @@ class Config:
     MAIL_PORT = 587
     MAIL_USE_TLS = True
     MAIL_USE_SSL = False
-    OPENAI_API_KEY= "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"
+    OPENAI_API_KEY= "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"
 
     MAIL_USERNAME = os.getenv('MAIL_USERNAME', 'modderhubmail@gmail.com')
     MAIL_PASSWORD = os.getenv('MAIL_PASSWORD', 'qbvb ijzi zzib nlln')

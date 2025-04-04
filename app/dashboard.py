@@ -396,7 +396,7 @@ def delete_post(post_id):
 
 
 #ai agent function imports
-from app import openai_client
+from app import openai
 from datetime import datetime
 from bson import ObjectId
 # Define a function to retrieve data from the database using username
@@ -570,7 +570,7 @@ def get_payment_data(username=None, start_date=None, end_date=None, min_amount=N
 
 # Update handle_openai_function_calling to return HTML cards
 def handle_openai_function_calling(prompt):
-    response = openai_client.chat.completions.create(
+    response = openai.chat.completions.create(
         model="gpt-4-0613",
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},

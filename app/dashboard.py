@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, session, redirect, url_for,request
 from flask import jsonify,flash
-from app import collection_user_registration,collection_articles,collection_login_credentials
+from app import collection_user_registration,collection_articles,collection_login_credentials,collection_subscriptions
 from app.utils import get_weather_data,send_mass_email
 from functools import wraps
 from . import app
@@ -392,7 +392,365 @@ def delete_post(post_id):
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+
+
+
+#ai agent function imports
+from app import openai_client
+from datetime import datetime
+from bson import ObjectId
+# Define a function to retrieve data from the database using username
+def get_user_data(username):
+    # Fetch login credentials using the username
+    login_data = collection_login_credentials.find_one({"username": username})
+    if not login_data:
+        return {"status": "error", "message": "User not found"}
+
+    # Convert ObjectId fields to strings
+    login_data['_id'] = str(login_data['_id'])
+    login_data['registration_id'] = str(login_data['registration_id'])
+
+    # Fetch user details from the registration table using registration_id
+    registration_data = collection_user_registration.find_one({'_id': ObjectId(login_data['registration_id'])}, {
+        '_id': 1,
+        'full_name': 1,
+        'phone_number': 1,
+        'address': 1,
+        'dob': 1,
+        'avatar': 1,
+        'status': 1,
+        'newser_user_roles': 1
+    })
+
+    if not registration_data:
+        return {"status": "error", "message": "User registration details not found"}
+
+    # Convert ObjectId to string for JSON serialization
+    registration_data['_id'] = str(registration_data['_id'])
+
+    # Combine login and registration data
+    user_data = {
+        'username': login_data.get('username', 'N/A'),
+        'email': login_data.get('email', 'N/A'),
+        'registration_id': login_data['registration_id'],
+        'full_name': registration_data.get('full_name', 'N/A'),
+        'phone_number': registration_data.get('phone_number', 'N/A'),
+        'address': registration_data.get('address', 'N/A'),
+        'dob': registration_data.get('dob', 'N/A'),
+        'avatar': registration_data.get('avatar', 'https://via.placeholder.com/150'),
+        'status': registration_data.get('status', 'N/A'),
+        'roles': registration_data.get('newser_user_roles', [])
+    }
+
+    # Convert DOB to age if available
+    if user_data['dob'] != 'N/A':
+        try:
+            dob = datetime.strptime(user_data['dob'], '%Y-%m-%d')
+            today = datetime.now()
+            user_data['age'] = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+        except ValueError:
+            user_data['age'] = 'N/A'
+    else:
+        user_data['age'] = 'N/A'
+
+    return {"status": "success", "data": user_data}
+
+# Define a function to retrieve the first or last n users
+def get_users(limit, order="asc"):
+    sort_order = 1 if order == "asc" else -1  # Ascending or descending order
+
+    # Fetch users from the registration table
+    registration_users = list(collection_user_registration.find({}, {
+        '_id': 1,
+        'full_name': 1,
+        'phone_number': 1,
+        'address': 1,
+        'dob': 1,
+        'avatar': 1,
+        'status': 1,
+        'newser_user_roles': 1
+    }).sort("_id", sort_order).limit(limit))
+
+    users = []
+
+    for reg_user in registration_users:
+        # Convert ObjectId to string for JSON serialization
+        reg_user['_id'] = str(reg_user['_id'])
+
+        # Fetch login credentials using the registration_id
+        login_data = collection_login_credentials.find_one({'registration_id': ObjectId(reg_user['_id'])}, {
+            'username': 1,
+            'email': 1
+        })
+        print(login_data)
+
+        # Add login data to the user details
+        user = {
+            '_id': reg_user.get('_id', 'N/A'),
+            'full_name': reg_user.get('full_name', 'N/A'),
+            'phone_number': reg_user.get('phone_number', 'N/A'),
+            'address': reg_user.get('address', 'N/A'),
+            'dob': reg_user.get('dob', 'N/A'),
+            'avatar': reg_user.get('avatar', 'https://via.placeholder.com/150'),
+            'status': reg_user.get('status', 'N/A'),
+            'roles': reg_user.get('newser_user_roles', []),
+            'username': login_data.get('username', 'N/A') if login_data else 'N/A',
+            'email': login_data.get('email', 'N/A') if login_data else 'N/A'
+        }
+
+        # Convert DOB to age if available
+        if user['dob'] != 'N/A':
+            try:
+                dob = datetime.strptime(user['dob'], '%Y-%m-%d')
+                today = datetime.now()
+                user['age'] = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+            except ValueError:
+                user['age'] = 'N/A'
+        else:
+            user['age'] = 'N/A'
+
+        users.append(user)
+
+    if users:
+        return {"status": "success", "data": users}
+    else:
+        return {"status": "error", "message": "No users found"}
+
+
+# Define a function to retrieve payment data based on filters
+def get_payment_data(username=None, start_date=None, end_date=None, min_amount=None, max_amount=None):
+    query = {}
+
+    # Filter by username
+    if username:
+        # Fetch the user_id from login_credentials using the username
+        login_data = collection_login_credentials.find_one({"username": username}, {"_id": 1})
+        if not login_data:
+            return {"status": "error", "message": "User not found"}
+        query["user_id"] = str(login_data["_id"])
+
+    # Filter by date range
+    if start_date or end_date:
+        date_filter = {}
+        if start_date:
+            date_filter["$gte"] = datetime.strptime(start_date, "%Y-%m-%d")
+        if end_date:
+            date_filter["$lte"] = datetime.strptime(end_date, "%Y-%m-%d")
+        query["date"] = date_filter
+
+    # Filter by payment amount
+    if min_amount or max_amount:
+        amount_filter = {}
+        if min_amount:
+            amount_filter["$gte"] = min_amount
+        if max_amount:
+            amount_filter["$lte"] = max_amount
+        query["amount"] = amount_filter
+
+    # Fetch payment data from the collection
+    payments = list(collection_subscriptions.find(query, {
+        "_id": 1,
+        "user_id": 1,
+        "amount": 1,
+        "date": 1,
+        "session_id": 1,
+        "status": 1
+    }))
+
+    # Convert ObjectId to string and format the date
+    for payment in payments:
+        payment["_id"] = str(payment["_id"])
+        payment["user_id"] = str(payment["user_id"])
+        payment["date"] = payment["date"].strftime("%Y-%m-%d %H:%M:%S")
+    # print(payments,"payments")
+    if payments:
+        return {"status": "success", "data": payments}
+    else:
+        return {"status": "error", "message": "No payments found"}
+
+# Update handle_openai_function_calling to return HTML cards
+def handle_openai_function_calling(prompt):
+    response = openai_client.chat.completions.create(
+        model="gpt-4-0613",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt}
+        ],
+        functions=[
+            {
+                "name": "get_user_data",
+                "description": "Retrieve user data from the database",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "username": {"type": "string", "description": "The username of the user"}
+                    },
+                    "required": ["username"]
+                }
+            },
+            {
+                "name": "get_users",
+                "description": "Retrieve the first or last n users from the database",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "limit": {"type": "integer", "description": "The number of users to retrieve"},
+                        "order": {
+                            "type": "string",
+                            "description": "The order of retrieval ('asc' for first n users, 'desc' for last n users)",
+                            "enum": ["asc", "desc"]
+                        }
+                    },
+                    "required": ["limit", "order"]
+                }
+            },
+            {
+                "name": "get_payment_data",
+                "description": "Retrieve payment data for subcriptions based on filters",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "username": {"type": "string", "description": "The username of the user", "nullable": True},
+                        "start_date": {"type": "string", "description": "Start date for filtering payments (YYYY-MM-DD)", "nullable": True},
+                        "end_date": {"type": "string", "description": "End date for filtering payments (YYYY-MM-DD)", "nullable": True},
+                        "min_amount": {"type": "number", "description": "Minimum payment amount", "nullable": True},
+                        "max_amount": {"type": "number", "description": "Maximum payment amount", "nullable": True}
+                    }
+                }
+            }
+        ],
+        function_call="auto"
+    )
+
+    if response.choices[0].finish_reason == "function_call":
+        function_call = response.choices[0].message.function_call
+        if function_call.name == "get_user_data":
+            username = json.loads(function_call.arguments)["username"]
+            user_data = get_user_data(username)
+            if user_data["status"] == "success":
+                user = user_data["data"]
+                return f"""
+                <div class="card">
+                    <img src="{user['avatar']}" class="card-img-top rounded-circle" alt="Avatar" style="width: 50px; height: 50px; object-fit: cover; margin: auto; display: block;">
+                    <div class="card-body">
+                        <h5 class="card-title">{user['full_name']}</h5>
+                        <p class="card-text"><strong>Username:</strong> {user['username']}</p>
+                        <p class="card-text"><strong>Email:</strong> {user['email']}</p>
+                        <p class="card-text"><strong>Phone:</strong> {user['phone_number']}</p>
+                        <p class="card-text"><strong>Address:</strong> {user['address']}</p>
+                        <p class="card-text"><strong>Status:</strong> {user['status']}</p>
+                        <p class="card-text"><strong>Roles:</strong> {', '.join(user['roles'])}</p>
+                        <p class="card-text"><strong>Age:</strong> {user['age']}</p>
+                    </div>
+                </div>
+                """
+            else:
+                return f"<div class='alert alert-danger'>{user_data['message']}</div>"
+        elif function_call.name == "get_users":
+            args = json.loads(function_call.arguments)
+            limit = args["limit"]
+            order = args["order"]
+            users_data = get_users(limit, order)
+            if users_data["status"] == "success":
+                users = users_data["data"]
+                cards = ""
+                for user in users:
+                    cards += f"""
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img src="{user['avatar']}" class="card-img-top rounded-circle" alt="Avatar" style="width: 50px; height: 50px; object-fit: cover; margin: auto; display: block;">
+                            <div class="card-body">
+                                <h5 class="card-title">{user['full_name']}</h5>
+                                <p class="card-text"><strong>Username:</strong> {user['username']}</p>
+                                <p class="card-text"><strong>Email:</strong> {user.get('email', 'N/A')}</p>
+                                <p class="card-text"><strong>Phone:</strong> {user.get('phone_number', 'N/A')}</p>
+                                <p class="card-text"><strong>Address:</strong> {user.get('address', 'N/A')}</p>
+                                <p class="card-text"><strong>Status:</strong> {user.get('status', 'N/A')}</p>
+                                <p class="card-text"><strong>Roles:</strong> {', '.join(user.get('roles', []))}</p>
+                            </div>
+                        </div>
+                    </div>
+                    """
+                return f"<div class='row'>{cards}</div>"
+            else:
+                return f"<div class='alert alert-danger'>{users_data['message']}</div>"
+        elif function_call.name == "get_payment_data":
+            args = json.loads(function_call.arguments)
+            username = args.get("username")
+            start_date = args.get("start_date")
+            end_date = args.get("end_date")
+            min_amount = args.get("min_amount")
+            max_amount = args.get("max_amount")
+            payments_data = get_payment_data(username, start_date, end_date, min_amount, max_amount)
+            if payments_data["status"] == "success":
+                payments = payments_data["data"]
+                rows = ""
+                for payment in payments:
+                    rows += f"""
+                    <tr>
+                        <td>{payment['_id']}</td>
+                        <td>{payment['user_id']}</td>
+                        <td>{payment['amount']}</td>
+                        <td>{payment['date']}</td>
+                        <td>{payment['_id']}</td>
+                    </tr>
+                    """
+                return f"""
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Payment ID</th>
+                            <th>User ID</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {rows}
+                    </tbody>
+                </table>
+                """
+            else:
+                return f"<div class='alert alert-danger'>{payments_data['message']}</div>"
+
+    return f"<div class='alert alert-info'>{response.choices[0].message.content}</div>"
+
+# Update /admin/agent to return HTML
+@app.route('/admin/agent', methods=['POST'])
+@login_required
+def admin_agent():
+    user = get_current_user()
+    if not user:
+        return redirect(url_for('login'))
+    
+    # Check if user has admin privileges
+    if not is_admin(user):
+        return redirect(url_for('hello_world'))
+    
+    if request.method == 'POST':
+        user_input = request.json.get('message', '').strip()
+        if not user_input:
+            return jsonify({'error': 'No input provided'}), 400
+
+        try:
+            response_html = handle_openai_function_calling(user_input)
+            return jsonify({'html': response_html}), 200
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+
 # Add routes for edit_post and view_post as needed
 
-
+@app.route("/agent", methods=['GET', 'POST'])
+@login_required
+def agent_view():
+    user = get_current_user()
+    if not user:
+        return redirect(url_for('login'))
+    
+    # Check if user has admin privileges
+    if not is_admin(user):
+        return redirect(url_for('hello_world'))
+    
+    return render_template('admin/template/adminagent.html', user=user)
 

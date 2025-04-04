@@ -5,6 +5,7 @@ from pymongo import MongoClient
 from authlib.integrations.flask_client import OAuth
 from app.utils import NewsAPIClient, datetime_filter
 from flask_mail import Mail
+from openai import OpenAI
 
 from flask_cors import CORS
 import redis
@@ -13,8 +14,7 @@ import redis
 app = Flask(__name__, template_folder='templates')
 app.config.from_object('config.Config')
 
-# Initialize extemongonsions
-
+# Initialize extensions
 
 bcrypt = Bcrypt(app)
 oauth = OAuth(app)
@@ -46,6 +46,10 @@ collection_login_credentials = db.newser_login_credentials
 collection_subscriptions=db.newser_subscriptions
 collection_articles=db.newser_articles
 collection_comments=db.comments
+
+# Initialize OpenAI client
+openai_client = OpenAI(api_key=app.config['OPENAI_API_KEY'])
+
 # Initialize NewsAPI client within the application context
 with app.app_context():
     news_api_client = NewsAPIClient(app.config['NEWSAPI_KEYS'])

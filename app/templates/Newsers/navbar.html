@@ -1,12 +1,25 @@
 <div class="navbar-nav mx-auto border-top">
     <a href="/" class="nav-item nav-link active">Home</a>
     <a href="/dashboard" class="nav-item nav-link">Dashboard</a>
-    <a href="/payment" class="nav-item nav-link">pricing</a>
-  
+    <a href="/payment" class="nav-item nav-link">Pricing</a>
     <a href="/contact" class="nav-item nav-link">Contact Us</a>
 </div>
-<!-- Add login and signup buttons here, visible only on mobile -->
+
+<!-- Login/Logout functionality -->
 <div class="d-xl-none mt-3">
-    <a href="/login"><button class="log logs me-2">Login</button></a>
-    <a href="/register"><button class="reg logs">Sign up</button></a>
+    {% if request.cookies.get('session_id') %}
+    <div class="d-flex">
+        <a href="/profile" class="btn btn-primary me-2 rounded-circle p-0 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; background-color: #007bff; border: none; transition: all 0.3s ease;">
+            <img src="{{ url_for('static', filename='newsers/img/acc_icons1_bgX.png') }}" alt="Profile" style="width: 45px; height: 45px;">
+        </a>
+        <a href="/logout" class="btn btn-danger me-2 rounded-circle p-0 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; background-color: #dc3545; border: none; transition: all 0.3s ease;">
+            <span class="glyphicon glyphicon-log-out" style="font-size: 24px; color: white;"></span>
+        </a>
+    </div>
+    {% else %}
+    <div>
+        <a href="/login"><button class="log logs me-2 btn btn-primary text-white">Login</button></a>
+        <a href="/register"><button class="reg logs btn btn-primary text-white">Sign up</button></a>
+    </div>
+    {% endif %}
 </div>

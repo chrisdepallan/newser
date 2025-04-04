@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+  {% include 'admin/template/head.html' %}
+  <body>
+    <!-- tap to top-->
+    <div class="tap-top">
+      <svg class="feather">
+        <use href="{{ url_for('static', filename='admin/assets/svg/feather-icons/dist/feather-sprite.svg#arrow-up') }}"></use>
+      </svg>
+    </div>
+    <!-- loader-->
+    <div class="loader-wrapper">
+      <div class="loader"></div>
+    </div>
+    <main class="page-wrapper compact-wrapper" id="pageWrapper">
+      <!-- Page header start -->
+      {% include 'admin/template/header.html' %}
+      <!-- Page header end-->
+      <div class="page-body-wrapper">
+        <!-- Page sidebar start-->
+        <div class="overlay"></div>
+        {% include 'admin/template/aside.html' %}
+        <!-- Page sidebar end-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-6">
+                  <h3>Chatbot</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="chat-container">
+                      <div class="chat-header">
+                        <h5>Chat with Bot</h5>
+                      </div>
+                      <div class="chat-body" id="chatBody" style="height: 400px; overflow-y: auto; border: 1px solid #ddd; padding: 10px;">
+                        <!-- Chat messages will appear here -->
+                      </div>
+                      <div class="chat-footer mt-3">
+                        <form id="chatForm">
+                          <div class="input-group">
+                            <input type="text" class="form-control" id="userMessage" placeholder="Type your message..." required>
+                            <button type="submit" class="btn btn-primary">Send</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% include 'admin/template/footer.html' %}
+      </div>
+    </main>
+    <!-- jquery-->
+    <script src="{{ url_for('static', filename='admin/assets/js/vendors/jquery/dist/jquery.min.js') }}"></script>
+    <!-- bootstrap js-->
+    <script src="{{ url_for('static', filename='admin/assets/js/vendors/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='admin/assets/js/config.js') }}"></script>
+    <!-- Sidebar js-->
+    <script src="{{ url_for('static', filename='admin/assets/js/sidebar.js') }}"></script>
+    <!-- Apexchart js-->
+    <script src="{{ url_for('static', filename='admin/assets/js/vendors/apexcharts/dist/apexcharts.min.js') }}"></script>
+    <!-- Chart js-->
+    <script src="{{ url_for('static', filename='admin/assets/js/vendors/chart.js/dist/chart.umd.js') }}"></script>
+    <!-- Datatable js-->
+    <script src="{{ url_for('static', filename='admin/assets/js/vendors/simple-datatables/dist/umd/simple-datatables.js') }}"></script>
+    <!-- default dashboard js-->
+    <script src="{{ url_for('static', filename='admin/assets/js/dashboard/default.js') }}"></script>
+    <!-- scrollbar js-->
+    <script src="{{ url_for('static', filename='admin/assets/js/scrollbar/simplebar.js') }}"></script>
+    <script src="{{ url_for('static', filename='admin/assets/js/scrollbar/custom.js') }}"></script>
+    <!-- scrollable-->
+    <!-- customizer-->
+    <script src="{{ url_for('static', filename='admin/assets/js/theme-customizer/customizer.js') }}"></script>
+    <!-- custom script -->
+    <script src="{{ url_for('static', filename='admin/assets/js/script.js') }}"></script>
+    <script>
+      document.getElementById('chatForm').onsubmit = async function(event) {
+        event.preventDefault();
+        const userMessage = document.getElementById('userMessage').value;
+        const chatBody = document.getElementById('chatBody');
+
+        // Append user message to chat
+        appendMessage('You', userMessage, 'right');
+
+        try {
+          // Send user message to the server
+          const response = await fetch('/admin/agent', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: userMessage })
+          });
+
+          const data = await response.json();
+          if (response.ok) {
+            // Append bot response as HTML
+            const botMessage = document.createElement('div');
+            botMessage.innerHTML = data.html;
+            chatBody.appendChild(botMessage);
+            chatBody.scrollTop = chatBody.scrollHeight;
+          } else {
+            appendMessage('Bot', `Error: ${data.error}`, 'left');
+          }
+        } catch (error) {
+          appendMessage('Bot', `Error: ${error.message}`, 'left');
+        }
+
+        document.getElementById('userMessage').value = '';
+      };
+
+      function appendMessage(sender, message, side) {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('d-flex', 'mb-2', side === 'right' ? 'justify-content-end' : 'justify-content-start');
+        messageElement.innerHTML = `
+          <div class="p-2 rounded ${side === 'right' ? 'bg-primary text-white' : 'bg-light text-dark'}">
+            ${message}
+          </div>
+        `;
+        chatBody.appendChild(messageElement);
+        chatBody.scrollTop = chatBody.scrollHeight;
+      }
+    </script>
+  </body>
+</html>

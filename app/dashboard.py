@@ -718,7 +718,6 @@ def handle_openai_function_calling(prompt):
 
 # Update /admin/agent to return HTML
 @app.route('/admin/agent', methods=['POST'])
-@login_required
 def admin_agent():
     user = get_current_user()
     if not user:
@@ -742,7 +741,6 @@ def admin_agent():
 # Add routes for edit_post and view_post as needed
 
 @app.route("/agent", methods=['GET', 'POST'])
-@login_required
 def agent_view():
     user = get_current_user()
     if not user:
